@@ -1,0 +1,23 @@
+[
+    {
+        "seed_id": "scalar_anchor",
+        "final_mass": 0.10759299008694824,
+        "mass_half_radius": 14.650099999999732,
+        "integrated_R": 0.0069689147583355555,
+        "regularity_ok": true
+    },
+    {
+        "seed_id": "rich_anchor_1",
+        "final_mass": 0.10759299008694824,
+        "mass_half_radius": 14.650099999999732,
+        "integrated_R": 0.0069689147583355555,
+        "regularity_ok": true
+    },
+    {
+        "seed_id": "rich_anchor_2",
+        "final_mass": 0.10759299008694807,
+        "mass_half_radius": 14.650099999999732,
+        "integrated_R": 0.006968914758335533,
+        "regularity_ok": true
+    }
+]

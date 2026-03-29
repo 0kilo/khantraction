@@ -1,0 +1,38 @@
+{
+  "theta_phi_rho0": {
+    "axes": [
+      "theta",
+      "phi"
+    ],
+    "fixed": 0.0,
+    "grid_points": 1089,
+    "singular_count": 264
+  },
+  "theta_rho_phi0": {
+    "axes": [
+      "theta",
+      "rho"
+    ],
+    "fixed": 0.0,
+    "grid_points": 1089,
+    "singular_count": 0
+  },
+  "phi_rho_theta0": {
+    "axes": [
+      "phi",
+      "rho"
+    ],
+    "fixed": 0.0,
+    "grid_points": 1089,
+    "singular_count": 264
+  },
+  "theta_rho_phi_pi4": {
+    "axes": [
+      "theta",
+      "rho"
+    ],
+    "fixed": 0.7853981633974483,
+    "grid_points": 1089,
+    "singular_count": 1089
+  }
+}

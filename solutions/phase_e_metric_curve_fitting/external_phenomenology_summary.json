@@ -1,0 +1,14 @@
+{
+    "theta_dom": {
+        "error": "Insufficient data points in tail file."
+    },
+    "scalar": {
+        "error": "Insufficient data points in tail file."
+    },
+    "fully_mixed": {
+        "error": "Insufficient data points in tail file."
+    },
+    "phi_dom": {
+        "error": "Insufficient data points in tail file."
+    }
+}

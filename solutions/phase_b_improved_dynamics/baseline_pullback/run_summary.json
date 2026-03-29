@@ -1,0 +1,106 @@
+{
+  "config": {
+    "m_glue": 0.1,
+    "lambda_q": 0.01,
+    "xi": 0.002,
+    "kappa": 25.132741228718345,
+    "r0": 0.001,
+    "r_max": 20.0,
+    "dr": 0.01,
+    "central_amplitude_base": 0.02,
+    "phi_metric0": 0.0,
+    "closure_mode": "minimal_trace",
+    "dynamics_mode": "baseline_pullback",
+    "angular_eta": 0.0,
+    "angular_zeta": 0.0,
+    "phi_regularization": 0.001,
+    "max_mass": 10.0,
+    "max_abs_state": 30.0,
+    "horizon_margin": 1e-06,
+    "decay_target": 0.05,
+    "max_steps": 500000
+  },
+  "seed_count": 39,
+  "success_count": 39,
+  "regularity_ok_count": 39,
+  "horizon_hit_count": 0,
+  "final_mass_range": [
+    0.04867160085958327,
+    0.17822380681052938
+  ],
+  "integrated_abs_ricci_range": [
+    0.003527253379190589,
+    0.012931544814000566
+  ],
+  "rich_neighborhood_final_mass_spread": 0.0,
+  "rich_neighborhood_integrated_abs_ricci_spread": 0.0,
+  "rich_neighborhood_max_abs_theta_shift": 0.0,
+  "rich_neighborhood_max_abs_phi_shift": 0.0,
+  "rich_neighborhood_max_abs_rho_shift": 0.0,
+  "continuation_final_mass_monotone": true,
+  "continuation_track": [
+    {
+      "label": "continuation_00",
+      "final_mass": 0.05943756285506182,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_01",
+      "final_mass": 0.0640621421589423,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_02",
+      "final_mass": 0.06904614534117531,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_03",
+      "final_mass": 0.07441744256129545,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_04",
+      "final_mass": 0.0802060545052201,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_05",
+      "final_mass": 0.08644431657850594,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_06",
+      "final_mass": 0.09316705534287803,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_07",
+      "final_mass": 0.10041177805856726,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_08",
+      "final_mass": 0.1082188762467994,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    }
+  ]
+}

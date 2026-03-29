@@ -1,0 +1,22 @@
+[
+    {
+        "seed_id": "scalar_anchor",
+        "final_mass": 1.447163470326642,
+        "mass_half_radius": 2.270099999999996
+    },
+    {
+        "seed_id": "rich_anchor_theta_dom",
+        "final_mass": 1.447163470326642,
+        "mass_half_radius": 2.270099999999996
+    },
+    {
+        "seed_id": "rich_anchor_phi_dom",
+        "final_mass": 1.447163470326642,
+        "mass_half_radius": 2.270099999999996
+    },
+    {
+        "seed_id": "rich_anchor_fully_mixed",
+        "final_mass": 1.447163470326642,
+        "mass_half_radius": 2.270099999999996
+    }
+]

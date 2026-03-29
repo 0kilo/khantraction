@@ -1,0 +1,106 @@
+{
+  "config": {
+    "m_glue": 0.1,
+    "lambda_q": 0.01,
+    "xi": 0.002,
+    "kappa": 25.132741228718345,
+    "r0": 0.001,
+    "r_max": 20.0,
+    "dr": 0.01,
+    "central_amplitude_base": 0.02,
+    "phi_metric0": 0.0,
+    "closure_mode": "minimal_trace",
+    "dynamics_mode": "exploratory_directional",
+    "angular_eta": 0.02,
+    "angular_zeta": 0.015,
+    "phi_regularization": 0.001,
+    "max_mass": 10.0,
+    "max_abs_state": 30.0,
+    "horizon_margin": 1e-06,
+    "decay_target": 0.05,
+    "max_steps": 500000
+  },
+  "seed_count": 39,
+  "success_count": 39,
+  "regularity_ok_count": 39,
+  "horizon_hit_count": 0,
+  "final_mass_range": [
+    0.04867160085958327,
+    0.17822380681052938
+  ],
+  "integrated_abs_ricci_range": [
+    0.003527253379190589,
+    0.012931544814000566
+  ],
+  "rich_neighborhood_final_mass_spread": 0.0018439538403206834,
+  "rich_neighborhood_integrated_abs_ricci_spread": 0.0016244217122699453,
+  "rich_neighborhood_max_abs_theta_shift": 0.017140994059472447,
+  "rich_neighborhood_max_abs_phi_shift": 0.23760581262518055,
+  "rich_neighborhood_max_abs_rho_shift": 0.017140994059465786,
+  "continuation_final_mass_monotone": true,
+  "continuation_track": [
+    {
+      "label": "continuation_00",
+      "final_mass": 0.05943756285506182,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    },
+    {
+      "label": "continuation_01",
+      "final_mass": 0.06498371754254617,
+      "theta_total_shift": -0.14933961272796756,
+      "phi_total_shift": 0.21560348353754943,
+      "rho_total_shift": 0.14933961272796792
+    },
+    {
+      "label": "continuation_02",
+      "final_mass": 0.07314464059677031,
+      "theta_total_shift": -0.3308180728330364,
+      "phi_total_shift": 0.4502577494026543,
+      "rho_total_shift": 0.330818072833038
+    },
+    {
+      "label": "continuation_03",
+      "final_mass": 0.08480503093782354,
+      "theta_total_shift": -0.644921016605556,
+      "phi_total_shift": 0.7609335025726804,
+      "rho_total_shift": 0.6449210166055568
+    },
+    {
+      "label": "continuation_04",
+      "final_mass": 0.09586031318411042,
+      "theta_total_shift": -1.230497332701889,
+      "phi_total_shift": -0.9589600138249643,
+      "rho_total_shift": 1.2304973327018844
+    },
+    {
+      "label": "continuation_05",
+      "final_mass": 0.096340469391744,
+      "theta_total_shift": -0.15943688504033093,
+      "phi_total_shift": -0.7474556832324475,
+      "rho_total_shift": 0.15943688504032916
+    },
+    {
+      "label": "continuation_06",
+      "final_mass": 0.09735525522831177,
+      "theta_total_shift": -0.040565069943875987,
+      "phi_total_shift": -0.37971648580060546,
+      "rho_total_shift": 0.040565069943875987
+    },
+    {
+      "label": "continuation_07",
+      "final_mass": 0.10142641624370766,
+      "theta_total_shift": -0.0083378698561547,
+      "phi_total_shift": -0.16810383162461173,
+      "rho_total_shift": 0.008337869856148483
+    },
+    {
+      "label": "continuation_08",
+      "final_mass": 0.1082188762467994,
+      "theta_total_shift": 0.0,
+      "phi_total_shift": 0.0,
+      "rho_total_shift": 0.0
+    }
+  ]
+}

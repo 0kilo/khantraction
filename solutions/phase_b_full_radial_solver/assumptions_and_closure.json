@@ -1,0 +1,43 @@
+{
+  "active_domain": {
+    "omega": {
+      "constraint": "> 0"
+    },
+    "theta": [
+      -6.283185307179586,
+      6.283185307179586
+    ],
+    "phi": [
+      -6.283185307179586,
+      6.283185307179586
+    ],
+    "rho": [
+      -6.283185307179586,
+      6.283185307179586
+    ],
+    "quotient_redundancies": false
+  },
+  "reconstructed_from_fresh_tree": [
+    "ordered quaternion seed map Q(omega, theta, phi, rho) = exp(omega) exp(theta i) exp(phi j) exp(rho k)",
+    "four-component matter radial equation template from derivation 73",
+    "regular-origin seeding in component variables with q_A'(r0)=0",
+    "component-symmetric norm coupling through |q|^2",
+    "ordered-state seeds mapped into central component data by separating ordered direction from a small regular-origin amplitude scale anchored to the earlier reduced-profile magnitude"
+  ],
+  "provisional_closure_choice": {
+    "closure_mode": "minimal_trace",
+    "stress_tensor_model": "standard static scalar-multiplet energy density / pressure formulas",
+    "ricci_estimate": "Einstein trace R = -kappa T with T = -rho + p_r + 2 p_t",
+    "normalization": {
+      "kappa": 25.132741228718345,
+      "Phi_gauge": 0.0,
+      "central_amplitude_base": 0.02
+    }
+  },
+  "not_uniquely_fixed_by_fresh_tree": [
+    "full nonminimal-coupling Einstein equations for the xi R |q|^2 term",
+    "gravitational normalization / sign conventions beyond the paper-level statements",
+    "exact asymptotic boundary conditions for the four-component branch family"
+  ],
+  "consequence": "Solver outputs are useful continuation/diagnostic data, but any physics claim that depends sensitively on closure should remain provisional until the Einstein sector is derived more tightly."
+}

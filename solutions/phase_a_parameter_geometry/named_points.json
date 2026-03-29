@@ -1,0 +1,104 @@
+[
+  {
+    "name": "origin",
+    "components": [
+      1.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": 1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 0.0,
+    "cos_theta_rho": 0.0,
+    "cos_phi_rho": 0.0
+  },
+  {
+    "name": "rich_sector_guess",
+    "components": [
+      1.2246467991473532e-16,
+      1.0,
+      6.123233995736765e-17,
+      -6.123233995736767e-17
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": -1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 9.654305461538043e-33,
+    "cos_theta_rho": -1.2246467991473532e-16,
+    "cos_phi_rho": -7.498798913309288e-33
+  },
+  {
+    "name": "all_quarter_turn",
+    "components": [
+      -1.0,
+      6.123233995736766e-17,
+      -6.123233995736766e-17,
+      6.123233995736766e-17
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": -1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 7.498798913309288e-33,
+    "cos_theta_rho": 1.2246467991473532e-16,
+    "cos_phi_rho": 7.498798913309288e-33
+  },
+  {
+    "name": "theta_quarter",
+    "components": [
+      6.123233995736766e-17,
+      1.0,
+      0.0,
+      0.0
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": 1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 0.0,
+    "cos_theta_rho": 0.0,
+    "cos_phi_rho": 0.0
+  },
+  {
+    "name": "phi_quarter",
+    "components": [
+      6.123233995736766e-17,
+      0.0,
+      1.0,
+      0.0
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": -1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 0.0,
+    "cos_theta_rho": 1.2246467991473532e-16,
+    "cos_phi_rho": 0.0
+  },
+  {
+    "name": "rho_quarter",
+    "components": [
+      6.123233995736766e-17,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "norm_dtheta": 1.0,
+    "norm_dphi": 1.0,
+    "norm_drho": 1.0,
+    "detJ": 1.0,
+    "rankJ": 4,
+    "cos_theta_phi": 0.0,
+    "cos_theta_rho": 0.0,
+    "cos_phi_rho": 0.0
+  }
+]
