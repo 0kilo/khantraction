@@ -16,6 +16,7 @@ $$\mathcal{P}: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$$
 
 ### 2.1 Mapping to the Maurer-Cartan Form
 The handedness is not a property of the coordinates themselves, but of the resulting flow of the left-invariant vielbeins $J_a$ derived in Phase C. We define the **Chirality Density** $\chi$ as:
+
 $$\chi = \epsilon_{abc} J^a \wedge J^b \wedge J^c$$
 
 Under the parity transformation $\mathcal{P}$:
@@ -26,7 +27,9 @@ Under the parity transformation $\mathcal{P}$:
 
 ## 3. Handedness of the Paired Subsystem
 Phase A identified $(\theta, \rho)$ as a paired internal structural subsystem, with $\phi$ acting as the orthogonal separator. We define the **Helicity Index** $H$ for the hosted content found in Phase F:
+
 $$H = \vec{L} \cdot \vec{J}_{eff}$$
+
 where:
 * $\vec{L}$ is the classical angular momentum of the rotation.
 * $\vec{J}_{eff}$ is the effective vector sum of the Maurer-Cartan gradients.

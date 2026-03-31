@@ -22,11 +22,13 @@ $$
 $$
 
 where $G_{\mu\nu} = R_{\mu\nu} - \frac{1}{2}g_{\mu\nu}R$ is the Einstein tensor, and the canonical matter stress-energy tensor is:
+
 $$
 T_{\mu\nu}^{(q)} = \partial_\mu q_A \partial_\nu q_A - g_{\mu\nu} \left( \frac{1}{2}\partial_\alpha q_A \partial^\alpha q_A - U(|q|) \right)
 $$
 
 Multiplying through by $2\kappa$ allows us to group the conformal-like scaling of the Einstein tensor:
+
 $$
 (1 + 2\kappa\xi |q|^2) G_{\mu\nu} = \kappa T_{\mu\nu}^{(q)} - 2\kappa\xi (g_{\mu\nu}\square - \nabla_\mu \nabla_\nu) |q|^2
 $$
@@ -36,14 +38,17 @@ $$
 To find the Ricci scalar $R$ needed for the matter-side radial equations, we take the trace of the exact field equations. In 4 dimensions, $g^{\mu\nu}G_{\mu\nu} = -R$ and $g^{\mu\nu}g_{\mu\nu} = 4$. 
 
 Taking the trace gives:
+
 $$
 -(1 + 2\kappa\xi |q|^2) R = \kappa T^{(q)} - 2\kappa\xi (4\square - \square) |q|^2
 $$
+
 $$
 -(1 + 2\kappa\xi |q|^2) R = \kappa T^{(q)} - 6\kappa\xi \square |q|^2
 $$
 
 Solving for $R$:
+
 $$
 R = \frac{-\kappa T^{(q)} + 6\kappa\xi \square |q|^2}{1 + 2\kappa\xi |q|^2}
 $$
@@ -51,6 +56,7 @@ $$
 ## 4. Evaluation of the Provisional Phase B Closure
 
 The early Phase B runtime explicitly used the provisional closure:
+
 $$
 R_{\mathrm{provisional}} = -\kappa T^{(q)}
 $$

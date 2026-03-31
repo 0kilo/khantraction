@@ -18,17 +18,21 @@ It was to push the reconstruction as far as the active project materials actuall
 ### 1.1 Matter-side radial equations
 
 Using `derivations/derivation_73_full_four_component_radial_system_fresh_start.md`, the runtime implements the component-symmetric matter system
-\[
+
+$$
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
-\]
+$$
+
 for $q_A \in \{a,b,c,d\}$ and $|q|^2=a^2+b^2+c^2+d^2$.
 
 ### 1.2 Ordered-state seeding layer
 
 Using `derivations/derivation_71_exponential_quaternion_parameter_mapping_clean.md`, the runtime maps ordered-state seeds from
-\[
+
+$$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
-\]
+$$
+
 into component directions.
 
 The active convention is preserved explicitly:
@@ -43,19 +47,25 @@ So the runtime uses an explicit provisional closure mode:
 
 - a standard static scalar-multiplet stress model for $\rho$, $p_r$, and $p_t$
 - Misner–Sharp closure
-  \[
+
+  $$
   m' = 4\pi r^2 \rho
-  \]
+  $$
+
 - metric-potential closure
-  \[
+
+  $$
   \Phi' = \frac{m + 4\pi r^3 p_r}{r(r-2m)}
-  \]
+  $$
+
 - Ricci estimate from the Einstein trace
-  \[
+
+  $$
   R = -\kappa T,
   \qquad
   T = -\rho + p_r + 2 p_t
-  \]
+  $$
+
   with $\kappa = 8\pi$
 
 This is a **reconstructed closure choice**, not a uniquely justified fresh-tree derivation of the full nonminimal-coupling Einstein sector.
@@ -70,9 +80,11 @@ Because the paper and active notes do not yet supply a full asymptotically match
 - $m(r_0)$ initialized from the local energy density
 - $\Phi(r_0)=0$ as a gauge choice
 - ordered-state seeds mapped into small central component amplitudes via
-  \[
+
+  $$
   q_A(r_0) = A_0 e^{\omega} \hat q_A(\theta,\phi,\rho)
-  \]
+  $$
+  
   with `central_amplitude_base = 0.02` and `\hat q_A` the normalized ordered-state direction
 
 This amplitude scaling was chosen because the earlier reduced successful profile quoted in `khantraction_paper.md` used a small regular-origin amplitude of order `0.02`.

@@ -11,11 +11,14 @@ The goal of this derivation is to establish the formal mathematical framework fo
 
 ## 2. Interaction Lagrangian Ansatz
 We introduce an external scalar probe field $\psi(r)$ to act as the "hosted" content. The total Lagrangian density is given by:
+
 $$\mathcal{L}_{total} = \mathcal{L}_{Khantraction} + \mathcal{L}_{int} + \mathcal{L}_{probe}$$
 
 ### 2.1 The Coupling Term ($\mathcal{L}_{int}$)
 To test the hosting sensitivity of the distinct angular sectors ($\theta, \phi, \rho$), we define a nonminimal coupling between the probe field and the internal non-commutative gradients:
+
 $$\mathcal{L}_{int} = -\frac{1}{2} \gamma \left( \sum_{a=1}^3 \beta_a |J_a|^2 \right) \psi^2$$
+
 where:
 * $\gamma$ is the hosting strength constant.
 * $J_a$ are the Maurer–Cartan vielbeins derived in Phase C.
@@ -27,13 +30,16 @@ This term ensures that the probe field "feels" the specific topological species 
 
 ## 3. Field Equations with Loading
 Following the variation of the action with respect to $\psi$, the radial equation for the hosted probe field is:
+
 $$\frac{1}{r^2 e^{\nu}} \partial_r (r^2 e^{\nu} \partial_r \psi) - \left[ \mu^2 + \gamma \left( \sum \beta_a |J_a|^2 \right) \right] \psi = 0$$
+
 where:
 * $e^{\nu}$ is the temporal metric component.
 * $\mu$ is the intrinsic mass-scale of the probe field.
 
 ### 3.1 Back-Reaction on Geometry
 The hosted content exerts a "loading" pressure on the Khantraction object. The energy-momentum tensor $T_{\mu\nu}$ of the probe field is added to the Einstein trace $R$, modifying the compactness observables established in Phase D:
+
 $$R_{new} = R_{base} + 8\pi G \left( (\partial_r \psi)^2 + \mathcal{V}(\psi) + \mathcal{L}_{int} \right)$$
 
 ---

@@ -19,16 +19,21 @@ So this note begins the honest reconstruction of that system from the toy-model 
 ## 2. Starting point: toy-model Lagrangian
 
 The paper states the toy-model matter sector as
+
 $$
 \mathcal L=\sqrt{-g}\left[\tfrac{1}{2}g^{\mu\nu}(\partial_\mu s\partial_\nu s+\partial_\mu\vec v\!\cdot\!\partial_\nu\vec v)-U(|q|)+\xi R|q|^2\right]-\sqrt{-g}\left[\tfrac{1}{4}F_{\mu\nu}F^{\mu\nu}+\lambda|q|^2F_{\mu\nu}F^{\mu\nu}\right],
 $$
+
 with
+
 $$
 q=s+\vec v\cdot\vec\tau,
 \qquad
 |q|^2=s^2+\vec v\cdot\vec v,
 $$
+
 and potential
+
 $$
 U(|q|)=\tfrac{m_{\mathrm{glue}}^2}{2}|q|^2+\tfrac{\lambda_q}{4}|q|^4.
 $$
@@ -36,10 +41,13 @@ $$
 For the fresh-start radial reconstruction we suppress the electromagnetic sector unless later notes require it explicitly, because the current branch-family discussion has been framed around the norm-based quaternion glue itself.
 
 So the working action is
+
 $$
 S_q=\int d^4x\,\sqrt{-g}\left[\tfrac{1}{2}g^{\mu\nu}\partial_\mu q_A\partial_\nu q_A-U(|q|)+\xi R |q|^2\right],
 $$
+
 where
+
 $$
 q_A=(a,b,c,d),
 \qquad
@@ -51,20 +59,25 @@ $$
 ## 3. Full four-component field equations before symmetry reduction
 
 Varying with respect to each component $q_A$ gives
+
 $$
 \Box q_A + \frac{\partial U}{\partial q_A} - 2\xi R q_A = 0,
 $$
+
 with
+
 $$
 \frac{\partial U}{\partial q_A} = \left(m_{\mathrm{glue}}^2+\lambda_q |q|^2\right) q_A.
 $$
 
 So the component equations are
+
 $$
 \Box q_A + \left(m_{\mathrm{glue}}^2+\lambda_q |q|^2\right)q_A - 2\xi R q_A = 0.
 $$
 
 Equivalently,
+
 $$
 \Box q_A + \Big(m_{\mathrm{glue}}^2+\lambda_q(a^2+b^2+c^2+d^2)-2\xi R\Big)q_A = 0.
 $$
@@ -80,6 +93,7 @@ That is the fresh-start full multiplet system.
 ## 4. Static spherical reduction
 
 Use the static spherically symmetric metric
+
 $$
 ds^2=-e^{2\Phi(r)}dt^2+e^{2\Lambda(r)}dr^2+r^2d\Omega^2,
 \qquad
@@ -87,41 +101,51 @@ e^{-2\Lambda}=1-\frac{2m(r)}{r}.
 $$
 
 Assume the four components depend only on $r$:
+
 $$
 a=a(r),\quad b=b(r),\quad c=c(r),\quad d=d(r).
 $$
 
 Then for any radial scalar-like field $f(r)$,
+
 $$
 \Box f = e^{-2\Lambda}\left[f''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)f'\right].
 $$
 
 Therefore each quaternion component obeys
+
 $$
 e^{-2\Lambda}\left[q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A'\right]
 +\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0.
 $$
 
 Multiplying by $e^{2\Lambda}$ gives the radial ODE form
+
 $$
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A'
 +e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0.
 $$
 
 So explicitly,
+
 $$
 a''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)a' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)a=0,
 $$
+
 $$
 b''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)b' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)b=0,
 $$
+
 $$
 c''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)c' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)c=0,
 $$
+
 $$
 d''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)d' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)d=0,
 $$
+
 with
+
 $$
 |q|^2=a^2+b^2+c^2+d^2.
 $$
@@ -207,8 +231,10 @@ The radial ODE system itself is written directly in $(a,b,c,d)$ component variab
 ## 9. Bottom line
 
 **Bottom line:** the fresh tree now has an explicit full four-component radial matter system for the norm-based quaternion glue field:
+
 $$
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
 $$
+
 for $q_A\in\{a,b,c,d\}$ and $|q|^2=a^2+b^2+c^2+d^2$.
 This removes one major blockage. But a trustworthy Phase B physical branch solver still requires the Einstein-sector closure, boundary conditions, continuation setup, and observable-extraction formulas to be written down explicitly in the fresh tree.

@@ -10,10 +10,13 @@
 The current Phase B full radial solver is real and useful, but the stress test showed a severe limitation:
 
 - at fixed `omega = 0.5`, the rich-neighborhood seeds had final-mass spread only about
+
   $$
   7.49\times 10^{-16},
   $$
+
 - and integrated-`|R|` spread only about
+
   $$
   3.30\times 10^{-17}.
   $$
@@ -21,9 +24,11 @@ The current Phase B full radial solver is real and useful, but the stress test s
 So the present runtime is almost completely degenerate across rich angular neighborhoods.
 
 That is not surprising, because the active matter equations from Derivation 73 are component-symmetric and norm-coupled:
+
 $$
 q_A'' + \Big(\cdots\Big) q_A' + \frac{1}{A}\Big(m_{\rm glue}^2 + \lambda_q |q|^2 - 2\xi R\Big) q_A = 0.
 $$
+
 All angle dependence enters only through the seed-to-component embedding, and once the evolution is written purely in terms of $|q|^2$, many angular distinctions collapse.
 
 So if the project wants to see whether angular-sector differences can ever appear honestly, the next step cannot just be “more of the same component-norm runtime.”
@@ -34,6 +39,7 @@ It has to use the ordered-state geometry already derived in Phase A.
 ## 2. Ordered coordinates as the natural next runtime variables
 
 The active ordered map is
+
 $$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}.
 $$
@@ -42,9 +48,11 @@ Derivation 71 gave the component map and Jacobian.
 The project’s Phase A geometry work already found two especially important facts:
 
 1. the Jacobian determinant depends on `phi` through
+
    $$
    \det J = e^{4\omega}\cos(2\phi),
    $$
+
 2. the angular tangent structure is not fully isotropic: `phi` controls the mixing relation between the `theta` and `rho` directions.
 
 So the natural next move is to pull the component-space kinetic term back into ordered coordinates.
@@ -54,24 +62,32 @@ So the natural next move is to pull the component-space kinetic term back into o
 ## 3. Pullback metric induced by the ordered map
 
 Write the ordered coordinates as
+
 $$
 \alpha^i = (w,\theta,\phi,\rho),
 $$
+
 where in the runtime
+
 $$
 w = \log(A_0)+\omega
 $$
+
 so that the central norm remains anchored to the previously used small-amplitude Phase B scale
+
 $$
 |Q| = e^w = A_0 e^{\omega},
 \qquad A_0 = 0.02.
 $$
 
 Using the Jacobian from Derivation 71, the pullback metric
+
 $$
 G_{ij} = \partial_i Q_A\,\partial_j Q_A
 $$
+
 becomes
+
 $$
 G = e^{2w}
 \begin{pmatrix}
@@ -83,6 +99,7 @@ G = e^{2w}
 $$
 
 So the ordered kinetic density is
+
 $$
 |Q'|^2
 = \alpha'^T G \alpha'
@@ -108,10 +125,13 @@ So the runtime includes a **baseline pullback** mode:
 - but kinetic bookkeeping done in ordered coordinates with the exact pullback metric `G`.
 
 The norm potential in ordered variables is simply
+
 $$
 V_{\rm norm}(w)=\frac{m_{\rm glue}^2}{2}e^{2w} + \frac{\lambda_q}{4}e^{4w},
 $$
+
 because
+
 $$
 |Q|^2 = e^{2w}.
 $$
@@ -142,6 +162,7 @@ The project materials already point to two natural ordered invariants:
 2. **theta-rho pairing** suggested by the pullback metric and the earlier Phase A channel-role hypothesis
 
 So the runtime adds a clearly labeled exploratory directional potential
+
 $$
 V_{\rm dir}(w,\theta,\phi,\rho)
 =
@@ -151,6 +172,7 @@ V_{\rm dir}(w,\theta,\phi,\rho)
 $$
 
 In code, the tested values were
+
 $$
 \eta = 0.02,
 \qquad
@@ -175,6 +197,7 @@ It is a disciplined exploratory closure based on the ordered map’s own anisotr
 
 The runtime treats the ordered variables as generalized coordinates with kinetic metric $G$.
 The resulting ODE system is written in the standard sigma-model form
+
 $$
 \alpha^{i\prime\prime}
 + \Gamma^i_{jk}(\alpha)\,\alpha^{j\prime}\alpha^{k\prime}
@@ -182,16 +205,21 @@ $$
 + \frac{1}{A}G^{ij}\partial_j V_{\rm total}
 =0,
 $$
+
 with
+
 $$
 V_{\rm total} = V_{\rm norm} + V_{\rm dir} - \xi R e^{2w}.
 $$
 
 The same provisional Einstein bookkeeping is then reused, but with kinetic density
+
 $$
 K = \alpha'^T G \alpha'.
 $$
+
 So the provisional closure becomes
+
 $$
 \rho = \frac{1}{2} A K + V_{\rm norm}+V_{\rm dir},
 \qquad
@@ -199,7 +227,9 @@ p_r = \frac{1}{2} A K - V_{\rm norm}-V_{\rm dir},
 \qquad
 p_t = -\frac{1}{2} A K - V_{\rm norm}-V_{\rm dir},
 $$
+
 and
+
 $$
 R=-\kappa T,
 \qquad
@@ -213,20 +243,26 @@ This keeps the improved solver comparable to the old one while changing only the
 ## 8. Singular `phi` slices and why a small regularization is necessary
 
 Because
+
 $$
 \det J = e^{4w}\cos(2\phi),
 $$
+
 the pullback metric becomes singular when
+
 $$
 \cos(2\phi)=0.
 $$
+
 The continuation path used in Phase B passes through exactly such a slice at midpoint:
+
 $$
 \phi=-\frac{\pi}{4}.
 $$
 
 So a raw pullback inverse would make the runtime numerically ill-posed there.
 To avoid fake breakdowns from that known coordinate singularity, the runtime uses a tiny explicit inverse regularization
+
 $$
 \cos^2(2\phi) \mapsto \max\big(\cos^2(2\phi),\varepsilon_\phi^2\big),
 \qquad
@@ -265,7 +301,9 @@ That is a much stronger and cleaner next step than inventing arbitrary component
 ## 10. Bottom line
 
 **Bottom line:** the most honest next Phase B runtime upgrade is to move from the norm-symmetric component IVP into ordered variables with the exact pullback metric induced by
+
 $$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k},
 $$
+
 then compare that conservative baseline against a clearly labeled exploratory directional potential built from the project’s own Jacobian / channel-geometry invariants. This preserves a strict baseline-vs-exploratory distinction, exposes where angular structure can enter, and directly targets the angular degeneracy diagnosed in the Phase B stress test.

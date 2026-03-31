@@ -20,13 +20,16 @@ At least the component field equations have now been written explicitly from the
 ## What this derivation gives
 
 The new derivation establishes that each component $q_A \in \{a,b,c,d\}$ obeys the same radial operator:
-\[
+
+$$
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
-\]
+$$
+
 with shared coupling through
-\[
+
+$$
 |q|^2=a^2+b^2+c^2+d^2.
-\]
+$$
 
 So the full norm-based toy model is matter-symmetric at the component-equation level.
 

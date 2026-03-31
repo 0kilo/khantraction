@@ -7,9 +7,11 @@
 ## 1. Purpose of this synthesis
 
 This note consolidates what Phase A has actually established so far about the ordered quaternion parameter map
-\[
+
+$$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k},
-\]
+$$
+
 using the active domain convention:
 - $\omega>0$
 - $\theta,\phi,\rho\in[-2\pi,2\pi]$
@@ -39,9 +41,11 @@ That no longer looks like the right reading.
 This is now the cleanest result of all.
 
 Every component carries the same multiplicative factor $e^{\omega}$, and the angular tangent norms satisfy
-\[
+
+$$
 \|\partial_\theta Q\|=\|\partial_\phi Q\|=\|\partial_\rho Q\|=e^{\omega}
-\]
+$$
+
 up to numerical precision across the stress-tested positive-$\omega$ range.
 
 So the current best statement is:
@@ -62,14 +66,16 @@ They define three genuine local tangent directions on the ordered-state manifold
 ### 3.3 The chart singularity architecture is controlled by $\phi$
 
 A major Phase A result is the determinant law
-\[
+
+$$
 \det J = e^{4\omega}\cos(2\phi).
-\]
+$$
 
 Therefore singular sheets occur exactly at
-\[
+
+$$
 \phi=\frac{\pi}{4}+\frac{n\pi}{2}.
-\]
+$$
 
 Inside the current working box $[-2\pi,2\pi]$, those are the repeated slices
 - $\pm\pi/4$
@@ -89,15 +95,18 @@ The angular channels are **equal in norm**, so the distinction is not one of raw
 Instead, the distinction appears in the overlap geometry.
 
 The stress-tested result is:
-\[
+
+$$
 \cos(\partial_\theta Q,\partial_\phi Q)\approx 0,
 \qquad
 \cos(\partial_\phi Q,\partial_\rho Q)\approx 0
-\]
+$$
+
 across the sampled domain to essentially machine precision, while
-\[
+
+$$
 \cos(\partial_\theta Q,\partial_\rho Q)\in[-1,1].
-\]
+$$
 
 So $\phi$ stays almost perfectly orthogonal to both $\theta$ and $\rho$, while the relation between $\theta$ and $\rho$ sweeps through the full alignment range.
 
@@ -183,9 +192,11 @@ That is exactly the kind of disciplined foundation Phase A was supposed to deliv
 ## 7. Provisional bottom line
 
 **Provisional bottom line:** Phase A has produced a robust ordered-map foundation in which
-\[
+
+$$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
-\]
+$$
+
 is best read as:
 - one pure scale degree of freedom $\omega$,
 - plus a three-angle internal geometry in which $\phi$ is an orthogonal separator / mixing controller,

@@ -8,6 +8,7 @@
 ## 1. Scope and honesty condition
 
 The active tree still does **not** contain a full explicit derivation of the Einstein equations for the nonminimal coupling term
+
 $$
 \xi R |q|^2.
 $$
@@ -20,25 +21,33 @@ Instead it records the provisional closure used by the new runtime and explains 
 ## 2. Matter-side equations inherited from Derivation 73
 
 The four-component radial matter system already reconstructed in Derivation 73 is
+
 $$
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
 $$
+
 for $q_A\in\{a,b,c,d\}$ and
+
 $$
 |q|^2=a^2+b^2+c^2+d^2.
 $$
 
 With
+
 $$
 A(r)=e^{-2\Lambda(r)} = 1-\frac{2m(r)}{r},
 $$
+
 one may also write
+
 $$
 \Lambda' = -\frac{A'}{2A},
 \qquad
 A' = -\frac{2m'}{r}+\frac{2m}{r^2}.
 $$
+
 So the matter equations become
+
 $$
 q_A''+\left(\frac{2}{r}+\Phi'+\frac{A'}{2A}\right)q_A' + \frac{1}{A}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0.
 $$
@@ -50,6 +59,7 @@ $$
 Because the exact nonminimal-coupling Einstein reduction is still absent, the runtime adopts the standard static scalar-multiplet stress reconstruction as the leading closure model.
 
 Let
+
 $$
 q_A'=\frac{dq_A}{dr},
 \qquad
@@ -59,20 +69,25 @@ V(|q|)=\frac{m_{\mathrm{glue}}^2}{2}|q|^2 + \frac{\lambda_q}{4}|q|^4.
 $$
 
 Then the provisional stress components are taken as
+
 $$
 \rho = \frac{1}{2}A|q'|^2 + V,
 $$
+
 $$
 p_r = \frac{1}{2}A|q'|^2 - V,
 $$
+
 $$
 p_t = -\frac{1}{2}A|q'|^2 - V.
 $$
 
 This gives the standard Misner–Sharp closures
+
 $$
 m' = 4\pi r^2 \rho,
 $$
+
 $$
 \Phi' = \frac{m + 4\pi r^3 p_r}{r(r-2m)}.
 $$
@@ -82,31 +97,41 @@ $$
 ## 4. Ricci reconstruction used in the runtime
 
 The runtime then estimates the Ricci scalar through the Einstein trace law
+
 $$
 R = -\kappa T,
 $$
+
 with
+
 $$
 T = -\rho + p_r + 2p_t.
 $$
+
 For the provisional stress model above,
+
 $$
 T = -A|q'|^2 - 4V.
 $$
+
 Hence
+
 $$
 R = \kappa\Big(A|q'|^2 + 4V\Big).
 $$
 
 In the present runtime,
+
 $$
 \kappa = 8\pi.
 $$
 
 So the matter operator effectively uses
+
 $$
 m_{\mathrm{eff}}^2(r)=m_{\mathrm{glue}}^2 + \lambda_q |q|^2 - 2\xi R(r),
 $$
+
 with $R$ supplied by the provisional trace closure above.
 
 ---
@@ -140,18 +165,23 @@ The fresh tree does not yet contain a full matched BVP prescription.
 So the runtime uses regular-origin IVP data.
 
 At a small radius $r_0\ll 1$, impose
+
 $$
 q_A'(r_0)=0
 $$
+
 for all four components to enforce leading regularity.
 
 Take
+
 $$
 \Phi(r_0)=0
 $$
+
 as a gauge choice.
 
 Then initialize the mass from the local density,
+
 $$
 m(r_0) \approx \frac{4\pi}{3}\rho(r_0) r_0^3.
 $$
@@ -163,26 +193,33 @@ This is the standard local regularity-compatible small-$r$ start used by the run
 ## 7. Ordered-state seed-to-component map used at the origin
 
 The active ordered-state map is
+
 $$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}.
 $$
 
 Let its components be
+
 $$
 Q = q_0 + q_1 i + q_2 j + q_3 k.
 $$
+
 Since $|Q|=e^{\omega}$, the runtime separates:
 - ordered-state **direction** $\hat q_A = q_A/|Q|$,
 - from central amplitude scaling.
 
 Then the reconstructed origin data are
+
 $$
 q_A(r_0)=A_0 e^{\omega}\hat q_A(\theta,\phi,\rho),
 $$
+
 with
+
 $$
 A_0 = 0.02
 $$
+
 in the current runtime.
 
 This choice is anchored to the earlier reduced successful profile scale quoted in `khantraction_paper.md`, where the successful regular-origin scalar amplitude was of order `0.02`.
@@ -221,62 +258,78 @@ These observables are implemented as explicit extraction formulas.
 They should currently be interpreted as closure-dependent diagnostics.
 
 ### 9.1 Final mass
+
 $$
 M_{\mathrm{final}} = m(r_{\max}).
 $$
 
 ### 9.2 Integrated curvature magnitude
+
 $$
 \mathcal I_R = \int_{r_0}^{r_{\max}} |R(r)|\,dr.
 $$
 
 ### 9.3 Mass concentration radii
 Using the provisional energy density,
+
 $$
 W_M(r)=4\pi r^2 \rho(r),
 $$
+
 let
+
 $$
 C_M(r)=\int_{r_0}^{r} W_M(\tilde r)\,d\tilde r.
 $$
+
 Then:
 - mass half-radius: first $r$ with $C_M(r)\ge \tfrac12 C_M(r_{\max})$
 - mass 90% radius: first $r$ with $C_M(r)\ge 0.9 C_M(r_{\max})$
 
 ### 9.4 Curvature concentration radii
 Using
+
 $$
 W_R(r)=4\pi r^2 |R(r)|,
 $$
+
 let
+
 $$
 C_R(r)=\int_{r_0}^{r} W_R(\tilde r)\,d\tilde r.
 $$
+
 Then define half and 90% radii analogously.
 
 ### 9.5 Settling radius
 The first radius at which
+
 $$
 |q(r)| \le \max\big(\text{decay target}, 0.05\,|q|_{\max}\big)
 $$
+
 within the sampled domain.
 
 ### 9.6 Core radius
 The last radius where
+
 $$
 |q(r)| \ge 0.9\,|q|_{\max}.
 $$
 
 ### 9.7 Soft-region width
 The radial width of the region where
+
 $$
 |q(r)| \ge 0.2\,|q|_{\max}.
 $$
 
 ### 9.8 Peak imaginary-to-real ratio
+
 $$
 \max_r \frac{\sqrt{b(r)^2+c(r)^2+d(r)^2}}{\max(|a(r)|,\epsilon)}
 $$
+
 with a small $\epsilon$ floor in code to avoid division by zero.
 
 ---

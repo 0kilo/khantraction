@@ -28,7 +28,9 @@ Unlike standard spherical systems, the Khantraction fold possesses internal angu
 
 ### 3.1 Sheet-Induced Quantization
 The wave function must satisfy periodic boundary conditions across the internal angular coordinates $\theta$ and $\rho$, but it encounters "geometric phase shifts" when crossing the $\phi$ singular sheets:
+
 $$\Psi(\phi + \pi/2) = e^{i\alpha} \Psi(\phi)$$
+
 where $\alpha$ is a phase factor determined by the **Chirality Density** ($\chi$) from Phase G.
 
 ---

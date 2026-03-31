@@ -11,9 +11,10 @@ This note assesses the first active Phase A task:
 > analyze the ordered quaternion parameter map and determine what can already be said about the distinct roles of $\omega,\theta,\phi,\rho$.
 
 The active canonical map is
-\[
+
+$$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}.
-\]
+$$
 
 ## Questions for this first assessment
 
@@ -140,17 +141,20 @@ This re-run uses the active project convention:
 ### Stronger result on the actual working box
 
 Across 55,539 sampled points on the widened domain, the refined scan supports
-\[
+
+$$
 \det J = e^{4\omega}\cos(2\phi)
-\]
+$$
+
 with numerical error at machine precision scale.
 
 So the chart becomes singular exactly when
-\[
+
+$$
 \cos(2\phi)=0
 \quad\iff\quad
 \phi = \frac{\pi}{4}+\frac{n\pi}{2}.
-\]
+$$
 
 Inside the active working box $[-2\pi,2\pi]$, that yields the repeated singular slices
 - $\phi=\pm\pi/4$

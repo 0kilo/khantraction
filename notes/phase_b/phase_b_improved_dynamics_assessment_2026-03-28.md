@@ -29,10 +29,12 @@ Outputs are in:
 ## 1.1 Conservative ordered baseline: `baseline_pullback`
 
 A new solver was written in ordered variables
-\[
+
+$$
 (w,\theta,\phi,\rho),
 \qquad w = \log(0.02)+\omega,
-\]
+$$
+
 using the exact pullback metric induced by the ordered quaternion map.
 
 That means the runtime now uses the project’s own ordered-state geometry rather than collapsing everything back into purely component-norm evolution.
@@ -59,9 +61,11 @@ It is an exploratory closure meant to test whether the project’s own anisotrop
 ## 1.3 Necessary coordinate regularization
 
 Because the ordered pullback metric is singular on the known `phi` slices
-\[
+
+$$
 \cos(2\phi)=0,
-\]
+$$
+
 the ordered inverse metric was regularized with a small numerical floor
 - `phi_regularization = 1e-3`
 

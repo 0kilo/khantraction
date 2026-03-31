@@ -5,9 +5,11 @@
 
 ## 1. The Maurer-Cartan 1-Form
 To break the exact $O(4)$ symmetry of the Khantraction Lagrangian, we introduce the Maurer-Cartan (MC) 1-form, which evaluates the non-commutative algebraic structure of the ordered state map:
+
 $$ \omega_\mu = q^{-1} \partial_\mu q $$
 
 Given the ordered map $q = e^\omega e^{\theta i} e^{\phi j} e^{\rho k}$, we can express the radial derivative ($\partial_r$) as a sum over the left-invariant vielbeins (currents) $E_M$:
+
 $$ \omega_r = q^{-1} \partial_r q = E_\omega \omega' + E_\theta \theta' + E_\phi \phi' + E_\rho \rho' $$
 
 Using quaternion algebra, we analytically evaluate $E_M = q^{-1} \frac{\partial q}{\partial X^M}$:
@@ -28,9 +30,11 @@ The commutator identically vanishes. To break $O(4)$ radially, we cannot rely on
 To force the radial system to differentiate the angular traits, we introduce an explicitly anisotropic kinetic coupling to the internal $\mathfrak{su}(2)$ generators. 
 
 Decompose the purely imaginary part of the current:
+
 $$ \hat{\omega}_r = \omega_r^1 i + \omega_r^2 j + \omega_r^3 k $$
 
 We upgrade the Khantraction Lagrangian with the explicit symmetry-breaking term:
+
 $$ \mathcal{L}_{\text{MC}} = g^{rr} \left( \beta_1 (\omega_r^1)^2 + \beta_2 (\omega_r^2)^2 + \beta_3 (\omega_r^3)^2 \right) $$
 
 If $\beta_1 = \beta_2 = \beta_3$, this term collapses back to the $O(4)$-invariant $\frac{1}{|q|^2} |\partial_r q|^2$. 
