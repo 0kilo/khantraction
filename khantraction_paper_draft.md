@@ -8,92 +8,79 @@ We present *Khantraction*, an exploratory field theory in which localized spacet
 ---
 
 ## 1. Introduction: The Spacetime-Fold Metaphor
-Khantraction is motivated by a "rope-and-knot" picture of spacetime geometry. In this view, a localized contraction is not a point-like singularity but a self-bound geometric fold—a "knot" through which the spacetime manifold threads. This persistent structure is sustained by a quaternion-valued field that locally pinches the metric into a bounded, regular region.
-
-This work establishes the classical and proto-quantum integrity of these objects. We show that Khantraction objects are not fragile artifacts but robust, rigid structures with identifiable family fingerprints, measurable external charges, and discrete internal mode ladders.
+Khantraction sits at the crossroads of geometry and field theory. The motivating picture is a rope-and-knot metaphor: imagine a rope carrying spacetime and a loose knot held in one hand. The knot persists while spacetime slips through, pinching the manifold into a bounded region. In this model, the knot is represented by a quaternionic glue field that locally contracts spacetime. This work documents the transition from this heuristic to a mathematically explicit toy model, testing its viability as a candidate for structured particle-like objects.
 
 ---
 
 ## 2. Theoretical Framework
 
 ### 2.1 The Ordered Quaternion Map
-The foundational state map of the theory is the ordered quaternionic construction:
+The foundational state map of Khantraction is the ordered factorized quaternionic construction:
 \[
 Q(\omega, \theta, \phi, \rho) = e^{\omega} e^{\theta i} e^{\phi j} e^{\rho k}
 \]
-where $\omega > 0$ serves as the scale coordinate and $(\theta, \phi, \rho) \in [-2\pi, 2\pi]$ are distinct internal angles. This map settles into a stable internal-state sector for the quaternion-rich regime, with $\phi$ acting as the structural controller of the chart's singularity architecture ($\det J \propto e^{4\omega}\cos 2\phi$).
+where $\omega > 0$ serves as the scale coordinate and $(\theta, \phi, \rho) \in [-2\pi, 2\pi]$ are independent internal angles [Phase A, 2.1; `notes/phase_a/phase_a_synthesis_2026-03-28.md`]. The Jacobian determinant law $\det J = e^{4\omega}\cos(2\phi)$ establishes that $\phi$ controls the chart's singularity architecture [Phase A, 2.3; `derivations/derivation_72_phase_a_jacobian_singularity_structure.md`]. Structurally, $\phi$ acts as an orthogonal separator that determines the coupling geometry of the $(\theta, \rho)$ pair [Phase A, 2.4; `analysis/phase_a/phase_a_channel_role_hypothesis.py`].
 
-### 2.2 Lagrangian and Non-Linear Sigma Model (NLSM)
-The dynamics are governed by a nonlinear Lagrangian coupling the glue field to curvature and an anisotropic kinetic sector. Following the discovery that linear formulations are $O(4)$ blind, the theory is re-expressed as an NLSM:
+### 2.2 Lagrangian and Symmetry Breaking
+The model employs a nonminimal coupling between the glue field $q$ and curvature $R$:
 \[
-\mathcal{L} = \sqrt{-g} \left[ \frac{1}{2} G_{MN} \partial_\mu X^M \partial^\mu X^N - U(|q|) + \xi R |q|^2 \right]
+\mathcal L=\sqrt{-g}\left[\tfrac{1}{2}g^{\mu\nu}\partial_\mu q \partial_\nu \bar{q} -U(|q|)+\xi R|q|^2\right]
 \]
-where $G_{MN}$ is the target-space metric pulled back from the ordered map. To break the Euclidean degeneracy, we introduce an **Anisotropic Maurer-Cartan (MC) coupling**:
+Early linear Euclidean integrations revealed a strict $O(4)$ degeneracy, rendering the macroscopic profiles blind to internal angular configurations [Phase B, 2.4; `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`]. This was resolved by upgrading the theory to a **Non-Linear Sigma Model (NLSM)** using an anisotropic Maurer-Cartan interaction:
 \[
-\mathcal{L}_{MC} = \sum_{a=1}^3 \beta_a \Omega_{MC}^a \Omega_{MC}^a
+\mathcal{L}_{MC} = \sum_{a=1}^3 \beta_a (\Omega^a)^2
 \]
-with $\beta_1 \neq \beta_2 \neq \beta_3$. This forces the radial solver to "feel" the internal $\mathfrak{su}(2)$ algebra, imprinting unique macroscopic traits onto the structured objects.
+where $\Omega^a$ are left-invariant vielbeins [Phase C, 2.2; `derivations/derivation_78_maurer_cartan_tensor.md`]. This explicitly breaks the Euclidean symmetry, forcing the radial solver to "feel" the internal $\mathfrak{su}(2)$ algebra and imprinting unique macroscopic traits onto the species [Phase C, 2.3; `derivations/derivation_79_einstein_trace_with_mc_breaking.md`].
 
 ---
 
 ## 3. Structural Objecthood and Absolute Rigidity
 
-### 3.1 Regularity and Horizon Avoidance
-Khantraction natively supports a continuous family of structured objects. Coupled matter-Einstein equations integrate stably from a central amplitude ($A_0$) to settled finite boundaries without forming horizons. 
+### 3.1 Regularity and Family Coherence
+Khantraction supports a regular, coherent family of structured objects integrating stably from a central amplitude ($A_0$) to settled finite boundaries without horizons [Phase B, 2.1; `notes/phase_b/phase_b_improved_dynamics_assessment_2026-03-28.md`]. 
 
-### 3.2 The Core Rigidity Breakthrough
-A critical finding is the **absolute structural rigidity** of the Khantraction core. By implementing boundary compression tests (reducing the integration volume by 50%), we proved that the core mass and half-radius remain invariant (variance $< 10^{-15}$). This demonstrates that the spacetime-fold possesses an intrinsic classical scale and extreme core stability, definitively justifying its treatment as a discrete "particle-like" object.
-
----
-
-## 4. Trait Splitting and Global Identity Basins
-
-### 4.1 Symmetry Breaking Results
-By integrating the exact NLSM equations with anisotropic MC forces, we demonstrate that angular variables encode genuinely different macroscopic traits. 
-* **Mass Splitting**: Scalar-dominated seeds ($M \approx 0.108$) diverge from Phi-dominant seeds ($M \approx 1.466$).
-* **Structural Signatures**: The "Scalar" anchor exhibits a transparent core (mass fraction $\approx 0.0002$), while the "Phi-dominant" anchor is highly concentrated (mass fraction $\approx 0.027$).
-
-### 4.2 Exhaustive Combinatorial Mapping
-Exhaustive 1D and 2D slice studies across all six angular combinations confirmed that these "identity basins" are global features of the state space. While $\phi$ is the primary controller of the geometric landscape, complex relational cross-couplings in the $(\theta, \rho)$ sector determine the final species fingerprints.
+### 3.2 Absolute Core Rigidity
+A critical finding is the **absolute structural rigidity** of the Khantraction core. Boundary compression tests (reducing $r_{max}$ to simulate external pressure) proved that core mass and half-radius remain invariant with near-zero variance (mass shift $< 10^{-15}$) [Phase D, 2.3; `solutions/phase_d/phase_d_identity/rigidity_results.csv`]. This demonstrates that the spacetime-fold possesses a natural classical scale and extreme core stability, definitively justifying its treatment as a discrete "particle-like" object.
 
 ---
 
-## 5. External Phenomenology and Effective Charge
+## 4. External Phenomenology and Effective Charge
 
-### 5.1 Reissner-Nordström Masquerade
-Precision curve-fitting of deep asymptotic tails ($r_{max} = 40.0$) proves that Khantraction objects behave as charged point-particles to distant observers. The asymptotic mass function $m(r)$ follows the Reissner-Nordström decay law:
-\[
-m(r) = M_{ADM} - \frac{Q_{eff}^2}{2r}
-\]
-Each species projects a unique **Effective Topological Charge** ($Q_{eff} \approx 0.80$ for Scalar vs. $5.14$ for Phi-rich), confirming that internal non-commutative gradients project measurable macroscopic fields.
+### 4.1 Reissner-Nordström Masquerade
+Precision curve-fitting of asymptotic mass profiles $m(r)$ against the Reissner-Nordström model $M_{ADM} - Q_{eff}^2/(2r)$ proves that Khantraction objects behave as charged point-particles to distant observers [Phase E, 2.2; `notes/phase_e/phase_e_verified_phenomenology_assessment.md`]. Each species projects a unique **Effective Topological Charge** ($Q_{eff}$), while internally distinct sectors may group into external "Indistinguishability Classes" [Phase E, 2.2; `solutions/phase_e/phase_e_phenomenology/indistinguishability_map.json`].
 
-### 5.2 External Indistinguishability Classes
-We establish formal groupings of internally distinct angular configurations that project identical ADM mass and effective charge, defining the external "phenotypes" of the theory.
+### 4.2 Hosting and Signed Loading Asymmetry
+Internal non-commutative gradients create potential wells capable of binding external fields [Phase F, 2.4; `notes/phase_f/phase_f_verified_hosting_assessment.md`]. We identify a **signed loading asymmetry**: varying the external loading sign ($J_{ext}$) results in drastically different final masses ($M \approx 2.36$ vs. $M \approx -1.08$), providing a classical precursor to matter-antimatter analogous behavior [Phase F, 2.2; `solutions/phase_f/phase_f_hosting/signed_loading_test.csv`].
 
 ---
 
-## 6. Interaction, Hosting, and Handedness
-
-### 6.1 Signed Loading Asymmetry
-Khantraction objects function as stable classical hosts for external fields. A critical discovery is the **signed loading asymmetry**: the fold core exhibits a strong preference for specific induced content directions. Opposite loading signs result in drastically different final masses ($M \approx 2.36$ vs. $M \approx -1.08$), providing a classical precursor to matter-antimatter analogous behavior.
-
-### 6.2 Mirror-Pair Enantiomers
-We define a formal parity operator $\mathcal{P}$ and identify mirror-pair enantiomers. Macroscopic traits ($M, r_{half}$) remain invariant under parity, while the internal chirality density ($\chi$) reverses, proving that handedness is a structural "flavor" that preserves species identity.
+## 5. Chirality and Rotational Stability
+The parity operator $\mathcal{P}: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$ reveals that macroscopic traits remain invariant under parity, though the internal chirality density $\chi$ reverses [Phase G, 2.2; `notes/phase_g/phase_g_verified_chirality_assessment.md`]. Rotational stability is maintained below a threshold where rotational energy injection ($\Omega^2$) shifts the effective mass of the fold [Phase G, 2.4; `derivations/derivation_83_rotational_energy_momentum.md`].
 
 ---
 
-## 7. Emergent Quantum Signatures
+## 6. Emerging Quantum Signatures
+Transitioning to a discrete regime, hosting basins act as quantum resonators. Bohr-Sommerfeld quantization identifies **stable discrete energy eigenvalues** ($n=0$) for all tested species [Phase H, 2.1; `analysis/phase_h/phase_h_quantum_analysis.py`]. 
 
-### 7.1 Bohr-Sommerfeld Quantization
-The hosting basins of Khantraction objects act as quantum resonators. Numerical integration of the quantization condition identifies **stable discrete energy eigenvalues** ($n=0$) for all tested species, marking the transition from continuous field scales to quantized signatures.
+Mirror-pair enantiomers, classically identical in mass, exhibit a distinct **enantiomeric energy gap** at the quantum level (e.g., $E_{Right} \approx 0.686$ vs. $E_{Left} \approx 0.620$) [Phase H, 3; `notes/phase_h/phase_h_verified_quantum_assessment.md`]. Furthermore, external loading linearly shifts the ground state energy, establishing a geometric origin for charge-energy coupling [Phase H, 2.2; `solutions/phase_h/phase_h_quantum/loading_sensitivity.csv`].
 
-### 7.2 Enantiomeric and Loading Splitting
-The most significant quantum result is the discovery of **Enantiomeric Splitting**. While mirror-pairs are classically identical in mass, they exhibit a distinct energy gap in the quantum spectrum ($E_{Right} \approx 0.91$ vs. $E_{Left} \approx 0.87$). Furthermore, external loading linearly shifts these energy levels, providing a geometric origin for both spin and charge-energy coupling.
+---
+
+## 7. Limitations and Future Work
+Khantraction remains an exploratory toy model with several limitations:
+1. **Phenomenological Constants**: Anisotropic MC coefficients ($\beta_a$) are currently proxies for symmetry breaking, not derived physical constants.
+2. **Dynamic Stability**: Current results focus on static radial integration; full 3D dynamical stability analysis is required.
+3. **Multi-Particle Interactions**: The model does not yet address the dynamics of separate spacetime-folds interacting at a distance.
 
 ---
 
 ## 8. Conclusion
-The Khantraction program has successfully mapped the evolution of a structured spacetime-fold from its internal algebraic foundations to its emergent quantum properties. We have proven that these objects are rigid, stable, and identifiable species possessing measurable external charges and discrete energy ladders. This work provides a rigorous geometric foundation for a structured-object theory of particles, bridging the gap between classical spacetime curvature and quantized signatures.
+The Khantraction program has mapped the evolution of a structured spacetime-fold from algebraic foundations to emergent quantum properties. We have proven that the ordered quaternion map, when coupled to an anisotropic Maurer-Cartan geometry, yields rigid, persistent species with discrete energy ladders and external charges. This work bridges the gap between classical geometric contractions and the hallmarks of discrete particle physics.
 
 ---
-**Bottom Line:** Khantraction is no longer merely a speculative toy model; it is a verified framework demonstrating that structured spacetime-folds natively support the hallmarks of particle physics—rigidity, mass-splitting, charge-projection, and discrete quantum spectra—through the mechanism of explicit quaternionic symmetry breaking.
+**Data References:**
+- `solutions/phase_a/`: Parameter geometry and singularity scans.
+- `solutions/phase_b/`: Einstein closure radial profiles.
+- `solutions/phase_d/`: Rigidity results and identity fingerprints.
+- `solutions/phase_e/`: Asymptotic RN fits and effective charge maps.
+- `solutions/phase_h/`: Excitation spectra and energy splitting.
