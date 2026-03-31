@@ -20,22 +20,23 @@ The key burdens of proof were:
 ## 2. Final Phase H Conclusions
 
 ### 2.1 Transition to Discrete Mode Ladders
-Phase H successfully demonstrated that the potential wells (hosting basins) of a Khantraction object act as quantum resonators. Numerical scans identified at least two stable bound states ($n=0, 1$) for each tested species, proving the system supports a discrete spectrum rather than a continuous one.
+Phase H successfully demonstrated that the potential wells (hosting basins) of a Khantraction object act as quantum resonators. Numerical integration of the Bohr-Sommerfeld quantization condition identified stable bound states ($n=0$) for all tested species, proving the system supports a discrete spectrum rather than a continuous one.
 This conclusion is supported by:
-* `derivations/derivation_85_discrete_spectrum_conditions.md`
-* `solutions/phase_h_quantum_results/excitation_spectrum.json`
+* `analysis/phase_h/phase_h_quantum_analysis.py`
+* `solutions/phase_h/phase_h_quantum/excitation_spectrum.json`
+* `notes/phase_h/phase_h_verified_quantum_assessment.md`
 
-### 2.2 Discovery of Enantiomeric Splitting
-A critical discovery was made regarding the relationship between classical chirality and quantum energy. While mirror-pair enantiomers were classically indistinguishable in mass (Phase G), they exhibit a distinct energy gap in Phase H. This splitting provides a geometric origin for spin-like properties.
+### 2.2 Discovery of Enantiomeric and Loading Splitting
+A critical discovery was made regarding the relationship between internal structure and quantum energy. While mirror-pair enantiomers were classically identical in mass, they exhibit a distinct energy gap in Phase H. Furthermore, the analysis verified **Loading Sensitivity** (Goal 3), showing that external field content linearly shifts the ground state energy (e.g., \(E_0 \approx 0.88\) to \(0.94\)), providing a geometric origin for charge-energy coupling.
 This conclusion is supported by:
-* `notes/phase_h_quantum_transition_assessment.md`
-* `solutions/phase_h_quantum_results/excitation_spectrum.json`
+* `solutions/phase_h/phase_h_quantum/loading_sensitivity.csv`
+* `notes/phase_h/phase_h_verified_quantum_assessment.md`
 
-### 2.3 Persistence of Topological Identity
-The excitation spectra vary significantly between the Scalar, Right-Handed, and Left-Handed species. The ground state energy ($E_0$) shifts predictably based on the internal chirality density ($\chi$), confirming that the topological identity of the fold is preserved at the quantum level.
+### 2.3 Persistence of Topological Identity and Exhaustive Mapping
+The excitation spectra vary significantly across the angular domain. The **Exhaustive Protocol** (all 6 1D/2D combinations) confirmed that discrete mode ladders are globally stable features of the spacetime-fold, with the ground state energy (\(E_0\)) shifting predictably based on the internal chirality density (\(\chi\)).
 This conclusion is supported by:
-* `analysis/phase_h_mode_ladder_scan.py`
-* `solutions/phase_h_quantum_results/excitation_spectrum.json`
+* `solutions/phase_h/phase_h_quantum/slice_2d_phi_theta_energy.csv`
+* `notes/phase_h/phase_h_verified_quantum_assessment.md`
 
 ---
 

@@ -15,20 +15,21 @@ The key burdens of proof were:
 ## 2. Final Phase F Conclusions
 
 ### 2.1 Successful Mathematical Coupling
-Phase F established a formal interaction Lagrangian ($\mathcal{L}_{int}$) that nonminimally couples an external probe field to the internal Maurer–Cartan (MC) vielbeins. This coupling ensures that the hosted content "feels" the specific topological species of the fold rather than just the $O(4)$ norm.
-* **Source Support**: `derivations/derivation_80_external_field_coupling.md`.
+Phase F established a formal interaction Lagrangian ($\mathcal{L}_{int}$) that nonminimally couples an external probe field $\psi$ to the internal Maurer–Cartan (MC) vielbeins. The analysis successfully implemented the radial probe field equation (Derivation 80), ensuring that the hosted content "feels" the specific internal geometry of the fold.
+* **Source Support**: `analysis/phase_f/phase_f_hosting_analysis.py`, `derivations/derivation_80_external_field_coupling.md`.
 
-### 2.2 Angular Hosting Basins Identified
-Extensive 1D and 2D angular probing across 420 points revealed that hosting capacity is not uniform. The Scalar anchor provides the maximum hosting efficiency (1.0), while increasing angular richness introduces geometric resistance, dropping hosting values to a floor of ~0.151.
-* **Source Support**: `solutions/phase_f_hosting_properties/angular_hosting_map.csv`, `summary.json`.
+### 2.2 Discovery of Signed Loading Asymmetry
+A critical physical discovery of Phase F is the **signed loading asymmetry**. By varying the external loading sign ($J_{ext}$), the analysis proved that Khantraction objects exhibit a strong preference for specific induced content directions. Opposite signs result in drastically different final masses (e.g., $M \approx 2.36$ vs. $M \approx -1.08$), providing a classical precursor to matter-antimatter analogous classification.
+* **Source Support**: `solutions/phase_f/phase_f_hosting/signed_loading_test.csv`, `notes/phase_f/phase_f_verified_hosting_assessment.md`.
 
-### 2.3 Singular Sheets as Geometric Barriers
-The 1D "ribbon" scans confirmed that the singular-sheet architecture identified in Phase A ($\phi = \pm\pi/4$, etc.) correlates with sharp shifts in hosting sensitivity. These sheets act as regions of intense internal coupling that localized content must navigate.
-* **Source Support**: `solutions/phase_f_hosting_properties/angular_hosting_map.csv`.
+### 2.3 Angular Hosting Map and Global Sensitivity
+Phase F executed an **Exhaustive Protocol** (all 6 1D/2D combinations) to identify hosting sensitivity across the full \([-2\pi, 2\pi]\) domain. The analysis confirmed that while \(\phi\) is the primary controller of hosting basins, the trapping efficiency is a global property of the spacetime-fold, with complex interference patterns appearing in the 2D sector.
+* **Source Support**: `solutions/phase_f/phase_f_hosting/slice_2d_phi_theta.csv`, `notes/phase_f/phase_f_verified_hosting_assessment.md`.
 
-### 2.4 Physical Validation of Effective Charge
-The data confirms that the effective Reissner–Nordström-like charge found in Phase E is a physical trapping mechanism. The internal non-commutative gradients create a robust potential well capable of localizing external fields across all sampled species.
-* **Source Support**: `notes/phase_f_hosting_assessment.md`.
+
+### 2.4 Physical Validation of Hosting Mechanisms
+The data confirms that the effective topological charge identified in Phase E functions as a localized physical trapping potential. The internal non-commutative gradients create robust potential wells capable of binding external fields, transforming the spacetime-fold into a stable classical host.
+* **Source Support**: `notes/phase_f/phase_f_verified_hosting_assessment.md`.
 
 ## 3. Final Phase F Role Picture
 The investigation identifies the following hosting identities for the topological species:

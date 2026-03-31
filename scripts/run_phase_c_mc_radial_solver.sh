@@ -6,8 +6,8 @@ set -e
 
 echo "Starting Phase C Angular Trait Extraction..."
 
-mkdir -p solutions/phase_c_angular_traits/profiles/
-source venv/bin/activate && python analysis/phase_c_mc_radial_solver.py
+mkdir -p solutions/phase_c/phase_c_angular_traits/profiles/
+source venv/bin/activate && python analysis/phase_c/phase_c_mc_radial_solver.py
 
 echo "Phase C Trait Extraction completed successfully."
-echo "Results deposited in solutions/phase_c_angular_traits/"
+echo "Results deposited in solutions/phase_c/phase_c_angular_traits/"

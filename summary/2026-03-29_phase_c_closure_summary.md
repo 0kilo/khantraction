@@ -18,27 +18,28 @@ Following the discovery of exact \(O(4)\) degeneracy in Phase B, the burden of p
 Phase C mathematically confirmed that without explicit non-commutative interaction terms, the \((\omega, \theta, \phi, \rho)\) coordinates map to a flat Euclidean target space, making the classical equations blind to the distinct angular geometries identified in Phase A.
 
 ### 2.2 The Maurer-Cartan 1-Form Evaluates the Internal Geometry
-By deriving the left-invariant vielbeins from the ordered map \(Q\), Phase C proved that the internal parameters map uniquely to the \(\mathfrak{su}(2)\) generators:
-- \(\rho\) is an isolated \(k\) generator.
-- \(\phi\) is bipartite, mixing \(i\) and \(j\).
-- \(\theta\) is fully entangled across \(i, j,\) and \(k\).
+By deriving the left-invariant vielbeins from the ordered map \(Q\), Phase C proved that the internal parameters map uniquely to the \(\mathfrak{su}(2)\) generators.
 This conclusion is supported by:
 - `derivations/derivation_78_maurer_cartan_tensor.md`
-- `solutions/phase_c_mc_slice_studies/summary.json`
-- `notes/phase_c_mc_tensor_derivation_assessment.md`
+- `solutions/phase_c/phase_c_angular_traits/summary.json`
+- `notes/phase_c/phase_c_corrected_mc_radial_assessment.md`
 
 ### 2.3 Anisotropic MC Coupling Dynamically Breaks Symmetry
 A standard 1D Skyrme commutator term identically vanishes radially. Therefore, Phase C successfully introduced an anisotropic Maurer-Cartan Lagrangian density (\(\beta_1 \neq \beta_2 \neq \beta_3\)) that penalizes the internal channels asymmetrically. 
 This conclusion is supported by:
 - `derivations/derivation_79_einstein_trace_with_mc_breaking.md`
-- `solutions/phase_c_mc_equations/mc_gradients.txt`
 
 ### 2.4 Angular Variables Encode Distinct Classical Traits
-By integrating the exact angular equations of motion with the anisotropic MC forces, the solver proved that different angular seeds (scalar vs. varying rich anchors) produce drastically different final masses and half-radii. The \(O(4)\) symmetry is broken, and the objects now possess distinct dynamic identities.
+By integrating the exact angular equations of motion with the anisotropic MC forces, the solver proved that different angular seeds produce drastically different macroscopic results. Beyond mass splitting, the analysis revealed distinct structural identities:
+- **Core-to-Bulk Balance**: Highly sensitive to angular richness (Scalar core fraction ~0.0002 vs. Phi-dominant ~0.027).
+- **Concentration**: Extracted $r_{90}$ values confirm that different angles create varying degrees of object "diffuseness."
+- **Exhaustive Protocol**: Mandatory 1D and 2D slice studies for all six angular combinations (Phi, Theta, Rho, and their 2D pairings) across the full $[-2\pi, 2\pi]$ domain confirmed the robustness of these trait distinctions and leaves no controller role unexplored.
+
 This conclusion is supported by:
-- `analysis/phase_c_mc_radial_solver.py`
-- `solutions/phase_c_angular_traits/trait_differentiation_summary.json`
-- `notes/phase_c_mc_angular_traits_assessment.md`
+- `analysis/phase_c/phase_c_mc_radial_solver.py`
+- `solutions/phase_c/phase_c_angular_traits/summary.json`
+- `solutions/phase_c/phase_c_angular_traits/slice_1d_theta.csv`
+- `notes/phase_c/phase_c_corrected_mc_radial_assessment.md`
 
 ---
 

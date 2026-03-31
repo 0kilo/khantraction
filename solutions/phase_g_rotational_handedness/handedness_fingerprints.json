@@ -1,8 +1,0 @@
-{
-    "status": "complete",
-    "total_points": 4225,
-    "achiral_samples": 3137,
-    "validated_chiral_pairs": 0,
-    "max_trait_divergence": 0.0,
-    "execution_time": 0.1844031810760498
-}

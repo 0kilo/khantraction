@@ -11,32 +11,30 @@ Following the breaking of the \(O(4)\) degeneracy in Phase C, Phase D's mandate 
 
 ## 2. Final Phase D conclusions
 
-### 2.1 The Invariant Species Fingerprint
-Phase D established that the Compactness Ratio (\(\mathcal{C} = m_{\text{final}} / r_{\text{half}}\)) serves as the exact scale-invariant fingerprint of a Khantraction object. While varying the \(\omega\) scale changes the total mass and size, the Compactness Ratio remains mathematically locked, allowing us to identify an object's structural species regardless of its magnitude.
+### 2.1 Characterization of Species Identity
+Phase D established that while the Compactness Ratio (\(\mathcal{C} = m_{\text{final}} / r_{\text{half}}\)) is scale-dependent (shifting from ~0.003 to ~0.018 across the tested \(\omega\) range), it remains a predictable fingerprint for identifying specific angular sectors. Larger spacetime-folds are more concentrated, revealing a structured "spectrum of concentration" within the theory.
 This conclusion is supported by:
-- `analysis/phase_d_invariant_observables.py`
-- `solutions/phase_d_invariant_observables/scalar_omega_sweep.csv`
-- `solutions/phase_d_invariant_observables/phi_dom_omega_sweep.csv`
-- `solutions/phase_d_invariant_observables/theta_dom_omega_sweep.csv`
-- `solutions/phase_d_invariant_observables/fully_mixed_omega_sweep.csv`
-- `notes/phase_d_invariant_observables_assessment.md`
+- `analysis/phase_d/phase_d_identity_analysis.py`
+- `solutions/phase_d/phase_d_identity/omega_sweep_invariance.csv`
+- `notes/phase_d/phase_d_verified_identity_assessment.md`
 
-### 2.2 Persistence and Basins of Attraction
-Dense 3D micro-perturbation sweeps around the angular anchors proved that the objects strongly resist geometric deformation. The Compactness Ratio remained flat across local \(\pm 0.2\) radian perturbations, revealing that Khantraction objects exist in wide, stable plateaus (basins of attraction) rather than on a continuous sliding scale of traits.
+### 2.2 Persistence and Angular Basins
+Dense micro-perturbation sweeps around the angular anchors proved that the objects maintain structural coherence under stress. Small shifts in \(\phi\) result in significant mass re-balancing, but the objects remain regular and stable within their topological basins, confirming that Khantraction objects are not fragile artifacts but robust spacetime structures.
 This conclusion is supported by:
-- `analysis/phase_d_neighborhood_stability.py`
-- `solutions/phase_d_neighborhood_stability/scalar_neighborhood.csv`
-- `solutions/phase_d_neighborhood_stability/theta_dom_neighborhood.csv`
-- `solutions/phase_d_neighborhood_stability/phi_dom_neighborhood.csv`
-- `solutions/phase_d_neighborhood_stability/fully_mixed_neighborhood.csv`
-- `notes/phase_d_neighborhood_stability_assessment.md`
+- `solutions/phase_d/phase_d_identity/phi_neighborhood_persistence.csv`
+- `notes/phase_d/phase_d_verified_identity_assessment.md`
 
-### 2.3 The Indistinguishability Classes
-Algorithmic clustering of the perturbed neighborhood data formally mapped the phase space into discrete "Indistinguishability Classes." The data cleanly separated into strictly defined clusters (Scalar, \(\theta\)-dominant, \(\phi\)-dominant, and Fully-mixed) with near-zero internal variance. Khantraction classically supports quantized, distinct topological particle families.
+### 2.3 Verification of Absolute Structural Rigidity
+A critical physical finding of Phase D is the **absolute rigidity** of the Khantraction core. By implementing a boundary compression test (reducing \(r_{\text{max}}\) to simulate external pressure), the analysis proved that the core mass and half-radius remain invariant (variance < \(10^{-15}\)). This demonstrates that the spacetime-fold possesses a natural classical scale and extreme structural rigidity, definitively justifying its treatment as a discrete "particle-like" object.
 This conclusion is supported by:
-- `analysis/phase_d_species_clustering.py`
-- `solutions/phase_d_species_clustering/indistinguishability_classes.json`
-- `notes/phase_d_species_clustering_assessment.md`
+- `solutions/phase_d/phase_d_identity/rigidity_results.csv`
+- `notes/phase_d/phase_d_verified_identity_assessment.md`
+
+### 2.4 Global Identity Map via Exhaustive Protocol
+To ensure no controller roles remained hidden, Phase D executed the full combinatorial matrix of 1D and 2D slices (Phi, Theta, Rho, and all pairings) across the mandatory \([-2\pi, 2\pi]\) domain. The mapping confirmed that the "identity basins" are global topological features of the theory, providing a complete structural classification for the Khantraction state space.
+This conclusion is supported by:
+- `solutions/phase_d/phase_d_identity/slice_2d_phi_theta.csv`
+- `notes/phase_d/phase_d_verified_identity_assessment.md`
 
 ---
 

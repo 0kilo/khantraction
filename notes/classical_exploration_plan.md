@@ -25,8 +25,30 @@ The main classical question is not whether Khantraction produces a literal point
 
 ---
 
-## 3. Phase A — Rebuild the parameter foundation correctly
+## 3. Common constraints and analysis protocol
 
+For all phases and all analysis scripts:
+
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
+
+---
+
+## 4. Phase A — Rebuild the parameter foundation correctly
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Treat \(\omega\) as scale.
 2. Treat \(\theta,\phi,\rho\) as distinct internal angles.
@@ -44,7 +66,14 @@ The main classical question is not whether Khantraction produces a literal point
 ---
 
 ## 4. Phase B — Rebuild the structured-object picture
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Reconfirm the strongest full-quaternion branch family.
 2. Re-express the rich branch as a structured object with:
@@ -68,7 +97,14 @@ The main classical question is not whether Khantraction produces a literal point
 ---
 
 ## 5. Phase C — Distinct classical characteristics of \(\theta,\phi,\rho\)
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include all possible combinatinos of:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Vary \(\theta\), \(\phi\), and \(\rho\) separately and systematically.
 2. Compare how each one changes:
@@ -87,39 +123,64 @@ This is one of the most important classical questions in the new phase.
 ---
 
 ## 6. Phase D — Classical identity and persistence
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include all possible combinatinos of:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Test neighborhood stability around multiple angular sectors.
 2. Identify which deformations preserve object identity.
 3. Distinguish scale variation from angular and structural variation.
 4. Build robust family fingerprints.
+5. **Test internal rigidity:** Verify whether the energy-momentum "knot" maintains its core structure under external pressure or deformation.
 
 ### Key question
-> What makes one Khantraction object the “same kind” of object in classical terms?
+> What makes one Khantraction object the “same kind” of object in classical terms, and is its core rigid enough to persist?
 
 ---
 
 ## 7. Phase E — External particle-likeness of a structured object
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include all possible combinatinos of:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Determine how the object looks from the outside.
 2. Compare whether internally different objects become externally similar.
 3. Define external particle-likeness without requiring pointlikeness.
+4. **Dynamical response:** Assess how the object responds to external gradients (effective inertial vs. gravitational mass).
+5. **Interaction laws:** Determine if the asymptotic profiles suggest specific classical interaction laws (e.g., $1/r^2$ attraction/repulsion).
 
 ### Key observables
 - asymptotic profile similarity,
 - compactness-like ratios,
 - concentration radii,
 - settling scales,
-- external indistinguishability classes.
+- external indistinguishability classes,
+- effective mass ratios.
 
 ### Key question
-> Can a folded extended object still behave particle-like externally?
+> Can a folded extended object behave particle-like externally, follow an effective equation of motion, and interact predictably?
 
 ---
 
 ## 8. Phase F — Classical hosting properties
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include all possible combinatinos of:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Study whether the structured object can host externally induced content.
 2. Compare opposite signed induced loadings.
@@ -134,7 +195,14 @@ This is the correct classical precursor to later charge-hosting work.
 ---
 
 ## 9. Phase G — Classical rotational / handedness properties
-
+1. **Parameter domains:**
+   - \(\omega > 0\) (scale coordinate)
+   - \(\theta, \phi, \rho \in [-2\pi, 2\pi]\) (angular coordinates)
+   - No redundancy quotienting.
+2. **Analysis protocol:**
+   - In addition to bulk analysis, every study must include all possible combinatinos of:
+     - **1D Slices:** Hold two angles fixed and vary one angle.
+     - **2D Slices:** Hold one angle fixed and vary two angles.
 ### Goals
 1. Study whether angular sectors define classical chirality classes.
 2. Compare whether opposite angular sectors are equivalent, mirrored, or distinct.

@@ -1,0 +1,20 @@
+[
+    {
+        "species": "scalar",
+        "M_ADM": 0.022654705843664334,
+        "Q_eff": 0.8010416989644694,
+        "status": "success"
+    },
+    {
+        "species": "phi_dom",
+        "M_ADM": 5.510827939686633,
+        "Q_eff": 5.137433194309835,
+        "status": "success"
+    },
+    {
+        "species": "fully_mixed",
+        "M_ADM": 5.518815159912528,
+        "Q_eff": 5.142529720780389,
+        "status": "success"
+    }
+]

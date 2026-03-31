@@ -43,15 +43,16 @@ So the current best statement is:
 > \(\omega\) controls overall scale magnitude and does not change the internal angular overlap geometry except through uniform rescaling.
 
 This conclusion is supported by:
-- `analysis/phase_a_parameter_geometry.py`
-- `analysis/phase_a_invariant_channel_comparison.py`
+- `analysis/phase_a/phase_avation_71_exponential_quaternion_parameter_mapping_clean.md`
+- `analysis/phase_a/phase_a_parameter_geometry.py`
+- `analysis/phase_a/phase_a_invariant_channel_comparison.py`
 - `analysis/phase_a_role_stability_stress_test.py`
-- `solutions/phase_a_parameter_geometry/`
-- `solutions/phase_a_invariant_channel_comparison/`
-- `solutions/phase_a_role_stability_stress_test/`
-- `notes/phase_a_parameter_geometry_assessment_2026-03-28.md`
-- `notes/phase_a_invariant_channel_comparison_assessment_2026-03-28.md`
-- `notes/phase_a_role_stability_stress_test_assessment_2026-03-28.md`
+- `solutions/phase_a/phase_a_parameter_geometry/`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/`
+- `solutions/phase_a/phase_a_role_stability_stress_test/`
+- `notes/phase_a/phase_a_parameter_geometry_assessment_2026-03-28.md`
+- `notes/phase_a/phase_a_invariant_channel_comparison_assessment_2026-03-28.md`
+- `notes/phase_a/phase_a_role_stability_stress_test_assessment_2026-03-28.md`
 
 ---
 
@@ -62,13 +63,14 @@ Away from singular sheets, the ordered map has full local rank and the angular d
 So the three angular variables are not merely a fake repackaging of one local angle.
 They form three genuine local tangent directions on the ordered-state manifold wherever the chart is regular.
 
-This conclusion is supported by:
+Thianalysis/phase_a/phase_asupported by:
+- `derivations/derivation_71_exponential_quaternion_parameter_mapping_clean.md`
 - `analysis/phase_a_parameter_geometry.py`
-- `solutions/phase_a_parameter_geometry/coarse_scan.csv`
-- `solutions/phase_a_parameter_geometry/named_points.json`
-- `solutions/phase_a_parameter_geometry/special_points.json`
-- `solutions/phase_a_parameter_geometry/summary.md`
-- `notes/phase_a_parameter_geometry_assessment_2026-03-28.md`
+- `solutions/phase_a/phase_a_parameter_geometry/coarse_scan.csv`
+- `solutions/phase_a/phase_a_parameter_geometry/named_points.json`
+- `solutions/phase_a/phase_a_parameter_geometry/special_points.json`
+- `solutions/phase_a/phase_a_parameter_geometry/summary.md`
+- `notes/phase_a/phase_a_parameter_geometry_assessment_2026-03-28.md`
 
 ---
 
@@ -93,14 +95,14 @@ Within the active domain \([-2\pi,2\pi]\), this yields the repeated singular sli
 - \(\pm 7\pi/4\)
 
 The widened angle box did not alter the singular law; it exposed its repeated-sheet structure explicitly.
-
+analysis/phase_a/phase_a
 This conclusion is supported by:
 - `analysis/phase_a_singularity_structure.py`
 - `derivations/derivation_72_phase_a_jacobian_singularity_structure.md`
-- `solutions/phase_a_singularity_structure/domain_singular_points.json`
-- `solutions/phase_a_singularity_structure/phi_slice_table.csv`
-- `solutions/phase_a_singularity_structure/summary.md`
-- `notes/phase_a_parameter_geometry_assessment_2026-03-28.md`
+- `solutions/phase_a/phase_a_singularity_structure/domain_singular_points.json`
+- `solutions/phase_a/phase_a_singularity_structure/phi_slice_table.csv`
+- `solutions/phase_a/phase_a_singularity_structure/summary.md`
+- `notes/phase_a/phase_a_parameter_geometry_assessment_2026-03-28.md`
 
 ---
 
@@ -127,27 +129,27 @@ This means the strongest Phase A asymmetry is not “phi is bigger.”
 It is:
 
 > \(\phi\) is structurally special because it controls the coupling geometry of the \((\theta,\rho)\) pair.
-
-This conclusion is supported by:
+analysis/phase_a/phase_a
+Thianalysis/phase_a/phase_ale" conclusion was specifically isolated and verified by:
+- `analysis/phase_a/phase_a_channel_role_hypothesis.py` (Primary verification of the separation role)
 - `analysis/phase_a_invariant_channel_comparison.py`
-- `analysis/phase_a_channel_role_hypothesis.py`
 - `analysis/phase_a_role_stability_stress_test.py`
-- `solutions/phase_a_invariant_channel_comparison/phi_scan.csv`
-- `solutions/phase_a_invariant_channel_comparison/theta_scan_phi0.csv`
-- `solutions/phase_a_invariant_channel_comparison/rho_scan_phi0.csv`
-- `solutions/phase_a_invariant_channel_comparison/named_points.json`
-- `solutions/phase_a_invariant_channel_comparison/summary.md`
-- `solutions/phase_a_channel_role_hypothesis/broad_phi_control_scan.csv`
-- `solutions/phase_a_channel_role_hypothesis/phi_profile_fixed_pair.csv`
-- `solutions/phase_a_channel_role_hypothesis/theta_rho_independence_scan.csv`
-- `solutions/phase_a_channel_role_hypothesis/summary.md`
-- `solutions/phase_a_role_stability_stress_test/stress_scan.csv`
-- `solutions/phase_a_role_stability_stress_test/omega_scaling_check.csv`
-- `solutions/phase_a_role_stability_stress_test/stress_summary.json`
-- `solutions/phase_a_role_stability_stress_test/summary.md`
-- `notes/phase_a_invariant_channel_comparison_assessment_2026-03-28.md`
-- `notes/phase_a_channel_role_hypothesis_assessment_2026-03-28.md`
-- `notes/phase_a_role_stability_stress_test_assessment_2026-03-28.md`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/phi_scan.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/theta_scan_phi0.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/rho_scan_phi0.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/named_points.json`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/summary.md`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/broad_phi_control_scan.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/phi_profile_fixed_pair.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/theta_rho_independence_scan.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/summary.md`
+- `solutions/phase_a/phase_a_role_stability_stress_test/stress_scan.csv`
+- `solutions/phase_a/phase_a_role_stability_stress_test/omega_scaling_check.csv`
+- `solutions/phase_a/phase_a_role_stability_stress_test/stress_summary.json`
+- `solutions/phase_a/phase_a_role_stability_stress_test/summary.md`
+- `notes/phase_a/phase_a_invariant_channel_comparison_assessment_2026-03-28.md`
+- `notes/phase_a/phase_a_channel_role_hypothesis_assessment_2026-03-28.md`
+- `notes/phase_a/phase_a_role_stability_stress_test_assessment_2026-03-28.md`
 
 ---
 
@@ -164,23 +166,23 @@ Findings:
 So the best current statement is:
 
 > the ordered map contains a paired internal subsystem \((\theta,\rho)\), and \(\phi\) determines whether that subsystem remains locally distinct or collapses into local alignment/anti-alignment.
-
+analysis/phase_a/phase_a
 This conclusion is supported by:
 - `analysis/phase_a_slice_studies.py`
-- `solutions/phase_a_slice_studies/vary_theta_phi0_rho0.csv`
-- `solutions/phase_a_slice_studies/vary_phi_theta0_rho0.csv`
-- `solutions/phase_a_slice_studies/vary_rho_theta0_phi0.csv`
-- `solutions/phase_a_slice_studies/vary_theta_phi_pi4_rho0.csv`
-- `solutions/phase_a_slice_studies/vary_rho_theta0_phi_pi4.csv`
-- `solutions/phase_a_slice_studies/vary_phi_theta1.1_rho-0.9.csv`
-- `solutions/phase_a_slice_studies/theta_phi_rho0.csv`
-- `solutions/phase_a_slice_studies/theta_rho_phi0.csv`
-- `solutions/phase_a_slice_studies/phi_rho_theta0.csv`
-- `solutions/phase_a_slice_studies/theta_rho_phi_pi4.csv`
-- `solutions/phase_a_slice_studies/one_d_summary.json`
-- `solutions/phase_a_slice_studies/two_d_summary.json`
-- `solutions/phase_a_slice_studies/summary.md`
-- `notes/phase_a_slice_study_assessment_2026-03-28.md`
+- `solutions/phase_a/phase_a_slice_studies/vary_theta_phi0_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_phi_theta0_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_rho_theta0_phi0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_theta_phi_pi4_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_rho_theta0_phi_pi4.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_phi_theta1.1_rho-0.9.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_phi_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_rho_phi0.csv`
+- `solutions/phase_a/phase_a_slice_studies/phi_rho_theta0.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_rho_phi_pi4.csv`
+- `solutions/phase_a/phase_a_slice_studies/one_d_summary.json`
+- `solutions/phase_a/phase_a_slice_studies/two_d_summary.json`
+- `solutions/phase_a/phase_a_slice_studies/summary.md`
+- `notes/phase_a/phase_a_slice_study_assessment_2026-03-28.md`
 
 ---
 
@@ -195,7 +197,7 @@ At the mapping-geometric level, the strongest current role assignment is:
 This is the cleanest distilled result of Phase A.
 
 It is explicitly synthesized in:
-- `notes/phase_a_synthesis_2026-03-28.md`
+- `notes/phase_a/phase_a_synthesis_2026-03-28.md`
 
 ---
 

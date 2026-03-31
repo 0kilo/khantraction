@@ -83,10 +83,10 @@ Do **not** put active plans or unfinished operator notes here.
 Use a stable pattern so the tree stays readable.
 
 ### Analysis files
-- `analysis/phase_a_<topic>.py`
-- `analysis/phase_b_<topic>.py`
+- `analysis/phase_a/phase_a_<topic>.py`
+- `analysis/phase_b/phase_b_<topic>.py`
 - ...
-- `analysis/phase_h_<topic>.py`
+- `analysis/phase_h/phase_h_<topic>.py`
 
 ### Script files
 - `scripts/run_phase_a_<topic>.sh`
@@ -94,15 +94,15 @@ Use a stable pattern so the tree stays readable.
 - or `scripts/run_<experiment>.py` if Python is cleaner
 
 ### Solution outputs
-- `solutions/phase_a_<topic>/...`
-- `solutions/phase_b_<topic>/...`
+- `solutions/phase_a/phase_a_<topic>/...`
+- `solutions/phase_b/phase_b_<topic>/...`
 - etc.
 
 Each experiment gets its own subfolder under `solutions/`.
 
 ### Notes
-- `notes/phase_a_<topic>_assessment.md`
-- `notes/phase_a_closure.md`
+- `notes/phase_a/phase_a_<topic>_assessment.md`
+- `notes/phase_a/phase_a_closure.md`
 - and similarly for later phases
 
 ### Summary files
@@ -119,7 +119,7 @@ Goal:
 ### Outputs to create
 - derivation note for the clean parameter map / Jacobian comparison
 - parameter sweep analysis
-- generated sweep outputs in `solutions/phase_a_*`
+- generated sweep outputs in `solutions/phase_a/phase_a_*`
 - Phase A assessment note
 - Phase A closure note
 
@@ -133,7 +133,7 @@ Goal:
 - branch viability analysis
 - stress test analysis
 - scale-vs-structure analysis
-- generated outputs in `solutions/phase_b_*`
+- generated outputs in `solutions/phase_b/phase_b_*`
 - Phase B assessment note
 - Phase B closure note
 
@@ -148,7 +148,7 @@ Goal:
 - profile-comparison analysis
 - angle-sensitive diagnostic analysis
 - geometry-informed operator analysis
-- generated outputs in `solutions/phase_c_*`
+- generated outputs in `solutions/phase_c/phase_c_*`
 - Phase C assessment note
 - Phase C closure note
 
@@ -161,7 +161,7 @@ Goal:
 ### Outputs to create
 - viable-region analysis
 - family-fingerprint analysis
-- generated outputs in `solutions/phase_d_*`
+- generated outputs in `solutions/phase_d/phase_d_*`
 - Phase D identity assessment note
 - Phase D closure note
 
@@ -174,7 +174,7 @@ Goal:
 ### Outputs to create
 - external-shape analysis
 - viable external-overlap analysis
-- generated outputs in `solutions/phase_e_*`
+- generated outputs in `solutions/phase_e/phase_e_*`
 - Phase E assessment note
 - Phase E closure note
 
@@ -188,7 +188,7 @@ Goal:
 - hosting probe analysis
 - signed loading scan
 - hosting-region analysis
-- generated outputs in `solutions/phase_f_*`
+- generated outputs in `solutions/phase_f/phase_f_*`
 - Phase F assessment note
 - Phase F closure note
 
@@ -201,7 +201,7 @@ Goal:
 ### Outputs to create
 - chirality scan
 - mirror comparison analysis
-- generated outputs in `solutions/phase_g_*`
+- generated outputs in `solutions/phase_g/phase_g_*`
 - Phase G assessment note
 - Phase G closure note
 

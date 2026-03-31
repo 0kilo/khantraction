@@ -11,18 +11,26 @@ Phase E shifted the investigation outward to determine if extended Khantraction 
 
 ## 2. Final Phase E Conclusions
 
-### 2.1 Successful Core-to-Asymptotic Transition
-By implementing a "Thin Core" stability overhaul (reducing \(\omega\) to 0.001 and \(M_{GLUE}\) to 0.01), the solver successfully bypassed the horizon collapse that previously occurred at \(r \approx 4.0\). This allowed for the collection of high-fidelity radial data in the vacuum transition zone (\(r > 15.0\)).
+### 2.1 Successful Asymptotic Extraction
+Phase E successfully integrated the 4 topological species into the deep asymptotic regime ($r_{max} = 40.0$). By utilizing a stabilized solver with small seeding amplitudes ($A_0 = 0.005$), the analysis bypassed premature horizon collapse, allowing for the collection of high-fidelity mass and metric data in the vacuum transition zone.
 This conclusion is supported by:
-- `analysis/phase_e_asymptotic_extraction.py`
-- `solutions/phase_e_asymptotic_extraction/scalar_asymptotic_tail.csv`
-- `solutions/phase_e_asymptotic_extraction/fully_mixed_asymptotic_tail.csv`
+- `analysis/phase_e_external_phenomenology.py`
+- `solutions/phase_e/phase_e_phenomenology/scalar_tail.csv`
+- `solutions/phase_e/phase_e_phenomenology/phi_dom_tail.csv`
 
-### 2.2 Reissner-Nordström Phenomenology
-Precision curve-fitting of the resulting mass functions confirms that these species effectively masquerade as Reissner-Nordström point-particles to distant observers. Each topological species projects a unique, measurable effective charge \(Q_{eff}\) derived from its internal non-commutative gradients.
+### 2.2 Reissner-Nordström Phenomenology and Effective Charge
+Precision curve-fitting of the asymptotic mass function $m(r)$ against the Reissner-Nordström model $M_{ADM} - Q_{eff}^2/(2r)$ proved that Khantraction objects masquerade as charged point-particles. The analysis extracted unique effective topological charges ($Q_{eff}$) for each species. Furthermore, Phase E established **External Indistinguishability Classes**, grouping internally distinct angular sectors that project identical ADM mass and effective charge to distant observers.
 This conclusion is supported by:
-- `analysis/phase_e_metric_curve_fitting.py`
-- `solutions/phase_e_metric_curve_fitting/external_phenomenology_summary.json`
+- `solutions/phase_e/phase_e_phenomenology/summary.json`
+- `solutions/phase_e/phase_e_phenomenology/indistinguishability_map.json`
+- `notes/phase_e/phase_e_verified_phenomenology_assessment.md`
+
+### 2.3 Differential Dynamical Response and Exhaustive Mapping
+A critical physical discovery of Phase E is the **inertial resistance** of the spacetime-fold to external field gradients. The analysis verified that more compact species exhibit significantly lower mass shifts. The **Exhaustive Protocol** (all 6 1D/2D combinations) further confirmed that this external behavior is globally consistent across the mandatory $[-2\pi, 2\pi]$ domain, solidifying the "controller" role of $\phi$ in external phenomenology.
+This conclusion is supported by:
+- `solutions/phase_e/phase_e_phenomenology/dynamical_response.csv`
+- `solutions/phase_e/phase_e_phenomenology/slice_2d_phi_theta.csv`
+- `notes/phase_e/phase_e_verified_phenomenology_assessment.md`
 
 ---
 

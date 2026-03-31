@@ -1,8 +1,0 @@
---- Anisotropic MC Lagrangian ---
-b1*(d_phi*sin(2*rho) + d_theta*cos(2*phi))**2 + b2*(d_phi*cos(2*rho) - d_theta*sin(2*phi)*sin(2*rho))**2 + b3*(d_rho + d_theta*sin(2*phi)*cos(2*rho))**2
-
---- MC Generalized Forces (dL/dq) ---
-F_omega = 0
-F_theta = 0
-F_phi = 4*d_theta*(-b1*(d_phi*sin(2*rho) + d_theta*cos(2*phi))*sin(2*phi) - b2*(d_phi*cos(2*rho) - d_theta*sin(2*phi)*sin(2*rho))*sin(2*rho)*cos(2*phi) + b3*(d_rho + d_theta*sin(2*phi)*cos(2*rho))*cos(2*phi)*cos(2*rho))
-F_rho = 4*b1*d_phi*(d_phi*sin(2*rho) + d_theta*cos(2*phi))*cos(2*rho) - 4*b2*(d_phi*sin(2*rho) + d_theta*sin(2*phi)*cos(2*rho))*(d_phi*cos(2*rho) - d_theta*sin(2*phi)*sin(2*rho)) - 4*b3*d_theta*(d_rho + d_theta*sin(2*phi)*cos(2*rho))*sin(2*phi)*sin(2*rho)

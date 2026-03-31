@@ -27,12 +27,12 @@ The scalar-to-rich continuation family is smooth, and the final mass ordering in
 
 This conclusion is supported by:
 - `derivations/derivation_73_full_four_component_radial_system_fresh_start.md`
-- `analysis/phase_b_full_radial_solver.py`
-- `analysis/phase_b_improved_dynamics_solver.py`
-- `solutions/phase_b_full_radial_solver/run_summary.json`
-- `solutions/phase_b_improved_dynamics/baseline_pullback/run_summary.json`
-- `notes/phase_b_full_radial_solver_assessment_2026-03-28.md`
-- `notes/phase_b_improved_dynamics_assessment_2026-03-28.md`
+- `analysis/phase_b/phase_b_full_radial_solver.py`
+- `analysis/phase_b/phase_b_improved_dynamics_solver.py`
+- `solutions/phase_b/phase_b_full_radial_solver/run_summary.json`
+- `solutions/phase_b/phase_b_improved_dynamics/baseline_pullback/run_summary.json`
+- `notes/phase_b/phase_b_full_radial_solver_assessment_2026-03-28.md`
+- `notes/phase_b/phase_b_improved_dynamics_assessment_2026-03-28.md`
 
 ---
 
@@ -43,11 +43,11 @@ While the objects are clearly structured (featuring a dense core and soft transi
 The closure stress tests demonstrated that central amplitude scaling (\(A_0\)) and outer integration boundaries (\(r_{\text{max}}\)) caused massive shifts in the final mass and compactness observables, whereas numerical perturbations to the Ricci trace feedback caused almost negligible changes.
 
 This conclusion is supported by:
-- `analysis/phase_b_closure_stress_test.py`
-- `solutions/phase_b_closure_stress_test/stress_results.csv`
-- `solutions/phase_b_closure_stress_test/cross_scenario_summary.json`
-- `solutions/phase_b_closure_stress_test/summary.md`
-- `notes/phase_b_closure_stress_test_assessment_2026-03-28.md`
+- `analysis/phase_b/phase_b_closure_stress_test.py`
+- `solutions/phase_b/phase_b_closure_stress_test/stress_results.csv`
+- `solutions/phase_b/phase_b_closure_stress_test/cross_scenario_summary.json`
+- `solutions/phase_b/phase_b_closure_stress_test/summary.md`
+- `notes/phase_b/phase_b_closure_stress_test_assessment_2026-03-28.md`
 
 ---
 
@@ -59,8 +59,8 @@ Phase B successfully derived the exact Einstein equations and proved that the im
 
 This conclusion is supported by:
 - `derivations/derivation_76_full_einstein_equations_nonminimal_coupling.md`
-- `analysis/phase_b_exact_radial_solver.py`
-- `notes/phase_b_einstein_closure_update_assessment_2026-03-29.md`
+- `analysis/phase_b/phase_b_exact_radial_solver.py`
+- `notes/phase_b/phase_b_einstein_closure_update_assessment_2026-03-29.md`
 
 ---
 
@@ -73,12 +73,12 @@ When the exact radial solver was executed across different internal angular seed
 Because the solver integrated in the linear Euclidean basis \((a, b, c, d)\), the exact Einstein trace \(R\) collapsed into a strict \(O(4)\) symmetry. The nonminimal coupling \(\xi R |q|^2\) only interacts with the invariant \(O(4)\) norm and kinetic sum, rendering the system totally blind to the distinct angular geometries mapped out in Phase A.
 
 This conclusion is supported by:
-- `analysis/phase_b_exact_radial_solver.py`
-- `solutions/phase_b_exact_radial_solver/run_summary.json`
-- `solutions/phase_b_exact_radial_solver/profiles/scalar_anchor.csv`
-- `solutions/phase_b_exact_radial_solver/profiles/rich_anchor_1.csv`
-- `solutions/phase_b_exact_radial_solver/profiles/rich_anchor_2.csv`
-- `notes/phase_b_exact_radial_assessment_2026-03-29.md`
+- `analysis/phase_b/phase_b_exact_radial_solver.py`
+- `solutions/phase_b/phase_b_exact_radial_solver/run_summary.json`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/scalar_anchor.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_1.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_2.csv`
+- `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`
 
 ---
 

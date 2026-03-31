@@ -53,7 +53,7 @@ The chirality results from Phase G imply that the discrete spectrum will exhibit
 
 ## 6. Analytical Objectives
 Following this derivation, the project will:
-1.  **Solve for $E_n$**: Use `analysis/phase_h_mode_ladder_scan.py` to find the first three primary modes ($n=0, 1, 2$).
+1.  **Solve for $E_n$**: Use `analysis/phase_h/phase_h_mode_ladder_scan.py` to find the first three primary modes ($n=0, 1, 2$).
 2.  **Map Species to Spectra**: Determine if $\theta$-dominant species support a different number of bound states than $\phi$-dominant species.
 3.  **Confirm Persistence**: Verify that these discrete levels remain stable even when the "loaded" content is rotated at sub-critical velocities.
 

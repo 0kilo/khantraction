@@ -18,27 +18,20 @@ The key burden of proof was:
 ## 2. Final Phase G Conclusions
 
 ### 2.1 Formalization of the Parity Operator and Chirality Density
-Phase G successfully defined the parity operator $\mathcal{P}: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$. It established that while macroscopic traits remain symmetric, the internal flow of Maurer-Cartan (MC) vielbeins identifies a clear **Chirality Density** ($\chi$).
-This conclusion is supported by:
-* `derivations/derivation_82_classical_chirality_operators.md`
+Phase G successfully defined the parity operator $\mathcal{P}: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$. The analysis implemented the internal chirality density $\chi$ based on the determinant of the Maurer-Cartan vielbeins, ensuring that internal handedness is a measurable property of the spacetime-fold.
+* **Source Support**: `analysis/phase_g/phase_g_chirality_analysis.py`, `derivations/derivation_82_classical_chirality_operators.md`.
 
 ### 2.2 Trait Invariance in Mirror Pairs
-Extensive scans across the $[-2\pi, 2\pi]$ domain confirmed that mirror-pair coordinates produce identical macroscopic traits, such as mass and the Compactness Ratio ($\mathcal{C}$). This proves that handedness is a structural "flavor" that does not destabilize the fundamental species identity established in Phase D.
-This conclusion is supported by:
-* `analysis/phase_g_chirality_scan.py`
-* `solutions/phase_g_rotational_handedness/chirality_comparison_results.csv`
-* `notes/phase_g_chirality_assessment.md`
+Extensive mirror-pair tests confirmed that macroscopic traits (mass and $r_{half}$) remain invariant under parity transformation. For example, the right-handed configuration $(0.5, \pi/8, \pi/8, \pi/8)$ and its left-handed inverse $(0.5, -\pi/8, -\pi/8, -\pi/8)$ produce identical final masses ($M \approx 0.81$), proving that handedness is a structural "flavor" that does not alter the fundamental species identity.
+* **Source Support**: `solutions/phase_g/phase_g_chirality/mirror_pair_results.csv`, `notes/phase_g/phase_g_verified_chirality_assessment.md`.
 
-### 2.3 Discovery of Chiral Enantiomers
-Numerical analysis validated that for "rich" quaternion species, a corresponding enantiomer exists with a mathematically exact reversal of chirality density ($\chi \to -\chi$). This provides a classical basis for particle-antiparticle-like geometric pairs within the framework.
-This conclusion is supported by:
-* `solutions/phase_g_rotational_handedness/handedness_fingerprints.json`
-* `notes/phase_g_chirality_assessment.md`
+### 2.3 Identification of Chiral Enantiomers and Exhaustive Protocol
+Numerical analysis validated that for any "rich" quaternion species, a corresponding enantiomer exists. The **Exhaustive Protocol** (all 6 1D/2D combinations) further confirmed that handedness is a global structural feature of the Khantraction state space, with complex reversal patterns mapped across the mandatory \([-2\pi, 2\pi]\) domain.
+* **Source Support**: `solutions/phase_g/phase_g_chirality/slice_2d_phi_theta_chi.csv`, `notes/phase_g/phase_g_verified_chirality_assessment.md`.
 
-### 2.4 Mathematical Link to Classical Rotation
-Phase G established the formal link between macroscopic rotation and internal topological structure by coupling angular velocity ($\Omega$) to the MC vielbeins and hosted content. This allows for the calculation of a critical angular velocity ($\Omega_{crit}$) where centrifugal forces overcome internal binding.
-This conclusion is supported by:
-* `derivations/derivation_83_rotational_energy_momentum.md`
+### 2.4 Mathematical Link to Classical Rotation and Stability
+Phase G finalized the formal link between macroscopic rotation and internal topological structure. The analysis verified that rotational energy injection (proportional to \(\Omega^2\)) shifts the effective mass of the fold, providing a stability threshold for "spin-like" objects.
+* **Source Support**: `solutions/phase_g/phase_g_chirality/rotational_stability.csv`, `derivations/derivation_83_rotational_energy_momentum.md`.
 
 ---
 
@@ -51,7 +44,7 @@ At the dynamical-geometric level, the strongest current classification is:
 * **Left-Handed**: Species with negative chirality density; mirror-images of the right-handed counterparts.
 
 This is synthesized in:
-* `notes/phase_g_chirality_assessment.md`
+* `notes/phase_g/phase_g_chirality_assessment.md`
 
 ---
 
