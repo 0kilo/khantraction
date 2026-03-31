@@ -16,20 +16,26 @@ Khantraction sits at the crossroads of geometry and field theory. The motivating
 
 ### 2.1 The Ordered Quaternion Map
 The foundational state map of Khantraction is the ordered factorized quaternionic construction:
+
 $$
 Q(\omega, \theta, \phi, \rho) = e^{\omega} e^{\theta i} e^{\phi j} e^{\rho k}
 $$
+
 where $\omega > 0$ serves as the scale coordinate and $(\theta, \phi, \rho) \in [-2\pi, 2\pi]$ are independent internal angles [Phase A, 2.1; `notes/phase_a/phase_a_synthesis_2026-03-28.md`]. The Jacobian determinant law $\det J = e^{4\omega}\cos(2\phi)$ establishes that $\phi$ controls the chart's singularity architecture [Phase A, 2.3; `derivations/derivation_72_phase_a_jacobian_singularity_structure.md`]. Structurally, $\phi$ acts as an orthogonal separator that determines the coupling geometry of the $(\theta, \rho)$ pair [Phase A, 2.4; `analysis/phase_a/phase_a_channel_role_hypothesis.py`].
 
 ### 2.2 Lagrangian and Symmetry Breaking
 The model employs a nonminimal coupling between the glue field $q$ and curvature $R$:
+
 $$
 \mathcal L=\sqrt{-g}\left[\tfrac{1}{2}g^{\mu\nu}\partial_\mu q \partial_\nu \bar{q} -U(|q|)+\xi R|q|^2\right]
 $$
+
 Early linear Euclidean integrations revealed a strict $O(4)$ degeneracy, rendering the macroscopic profiles blind to internal angular configurations [Phase B, 2.4; `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`]. This was resolved by upgrading the theory to a **Non-Linear Sigma Model (NLSM)** using an anisotropic Maurer-Cartan interaction:
+
 $$
 \mathcal{L}_{MC} = \sum_{a=1}^3 \beta_a (\Omega^a)^2
 $$
+
 where $\Omega^a$ are left-invariant vielbeins [Phase C, 2.2; `derivations/derivation_78_maurer_cartan_tensor.md`]. This explicitly breaks the Euclidean symmetry, forcing the radial solver to "feel" the internal $\mathfrak{su}(2)$ algebra and imprinting unique macroscopic traits onto the species [Phase C, 2.3; `derivations/derivation_79_einstein_trace_with_mc_breaking.md`].
 
 ---
