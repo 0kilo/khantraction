@@ -39,10 +39,10 @@ without further justification, because quaternion units do not commute.
 ## 3. Roles of the parameters
 
 The present working interpretation is:
-- \(\omega\) = **scale factor**
-- \(\theta,\phi,\rho\) = **distinct internal angles**
+- $\omega$ = **scale factor**
+- $\theta,\phi,\rho$ = **distinct internal angles**
 
-So the project should now treat \(\omega\) differently from the angular variables.
+So the project should now treat $\omega$ differently from the angular variables.
 
 The angular variables are not to be assumed equivalent unless future analysis proves that.
 
@@ -50,7 +50,7 @@ The angular variables are not to be assumed equivalent unless future analysis pr
 
 ## 4. Elementary factor expansions
 
-Since \(\omega\) is real,
+Since $\omega$ is real,
 $$
 e^{\omega}=\cosh\omega+\sinh\omega = e^{\omega}.
 $$
@@ -137,7 +137,7 @@ $$
 
 ## 7. Immediate structural observation
 
-The scale factor \(\omega\) multiplies all four components uniformly.
+The scale factor $\omega$ multiplies all four components uniformly.
 
 That means the angular structure is entirely encoded in the normalized quaternion
 $$
@@ -145,8 +145,8 @@ $$
 $$
 
 So future work should distinguish carefully between:
-- overall scaling effects carried by \(\omega\),
-- and orientation / internal-state effects carried by \(\theta,\phi,\rho\).
+- overall scaling effects carried by $\omega$,
+- and orientation / internal-state effects carried by $\theta,\phi,\rho$.
 
 ---
 
@@ -164,8 +164,8 @@ $$
 K_{ij}=\frac{\partial x_i}{\partial \alpha_j}.
 $$
 
-### 8.1 Derivatives with respect to \(\omega\)
-Because every component carries the factor \(e^{\omega}\),
+### 8.1 Derivatives with respect to $\omega$
+Because every component carries the factor $e^{\omega}$,
 $$
 \frac{\partial x_0}{\partial\omega}=x_0,
 \qquad
@@ -176,7 +176,7 @@ $$
 \frac{\partial x_3}{\partial\omega}=x_3.
 $$
 
-### 8.2 Derivatives with respect to \(\theta\)
+### 8.2 Derivatives with respect to $\theta$
 $$
 \frac{\partial a}{\partial\theta}=-\sin\theta\cos\phi\cos\rho-\cos\theta\sin\phi\sin\rho,
 $$
@@ -190,7 +190,7 @@ $$
 \frac{\partial d}{\partial\theta}=-\sin\theta\cos\phi\sin\rho+\cos\theta\sin\phi\cos\rho.
 $$
 
-### 8.3 Derivatives with respect to \(\phi\)
+### 8.3 Derivatives with respect to $\phi$
 $$
 \frac{\partial a}{\partial\phi}=-\cos\theta\sin\phi\cos\rho-\sin\theta\cos\phi\sin\rho,
 $$
@@ -204,7 +204,7 @@ $$
 \frac{\partial d}{\partial\phi}=-\cos\theta\sin\phi\sin\rho+\sin\theta\cos\phi\cos\rho.
 $$
 
-### 8.4 Derivatives with respect to \(\rho\)
+### 8.4 Derivatives with respect to $\rho$
 $$
 \frac{\partial a}{\partial\rho}=-\cos\theta\cos\phi\sin\rho-\sin\theta\sin\phi\cos\rho,
 $$
@@ -215,7 +215,7 @@ $$
 \frac{\partial c}{\partial\rho}=-\cos\theta\sin\phi\sin\rho-\sin\theta\cos\phi\cos\rho,
 $$
 $$
-\frac{\partial d}{\partial\rho}=\cos\theta\cos\phi\cos\rho-\sin\theta\sin\phi\sin\rho = a.
+\frac{\partial d}{\partial\rho}=\cos\theta\cos\phi\sin\rho+\sin\theta\sin\phi\cos\rho = a.
 $$
 
 So for angular directions,
@@ -232,20 +232,20 @@ $$
 ## 9. Why the Jacobian matters
 
 The Jacobian tells us how sensitively the quaternion state depends on:
-- scale changes \(\omega\),
-- \(\theta\)-variations,
-- \(\phi\)-variations,
-- and \(\rho\)-variations.
+- scale changes $\omega$,
+- $\theta$-variations,
+- $\phi$-variations,
+- and $\rho$-variations.
 
 This is exactly why the project now needs to restart from this level.
 
-If \(\theta,\phi,\rho\) encode genuinely distinct characteristics, the Jacobian is one of the first places where those differences should be analyzed systematically.
+If $\theta,\phi,\rho$ encode genuinely distinct characteristics, the Jacobian is one of the first places where those differences should be analyzed systematically.
 
 ---
 
 ## 10. Current methodological caution
 
-The recent structured-object / spin / proto-spectrum work may have over-focused on the \(\theta\)-channel before \(\phi\) and \(\rho\) were explored on equal footing.
+The recent structured-object / spin / proto-spectrum work may have over-focused on the $\theta$-channel before $\phi$ and $\rho$ were explored on equal footing.
 
 So the correct next-stage methodology is:
 - do **not** assume one angle dominates universally,
@@ -256,7 +256,7 @@ So the correct next-stage methodology is:
 
 ## 11. Recommended next steps from this clean foundation
 
-1. Compare the three angular channels \(\theta,\phi,\rho\) symmetrically at the classical level.
+1. Compare the three angular channels $\theta,\phi,\rho$ symmetrically at the classical level.
 2. Examine Jacobian structure channel by channel rather than reading everything through one preferred angle.
 3. Rebuild any later fluctuation or proto-spectrum story only after that symmetric angular treatment is in place.
 
@@ -268,4 +268,4 @@ So the correct next-stage methodology is:
 $$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k},
 $$
-with \(\omega\) as scale and \(\theta,\phi,\rho\) as distinct internal angles. The explicit component formulas and Jacobian above should now be treated as the active foundation from which the next phase of work restarts.
+with $\omega$ as scale and $\theta,\phi,\rho$ as distinct internal angles. The explicit component formulas and Jacobian above should now be treated as the active foundation from which the next phase of work restarts.

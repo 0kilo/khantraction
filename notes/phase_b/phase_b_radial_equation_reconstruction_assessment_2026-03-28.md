@@ -19,7 +19,7 @@ At least the component field equations have now been written explicitly from the
 
 ## What this derivation gives
 
-The new derivation establishes that each component \(q_A \in \{a,b,c,d\}\) obeys the same radial operator:
+The new derivation establishes that each component $q_A \in \{a,b,c,d\}$ obeys the same radial operator:
 \[
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
 \]
@@ -35,7 +35,7 @@ So the full norm-based toy model is matter-symmetric at the component-equation l
 This still does **not** complete a trustworthy physical solver.
 The following remain to be reconstructed explicitly in the fresh tree:
 - Einstein-sector closure,
-- an eliminable or explicit formula for \(R\),
+- an eliminable or explicit formula for $R$,
 - boundary conditions,
 - continuation setup,
 - observable extraction formulas.
@@ -47,7 +47,7 @@ The derivation also clarifies something important for interpretation:
 > any later asymmetry among ordered variables is not built into unequal bare component equations here.
 
 It must instead arise from:
-- the ordered parameter embedding into \((a,b,c,d)\),
+- the ordered parameter embedding into $(a,b,c,d)$,
 - nonlinear norm coupling,
 - geometry closure,
 - boundary conditions,

@@ -8,13 +8,13 @@
 
 This note starts the next Phase A task:
 
-> compare \(\theta,\phi,\rho\) using quantities that are less tied to raw determinant-zero language and more tied to the geometry of the angular tangent bundle itself.
+> compare $\theta,\phi,\rho$ using quantities that are less tied to raw determinant-zero language and more tied to the geometry of the angular tangent bundle itself.
 
 ## Why this is needed
 
 So far Phase A has shown:
 - local angular independence away from singular slices,
-- singular sheets controlled by \(\phi\),
+- singular sheets controlled by $\phi$,
 - and very clean 1D/2D slice behavior.
 
 But determinant language alone can over-focus attention on singularity structure.
@@ -34,20 +34,20 @@ Outputs are stored under:
 
 ## Diagnostics used
 
-For the angular Jacobian columns \((\partial_\theta Q, \partial_\phi Q, \partial_\rho Q)\), compute:
+For the angular Jacobian columns $(\partial_\theta Q, \partial_\phi Q, \partial_\rho Q)$, compute:
 - individual tangent norms,
 - pairwise cosine overlaps,
 - the angular Gram matrix,
 - its singular values,
 - and the resulting condition number.
 
-These are still chart-derived quantities, but they are more geometric than using only \(\det J\).
+These are still chart-derived quantities, but they are more geometric than using only $\det J$.
 
 ## What to look for
 
 The key interpretive tests are:
-1. Does \(\phi\) only control singularity, or does it also distort the full angular tangent spectrum more strongly than \(\theta\) and \(\rho\)?
-2. Away from singular sheets, do \(\theta\) and \(\rho\) remain nearly symmetric while \(\phi\) acts differently?
+1. Does $\phi$ only control singularity, or does it also distort the full angular tangent spectrum more strongly than $\theta$ and $\rho$?
+2. Away from singular sheets, do $\theta$ and $\rho$ remain nearly symmetric while $\phi$ acts differently?
 3. At regular points, are all three channels still equally strong in norm, with differences showing up mainly in overlap/coupling structure?
 
 ## Interpretation target

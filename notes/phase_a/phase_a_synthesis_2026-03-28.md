@@ -11,8 +11,8 @@ This note consolidates what Phase A has actually established so far about the or
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k},
 \]
 using the active domain convention:
-- \(\omega>0\)
-- \(\theta,\phi,\rho\in[-2\pi,2\pi]\)
+- $\omega>0$
+- $\theta,\phi,\rho\in[-2\pi,2\pi]$
 - no redundancy quotienting
 
 The aim is to state clearly what now seems robust, what remains interpretive, and what still belongs to later phases.
@@ -22,8 +22,8 @@ The aim is to state clearly what now seems robust, what remains interpretive, an
 ## 2. What Phase A was trying to answer
 
 Phase A asked, at minimum:
-1. Is \(\omega\) cleanly separable as a scale factor?
-2. Are \(\theta,\phi,\rho\) genuinely distinct channels in the ordered map?
+1. Is $\omega$ cleanly separable as a scale factor?
+2. Are $\theta,\phi,\rho$ genuinely distinct channels in the ordered map?
 3. Is there a meaningful asymmetry among the angular variables?
 4. Which apparent asymmetries are chart-geometric, and which might later matter physically?
 
@@ -34,19 +34,19 @@ That no longer looks like the right reading.
 
 ## 3. Strong results now established
 
-### 3.1 \(\omega\) is a pure scale coordinate
+### 3.1 $\omega$ is a pure scale coordinate
 
 This is now the cleanest result of all.
 
-Every component carries the same multiplicative factor \(e^{\omega}\), and the angular tangent norms satisfy
+Every component carries the same multiplicative factor $e^{\omega}$, and the angular tangent norms satisfy
 \[
 \|\partial_\theta Q\|=\|\partial_\phi Q\|=\|\partial_\rho Q\|=e^{\omega}
 \]
-up to numerical precision across the stress-tested positive-\(\omega\) range.
+up to numerical precision across the stress-tested positive-$\omega$ range.
 
 So the current best statement is:
 
-> \(\omega\) sets overall scale magnitude and does not alter the internal angular overlap geometry except through uniform rescaling.
+> $\omega$ sets overall scale magnitude and does not alter the internal angular overlap geometry except through uniform rescaling.
 
 ---
 
@@ -54,12 +54,12 @@ So the current best statement is:
 
 Away from singular sheets, the map has full local rank and the angular directions are genuinely locally independent.
 
-So \(\theta,\phi,\rho\) are not merely redundant names for one local angular degree of freedom.
+So $\theta,\phi,\rho$ are not merely redundant names for one local angular degree of freedom.
 They define three genuine local tangent directions on the ordered-state manifold wherever the chart is regular.
 
 ---
 
-### 3.3 The chart singularity architecture is controlled by \(\phi\)
+### 3.3 The chart singularity architecture is controlled by $\phi$
 
 A major Phase A result is the determinant law
 \[
@@ -71,17 +71,17 @@ Therefore singular sheets occur exactly at
 \phi=\frac{\pi}{4}+\frac{n\pi}{2}.
 \]
 
-Inside the current working box \([-2\pi,2\pi]\), those are the repeated slices
-- \(\pm\pi/4\)
-- \(\pm 3\pi/4\)
-- \(\pm 5\pi/4\)
-- \(\pm 7\pi/4\)
+Inside the current working box $[-2\pi,2\pi]$, those are the repeated slices
+- $\pm\pi/4$
+- $\pm 3\pi/4$
+- $\pm 5\pi/4$
+- $\pm 7\pi/4$
 
 The wider active angle box does not change the law; it just makes the repeated-sheet structure explicit.
 
 ---
 
-### 3.4 \(\phi\) is not stronger in norm — it is different in role
+### 3.4 $\phi$ is not stronger in norm — it is different in role
 
 This is the conceptual turning point of Phase A.
 
@@ -99,26 +99,26 @@ across the sampled domain to essentially machine precision, while
 \cos(\partial_\theta Q,\partial_\rho Q)\in[-1,1].
 \]
 
-So \(\phi\) stays almost perfectly orthogonal to both \(\theta\) and \(\rho\), while the relation between \(\theta\) and \(\rho\) sweeps through the full alignment range.
+So $\phi$ stays almost perfectly orthogonal to both $\theta$ and $\rho$, while the relation between $\theta$ and $\rho$ sweeps through the full alignment range.
 
 This supports the mapping-level hypothesis:
 
-> \(\phi\) acts as a separator / mixing-control channel for the paired directions \(\theta\) and \(\rho\), rather than as just one more symmetric peer.
+> $\phi$ acts as a separator / mixing-control channel for the paired directions $\theta$ and $\rho$, rather than as just one more symmetric peer.
 
 ---
 
-### 3.5 The \((\theta,\rho)\) pair is the active relational subsystem
+### 3.5 The $(\theta,\rho)$ pair is the active relational subsystem
 
 The explicit slice studies made this visible.
 
-- Holding \(\phi=0\), the \((\theta,\rho)\)-plane remains regular across the sampled box.
-- Holding \(\phi=\pi/4\), the entire \((\theta,\rho)\)-plane becomes singular.
-- Varying \(\phi\) with \((\theta,\rho)\) fixed exposes repeated singular crossings directly.
-- Varying \(\theta\) or \(\rho\) with regular fixed \(\phi\) does not induce singularity by itself.
+- Holding $\phi=0$, the $(\theta,\rho)$-plane remains regular across the sampled box.
+- Holding $\phi=\pi/4$, the entire $(\theta,\rho)$-plane becomes singular.
+- Varying $\phi$ with $(\theta,\rho)$ fixed exposes repeated singular crossings directly.
+- Varying $\theta$ or $\rho$ with regular fixed $\phi$ does not induce singularity by itself.
 
 So the current clean picture is:
 
-> the map contains a paired internal subsystem \((\theta,\rho)\), and \(\phi\) determines whether that subsystem remains locally distinct or collapses into local alignment/anti-alignment.
+> the map contains a paired internal subsystem $(\theta,\rho)$, and $\phi$ determines whether that subsystem remains locally distinct or collapses into local alignment/anti-alignment.
 
 ---
 
@@ -126,9 +126,9 @@ So the current clean picture is:
 
 At the purely mapping-geometric level, the strongest current role assignment is:
 
-- **\(\omega\)** = scale coordinate
-- **\(\phi\)** = separator / mixing-control coordinate
-- **\(\theta\), \(\rho\)** = paired internal structural directions
+- **$\omega$** = scale coordinate
+- **$\phi$** = separator / mixing-control coordinate
+- **$\theta$, $\rho$** = paired internal structural directions
 
 This is the first role assignment in the project that feels both precise and genuinely earned by the calculations.
 
@@ -174,7 +174,7 @@ It says something sharper:
 - scale is separate,
 - the three angular channels are equally strong in norm,
 - but not equal in relational role,
-- and \(\phi\) is structurally special because it governs the coupling geometry of the \((\theta,\rho)\) pair.
+- and $\phi$ is structurally special because it governs the coupling geometry of the $(\theta,\rho)$ pair.
 
 That is exactly the kind of disciplined foundation Phase A was supposed to deliver.
 
@@ -187,9 +187,9 @@ That is exactly the kind of disciplined foundation Phase A was supposed to deliv
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
 \]
 is best read as:
-- one pure scale degree of freedom \(\omega\),
-- plus a three-angle internal geometry in which \(\phi\) is an orthogonal separator / mixing controller,
-- and \(\theta,\rho\) form the paired internal directions whose relative relation is being modulated.
+- one pure scale degree of freedom $\omega$,
+- plus a three-angle internal geometry in which $\phi$ is an orthogonal separator / mixing controller,
+- and $\theta,\rho$ form the paired internal directions whose relative relation is being modulated.
 
 That is not yet the full classical object story.
 But it is now a strong and coherent parameter-foundation result.

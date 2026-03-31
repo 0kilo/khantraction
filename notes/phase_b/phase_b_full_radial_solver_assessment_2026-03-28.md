@@ -21,7 +21,7 @@ Using `derivations/derivation_73_full_four_component_radial_system_fresh_start.m
 \[
 q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
 \]
-for \(q_A \in \{a,b,c,d\}\) and \(|q|^2=a^2+b^2+c^2+d^2\).
+for $q_A \in \{a,b,c,d\}$ and $|q|^2=a^2+b^2+c^2+d^2$.
 
 ### 1.2 Ordered-state seeding layer
 
@@ -32,16 +32,16 @@ Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
 into component directions.
 
 The active convention is preserved explicitly:
-- \(\omega > 0\)
-- \(\theta,\phi,\rho \in [-2\pi, 2\pi]\)
+- $\omega > 0$
+- $\theta,\phi,\rho \in [-2\pi, 2\pi]$
 - no redundancy quotienting
 
 ### 1.3 Einstein-sector reconstruction used by the runtime
 
-The fresh tree still does **not** uniquely derive the full Einstein equations for the nonminimal coupling term \(\xi R |q|^2\).
+The fresh tree still does **not** uniquely derive the full Einstein equations for the nonminimal coupling term $\xi R |q|^2$.
 So the runtime uses an explicit provisional closure mode:
 
-- a standard static scalar-multiplet stress model for \(\rho\), \(p_r\), and \(p_t\)
+- a standard static scalar-multiplet stress model for $\rho$, $p_r$, and $p_t$
 - Misner–Sharp closure
   \[
   m' = 4\pi r^2 \rho
@@ -56,7 +56,7 @@ So the runtime uses an explicit provisional closure mode:
   \qquad
   T = -\rho + p_r + 2 p_t
   \]
-  with \(\kappa = 8\pi\)
+  with $\kappa = 8\pi$
 
 This is a **reconstructed closure choice**, not a uniquely justified fresh-tree derivation of the full nonminimal-coupling Einstein sector.
 That limitation is recorded in machine-readable form in:
@@ -66,9 +66,9 @@ That limitation is recorded in machine-readable form in:
 
 Because the paper and active notes do not yet supply a full asymptotically matched BVP prescription, the implemented runtime uses a regular-origin IVP/continuation strategy:
 
-- \(q_A'(r_0)=0\) at small \(r_0\)
-- \(m(r_0)\) initialized from the local energy density
-- \(\Phi(r_0)=0\) as a gauge choice
+- $q_A'(r_0)=0$ at small $r_0$
+- $m(r_0)$ initialized from the local energy density
+- $\Phi(r_0)=0$ as a gauge choice
 - ordered-state seeds mapped into small central component amplitudes via
   \[
   q_A(r_0) = A_0 e^{\omega} \hat q_A(\theta,\phi,\rho)
@@ -109,7 +109,7 @@ The runtime includes:
   - regularity checks
 - observable extraction for:
   - final mass
-  - integrated \(|R|\)
+  - integrated $|R|$
   - mass half-radius and 90% radius
   - Ricci half-radius and 90% radius
   - settling radius
@@ -131,7 +131,7 @@ From `solutions/phase_b/phase_b_full_radial_solver/run_summary.json`:
 
 Reported ranges in this closure mode:
 - final mass range: **0.048671600859654246 to 0.17822380681078998**
-- integrated \(|R|\) range: **0.003527253379195638 to 0.012931544814019142**
+- integrated $|R|$ range: **0.003527253379195638 to 0.012931544814019142**
 - peak imaginary/real ratio range: **0.0 to 32974425414.002563**
 
 That last extreme ratio is not a claim of a physically validated gigantic richness scale by itself.
@@ -149,7 +149,7 @@ That is a real runtime result.
 
 The largest remaining gap is still the same one identified in the reconstruction note:
 
-> the fresh tree does not yet contain a uniquely justified full Einstein-sector derivation for the nonminimal \(\xi R|q|^2\) model.
+> the fresh tree does not yet contain a uniquely justified full Einstein-sector derivation for the nonminimal $\xi R|q|^2$ model.
 
 So the current solver is **real** but **closure-provisional**.
 
@@ -197,7 +197,7 @@ It is also the correct level of restraint.
 
 The most important next step is now very specific:
 
-1. derive the full Einstein equations for the \(\xi R |q|^2\) system in the same fresh-tree notation
+1. derive the full Einstein equations for the $\xi R |q|^2$ system in the same fresh-tree notation
 2. decide whether the current provisional closure survives that derivation or needs correction
 3. then upgrade the solver from IVP-continuation diagnostics to a stronger asymptotic matching / continuation solver if justified
 
@@ -205,4 +205,4 @@ The most important next step is now very specific:
 
 ## 7. Bottom line
 
-**Bottom line:** a real Phase B full radial solver/runtime now exists in the fresh tree and produces reproducible runs plus structured diagnostics across ordered-state scans. The matter-side four-component system is implemented, continuation hooks work, and seeded runs complete cleanly in the current provisional closure. But the Einstein-sector closure for the nonminimal \(\xi R|q|^2\) model remains incompletely derived in the active materials, so all current physical branch and observable claims should still be treated as provisional to that closure choice.
+**Bottom line:** a real Phase B full radial solver/runtime now exists in the fresh tree and produces reproducible runs plus structured diagnostics across ordered-state scans. The matter-side four-component system is implemented, continuation hooks work, and seeded runs complete cleanly in the current provisional closure. But the Einstein-sector closure for the nonminimal $\xi R|q|^2$ model remains incompletely derived in the active materials, so all current physical branch and observable claims should still be treated as provisional to that closure choice.

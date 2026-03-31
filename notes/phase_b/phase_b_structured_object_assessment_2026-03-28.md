@@ -33,9 +33,9 @@ That matches the workflow rule in `notes/implementation_workflow.md`:
 
 Phase A is now treated as closed.
 Its main handoff is:
-- \(\omega\) = pure scale coordinate
-- \(\phi\) = orthogonal separator / mixing-control coordinate
-- \(\theta,\rho\) = paired internal structural directions
+- $\omega$ = pure scale coordinate
+- $\phi$ = orthogonal separator / mixing-control coordinate
+- $\theta,\rho$ = paired internal structural directions
 
 That matters because Phase B should **not** revisit the parameter-foundation question.
 Instead, it should ask whether the actual solution family supports a genuine structured-object interpretation.
@@ -128,7 +128,7 @@ Even if Phase B goes well, it should still avoid claiming:
 - literal point particles,
 - validated Standard Model objects,
 - hard species/topology labels,
-- or trait assignments to \(\theta,\phi,\rho\) before Phase C.
+- or trait assignments to $\theta,\phi,\rho$ before Phase C.
 
 Phase B is about **objecthood**, not yet full trait decomposition.
 

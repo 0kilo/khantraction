@@ -26,11 +26,11 @@ Extensive mirror-pair tests confirmed that macroscopic traits (mass and $r_{half
 * **Source Support**: `solutions/phase_g/phase_g_chirality/mirror_pair_results.csv`, `notes/phase_g/phase_g_verified_chirality_assessment.md`.
 
 ### 2.3 Identification of Chiral Enantiomers and Exhaustive Protocol
-Numerical analysis validated that for any "rich" quaternion species, a corresponding enantiomer exists. The **Exhaustive Protocol** (all 6 1D/2D combinations) further confirmed that handedness is a global structural feature of the Khantraction state space, with complex reversal patterns mapped across the mandatory \([-2\pi, 2\pi]\) domain.
+Numerical analysis validated that for any "rich" quaternion species, a corresponding enantiomer exists. The **Exhaustive Protocol** (all 6 1D/2D combinations) further confirmed that handedness is a global structural feature of the Khantraction state space, with complex reversal patterns mapped across the mandatory $[-2\pi, 2\pi]$ domain.
 * **Source Support**: `solutions/phase_g/phase_g_chirality/slice_2d_phi_theta_chi.csv`, `notes/phase_g/phase_g_verified_chirality_assessment.md`.
 
 ### 2.4 Mathematical Link to Classical Rotation and Stability
-Phase G finalized the formal link between macroscopic rotation and internal topological structure. The analysis verified that rotational energy injection (proportional to \(\Omega^2\)) shifts the effective mass of the fold, providing a stability threshold for "spin-like" objects.
+Phase G finalized the formal link between macroscopic rotation and internal topological structure. The analysis verified that rotational energy injection (proportional to $\Omega^2$) shifts the effective mass of the fold, providing a stability threshold for "spin-like" objects.
 * **Source Support**: `solutions/phase_g/phase_g_chirality/rotational_stability.csv`, `derivations/derivation_83_rotational_energy_momentum.md`.
 
 ---

@@ -14,8 +14,8 @@ Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
 before stronger structured-object or particle-facing interpretation.
 
 The active working convention during this phase was:
-- \(\omega>0\)
-- \(\theta,\phi,\rho\in[-2\pi,2\pi]\)
+- $\omega>0$
+- $\theta,\phi,\rho\in[-2\pi,2\pi]$
 - no redundancy quotienting
 
 The key burden of proof was:
@@ -28,7 +28,7 @@ The key burden of proof was:
 
 ## 2. Final Phase A conclusions
 
-### 2.1 \(\omega\) is a pure scale coordinate
+### 2.1 $\omega$ is a pure scale coordinate
 
 This is the cleanest result of the phase.
 
@@ -40,7 +40,7 @@ up to numerical precision.
 
 So the current best statement is:
 
-> \(\omega\) controls overall scale magnitude and does not change the internal angular overlap geometry except through uniform rescaling.
+> $\omega$ controls overall scale magnitude and does not change the internal angular overlap geometry except through uniform rescaling.
 
 This conclusion is supported by:
 - `analysis/phase_a/phase_avation_71_exponential_quaternion_parameter_mapping_clean.md`
@@ -56,7 +56,7 @@ This conclusion is supported by:
 
 ---
 
-### 2.2 \(\theta,\phi,\rho\) are genuinely distinct local angular directions
+### 2.2 $\theta,\phi,\rho$ are genuinely distinct local angular directions
 
 Away from singular sheets, the ordered map has full local rank and the angular directions are locally independent.
 
@@ -74,7 +74,7 @@ Thianalysis/phase_a/phase_asupported by:
 
 ---
 
-### 2.3 The chart singularity architecture is controlled by \(\phi\)
+### 2.3 The chart singularity architecture is controlled by $\phi$
 
 A central Phase A result is the determinant law
 \[
@@ -88,11 +88,11 @@ Therefore the singular condition is
 \phi=\frac{\pi}{4}+\frac{n\pi}{2}.
 \]
 
-Within the active domain \([-2\pi,2\pi]\), this yields the repeated singular slices
-- \(\pm\pi/4\)
-- \(\pm 3\pi/4\)
-- \(\pm 5\pi/4\)
-- \(\pm 7\pi/4\)
+Within the active domain $[-2\pi,2\pi]$, this yields the repeated singular slices
+- $\pm\pi/4$
+- $\pm 3\pi/4$
+- $\pm 5\pi/4$
+- $\pm 7\pi/4$
 
 The widened angle box did not alter the singular law; it exposed its repeated-sheet structure explicitly.
 analysis/phase_a/phase_a
@@ -123,12 +123,12 @@ while
 \cos(\partial_\theta Q,\partial_\rho Q)\in[-1,1].
 \]
 
-So \(\phi\) remains almost perfectly orthogonal to both \(\theta\) and \(\rho\), while the relation between \(\theta\) and \(\rho\) sweeps through the full alignment range.
+So $\phi$ remains almost perfectly orthogonal to both $\theta$ and $\rho$, while the relation between $\theta$ and $\rho$ sweeps through the full alignment range.
 
 This means the strongest Phase A asymmetry is not “phi is bigger.”
 It is:
 
-> \(\phi\) is structurally special because it controls the coupling geometry of the \((\theta,\rho)\) pair.
+> $\phi$ is structurally special because it controls the coupling geometry of the $(\theta,\rho)$ pair.
 analysis/phase_a/phase_a
 Thianalysis/phase_a/phase_ale" conclusion was specifically isolated and verified by:
 - `analysis/phase_a/phase_a_channel_role_hypothesis.py` (Primary verification of the separation role)
@@ -153,19 +153,19 @@ Thianalysis/phase_a/phase_ale" conclusion was specifically isolated and verified
 
 ---
 
-### 2.5 \(\theta\) and \(\rho\) form the active paired subsystem
+### 2.5 $\theta$ and $\rho$ form the active paired subsystem
 
 The explicit 1D and 2D slice studies made the geometry easy to see.
 
 Findings:
-- varying \(\phi\) with \((\theta,\rho)\) fixed directly exposes repeated singular crossings,
-- varying \(\theta\) or \(\rho\) with regular fixed \(\phi\) does not by itself create singularity,
-- the \((\theta,\rho)\)-plane with fixed \(\phi=0\) is regular,
-- the \((\theta,\rho)\)-plane with fixed \(\phi=\pi/4\) is singular everywhere sampled.
+- varying $\phi$ with $(\theta,\rho)$ fixed directly exposes repeated singular crossings,
+- varying $\theta$ or $\rho$ with regular fixed $\phi$ does not by itself create singularity,
+- the $(\theta,\rho)$-plane with fixed $\phi=0$ is regular,
+- the $(\theta,\rho)$-plane with fixed $\phi=\pi/4$ is singular everywhere sampled.
 
 So the best current statement is:
 
-> the ordered map contains a paired internal subsystem \((\theta,\rho)\), and \(\phi\) determines whether that subsystem remains locally distinct or collapses into local alignment/anti-alignment.
+> the ordered map contains a paired internal subsystem $(\theta,\rho)$, and $\phi$ determines whether that subsystem remains locally distinct or collapses into local alignment/anti-alignment.
 analysis/phase_a/phase_a
 This conclusion is supported by:
 - `analysis/phase_a_slice_studies.py`
@@ -190,9 +190,9 @@ This conclusion is supported by:
 
 At the mapping-geometric level, the strongest current role assignment is:
 
-- **\(\omega\)** = scale coordinate
-- **\(\phi\)** = orthogonal separator / mixing-control coordinate
-- **\(\theta\), \(\rho\)** = paired internal structural directions
+- **$\omega$** = scale coordinate
+- **$\phi$** = orthogonal separator / mixing-control coordinate
+- **$\theta$, $\rho$** = paired internal structural directions
 
 This is the cleanest distilled result of Phase A.
 
@@ -233,9 +233,9 @@ At this point, more Phase A work would likely repeat the same foundational concl
 
 The recommended handoff from Phase A is:
 
-- take \(\omega\) as the established scale coordinate,
-- take \(\phi\) as the established separator / mixing-control channel,
-- take \(\theta,\rho\) as the established paired internal directions,
+- take $\omega$ as the established scale coordinate,
+- take $\phi$ as the established separator / mixing-control channel,
+- take $\theta,\rho$ as the established paired internal directions,
 - and test in later phases whether these mapping-level roles correlate with:
   - structured-object traits,
   - concentration / compactness changes,
@@ -249,4 +249,4 @@ That is the right way to let Phase A inform Phase B and Phase C without overexte
 
 ## 7. Bottom line
 
-**Bottom line:** Phase A successfully rebuilt the ordered quaternion parameter foundation for Khantraction. The phase established one pure scale coordinate \(\omega\), a repeated singular-sheet architecture controlled by \(\phi\), equal-strength angular channels in norm, and a stable relational role picture in which \(\phi\) acts as an orthogonal separator / mixing controller for the paired directions \(\theta\) and \(\rho\). This is now a sufficiently coherent and stress-tested foundation to treat Phase A as complete and move on to later classical structured-object work.
+**Bottom line:** Phase A successfully rebuilt the ordered quaternion parameter foundation for Khantraction. The phase established one pure scale coordinate $\omega$, a repeated singular-sheet architecture controlled by $\phi$, equal-strength angular channels in norm, and a stable relational role picture in which $\phi$ acts as an orthogonal separator / mixing controller for the paired directions $\theta$ and $\rho$. This is now a sufficiently coherent and stress-tested foundation to treat Phase A as complete and move on to later classical structured-object work.

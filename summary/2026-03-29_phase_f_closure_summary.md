@@ -23,7 +23,7 @@ A critical physical discovery of Phase F is the **signed loading asymmetry**. By
 * **Source Support**: `solutions/phase_f/phase_f_hosting/signed_loading_test.csv`, `notes/phase_f/phase_f_verified_hosting_assessment.md`.
 
 ### 2.3 Angular Hosting Map and Global Sensitivity
-Phase F executed an **Exhaustive Protocol** (all 6 1D/2D combinations) to identify hosting sensitivity across the full \([-2\pi, 2\pi]\) domain. The analysis confirmed that while \(\phi\) is the primary controller of hosting basins, the trapping efficiency is a global property of the spacetime-fold, with complex interference patterns appearing in the 2D sector.
+Phase F executed an **Exhaustive Protocol** (all 6 1D/2D combinations) to identify hosting sensitivity across the full $[-2\pi, 2\pi]$ domain. The analysis confirmed that while $\phi$ is the primary controller of hosting basins, the trapping efficiency is a global property of the spacetime-fold, with complex interference patterns appearing in the 2D sector.
 * **Source Support**: `solutions/phase_f/phase_f_hosting/slice_2d_phi_theta.csv`, `notes/phase_f/phase_f_verified_hosting_assessment.md`.
 
 

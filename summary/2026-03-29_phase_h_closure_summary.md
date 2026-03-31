@@ -27,13 +27,13 @@ This conclusion is supported by:
 * `notes/phase_h/phase_h_verified_quantum_assessment.md`
 
 ### 2.2 Discovery of Enantiomeric and Loading Splitting
-A critical discovery was made regarding the relationship between internal structure and quantum energy. While mirror-pair enantiomers were classically identical in mass, they exhibit a distinct energy gap in Phase H. Furthermore, the analysis verified **Loading Sensitivity** (Goal 3), showing that external field content linearly shifts the ground state energy (e.g., \(E_0 \approx 0.88\) to \(0.94\)), providing a geometric origin for charge-energy coupling.
+A critical discovery was made regarding the relationship between internal structure and quantum energy. While mirror-pair enantiomers were classically identical in mass, they exhibit a distinct energy gap in Phase H. Furthermore, the analysis verified **Loading Sensitivity** (Goal 3), showing that external field content linearly shifts the ground state energy (e.g., $E_0 \approx 0.88$ to $0.94$), providing a geometric origin for charge-energy coupling.
 This conclusion is supported by:
 * `solutions/phase_h/phase_h_quantum/loading_sensitivity.csv`
 * `notes/phase_h/phase_h_verified_quantum_assessment.md`
 
 ### 2.3 Persistence of Topological Identity and Exhaustive Mapping
-The excitation spectra vary significantly across the angular domain. The **Exhaustive Protocol** (all 6 1D/2D combinations) confirmed that discrete mode ladders are globally stable features of the spacetime-fold, with the ground state energy (\(E_0\)) shifting predictably based on the internal chirality density (\(\chi\)).
+The excitation spectra vary significantly across the angular domain. The **Exhaustive Protocol** (all 6 1D/2D combinations) confirmed that discrete mode ladders are globally stable features of the spacetime-fold, with the ground state energy ($E_0$) shifting predictably based on the internal chirality density ($\chi$).
 This conclusion is supported by:
 * `solutions/phase_h/phase_h_quantum/slice_2d_phi_theta_energy.csv`
 * `notes/phase_h/phase_h_verified_quantum_assessment.md`
