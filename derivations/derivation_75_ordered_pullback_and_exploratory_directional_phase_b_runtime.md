@@ -164,11 +164,7 @@ The project materials already point to two natural ordered invariants:
 So the runtime adds a clearly labeled exploratory directional potential
 
 $$
-V_{\rm dir}(w,\theta,\phi,\rho)
-=
-\frac{\eta}{2}e^{2w}\big(1-\cos^2(2\phi)\big)
-+
-\frac{\zeta}{2}e^{2w}\big(1-\cos(\theta-\rho)\big)\big(1+\cos(2\phi)\big).
+V_{\rm dir}(w,\theta,\phi,\rho) = \frac{\eta}{2}e^{2w}\big(1-\cos^2(2\phi)\big) + \frac{\zeta}{2}e^{2w}\big(1-\cos(\theta-\rho)\big)\big(1+\cos(2\phi)\big).
 $$
 
 In code, the tested values were
@@ -199,11 +195,7 @@ The runtime treats the ordered variables as generalized coordinates with kinetic
 The resulting ODE system is written in the standard sigma-model form
 
 $$
-\alpha^{i\prime\prime}
-+ \Gamma^i_{jk}(\alpha)\,\alpha^{j\prime}\alpha^{k\prime}
-+ \Big(\frac{2}{r}+\Phi'-\Lambda'\Big)\alpha^{i\prime}
-+ \frac{1}{A}G^{ij}\partial_j V_{\rm total}
-=0,
+\alpha^{i\prime\prime} + \Gamma^i_{jk}(\alpha)\,\alpha^{j\prime}\alpha^{k\prime} + \Big(\frac{2}{r}+\Phi'-\Lambda'\Big)\alpha^{i\prime} + \frac{1}{A}G^{ij}\partial_j V_{\rm total} = 0,
 $$
 
 with

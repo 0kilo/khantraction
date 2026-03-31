@@ -48,23 +48,23 @@ So the runtime uses an explicit provisional closure mode:
 - a standard static scalar-multiplet stress model for $\rho$, $p_r$, and $p_t$
 - Misner–Sharp closure
 
-  $$
-  m' = 4\pi r^2 \rho
-  $$
+$$
+m' = 4\pi r^2 \rho
+$$
 
 - metric-potential closure
 
-  $$
-  \Phi' = \frac{m + 4\pi r^3 p_r}{r(r-2m)}
-  $$
+$$
+\Phi' = \frac{m + 4\pi r^3 p_r}{r(r-2m)}
+$$
 
 - Ricci estimate from the Einstein trace
 
-  $$
-  R = -\kappa T,
-  \qquad
-  T = -\rho + p_r + 2 p_t
-  $$
+$$
+R = -\kappa T,
+\qquad
+T = -\rho + p_r + 2 p_t
+$$
 
   with $\kappa = 8\pi$
 
@@ -81,10 +81,10 @@ Because the paper and active notes do not yet supply a full asymptotically match
 - $\Phi(r_0)=0$ as a gauge choice
 - ordered-state seeds mapped into small central component amplitudes via
 
-  $$
-  q_A(r_0) = A_0 e^{\omega} \hat q_A(\theta,\phi,\rho)
-  $$
-  
+$$
+q_A(r_0) = A_0 e^{\omega} \hat q_A(\theta,\phi,\rho)
+$$
+
   with `central_amplitude_base = 0.02` and `\hat q_A` the normalized ordered-state direction
 
 This amplitude scaling was chosen because the earlier reduced successful profile quoted in `khantraction_paper.md` used a small regular-origin amplitude of order `0.02`.

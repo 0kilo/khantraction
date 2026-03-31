@@ -23,7 +23,9 @@ Notice that the internal algebraic generators $(i, j, k)$ become highly mixed as
 ## 2. The Failure of the Skyrme Term in 1D
 A standard topological symmetry breaker is the Skyrme term: $\mathcal{L}_{\text{Skyrme}} \propto \text{Tr}([\omega_\mu, \omega_\nu][\omega^\mu, \omega^\nu])$. 
 However, under a strict 1D static radial ansatz ($X^M = X^M(r)$), the only non-zero spatial derivative is $\partial_r$. Therefore:
+
 $$ [\omega_r, \omega_r] = 0 $$
+
 The commutator identically vanishes. To break $O(4)$ radially, we cannot rely on anti-symmetric topological commutators.
 
 ## 3. Anisotropic MC Coupling (The Solution)
@@ -42,7 +44,9 @@ By setting $\beta_1 \neq \beta_2 \neq \beta_3$, the radial solver will incur dif
 
 ## 4. Stress-Energy Contribution
 The variation of $\mathcal{L}_{\text{MC}}$ with respect to the metric yields its stress-energy contribution:
+
 $$ \delta T_{rr}^{\text{MC}} = \beta_1 (\omega_r^1)^2 + \beta_2 (\omega_r^2)^2 + \beta_3 (\omega_r^3)^2 $$
+
 $$ \delta T_{tt}^{\text{MC}} = - e^{2\Phi} e^{-2\Lambda} \delta T_{rr}^{\text{MC}} $$
 
 This term breaks the $O(4)$ degeneracy in the Ricci trace and formally solves the Phase C mandate.

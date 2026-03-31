@@ -79,6 +79,7 @@ $$
 $$
 
 Equivalently,
+
 $$
 \phi = \frac{\pi}{4}+\frac{n\pi}{2}, \qquad n\in\mathbb Z.
 $$
