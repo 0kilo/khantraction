@@ -1,7 +1,7 @@
 # Derivation 72: Phase A Jacobian Singularity Structure for the Ordered Quaternion Map
 
 **Date:** 2026-03-28  
-**Purpose:** Re-do the second Phase A substep using the active domain convention:
+**Purpose:** Phase A substep using the active domain convention:
 - $\omega>0$
 - $\theta,\phi,\rho \in [-2\pi,2\pi]$
 - no redundancy quotienting
@@ -50,7 +50,7 @@ So even on the widened working domain, the location of singular slices is govern
 
 ## 3. Determinant structure on the active domain
 
-The re-done scan over the active domain strongly supports
+The scan over the active domain strongly supports
 
 $$
 \det J = e^{4\omega}\cos(2\phi).

@@ -7,7 +7,6 @@
 
 ## 1. Why this document is now central
 
-The project is being reset around the parameter mapping itself.
 
 The key reason is that the angular parameters
 

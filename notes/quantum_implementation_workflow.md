@@ -12,161 +12,147 @@ Top-level structure present:
 - `khantraction_paper.md`
 - `khantraction_paper_draft.md`
 
-The quantum implementation phases (I–M) should be treated as the direct continuation of the classical restart (A–H).
-Use the roadmap in `notes/quantum_exploration_plan.md` as the canonical plan.
+The "True Quantum" implementation phases (N–R) build upon the classical foundations (A–H) and the dynamical transition (I–M). Use the roadmap in `notes/quantum_exploration_plan.md` as the canonical plan.
 
 ---
 
 ## Common Constraints and Analysis Protocol
 
-To ensure a complete and thorough investigation, **every** study in the quantum transition must follow this strict protocol:
+To ensure a complete and thorough investigation of the wave-mechanical nature of the folds, **every** study must follow this strict protocol:
 
 1. **Parameter Domains:**
    - $\omega > 0$ (scale coordinate)
    - $\theta, \phi, \rho \in [-2\pi, 2\pi]$ (angular coordinates)
    - No redundancy quotienting.
 2. **Mandatory Combinations:**
-   - **Bulk Analysis:** Scan the full volume.
-   - **1D Slices:** Hold two angles fixed and vary one angle (all 3 combinations: vary $\theta$, vary $\phi$, vary $\rho$).
-   - **2D Slices:** Hold one angle fixed and vary two angles (all 3 combinations: vary $\theta,\phi$; vary $\theta,\rho$; vary $\phi,\rho$).
+   - **Bulk Analysis:** Scan the probability density across the full volume.
+   - **1D Slices:** Hold two angles fixed and vary one angle (all 3 combinations).
+   - **2D Slices:** Hold one angle fixed and vary two angles (all 3 combinations).
 
 ---
 
 ## Folder Responsibilities
 
-Consistent with the classical workflow:
+Consistent with the established layout:
 
 ### `derivations/`
-Use for mathematical derivations of the transition to real physics.
-- spontaneous symmetry breaking mechanisms
-- 3D Laplacian / wave operators in ordered coordinates
-- multi-fold metric overlap math
-- pinch-off / budding topological logic
+Use for the mathematical formalism of quaternionic quantum mechanics.
+- operator definitions and commutation algebra
+- Quaternionic Schrödinger Equation derivation
+- tunneling amplitude and WKB approximations
+- transition matrix elements for particle splits
 
 ### `analysis/`
-Use for dynamic simulation code and multi-particle logic.
-- time-evolution solvers
-- force-law extraction
-- scattering simulations
-- pair creation/annihilation scans
+Use for wave-mechanical solvers and QFT logic.
+- eigenvalue solvers for $|\Psi\rangle$
+- probability density mappers
+- enantiomeric oscillation simulations
+- vacuum pair-creation probability integrators
 
 ### `scripts/`
 Use for executable driver scripts.
-- run a time-evolution scenario
-- run a scattering experiment
-- generate quantum resonance reports
+- run a wavefunction optimization
+- run a tunneling simulation
+- generate excitation decay reports
 
 ### `solutions/`
-Use for all generated quantum outputs.
-- profile time-series (HDF5 or CSV)
-- force-distance tables
-- emission spectra datasets
+Use for all generated quantum mechanical outputs.
+- wave function grid files (.npy or .csv)
+- probability density maps
+- transition probability tables
 
 ### `notes/`
 Use for active interpretation and phase assessments.
-- stability assessments
-- force-law interpretations
-- emission event logs
-
-### `summary/`
-Use only for polished quantum milestones.
+- wavefunction assessments
+- superposition stability logs
+- emission mechanism interpretations
 
 ---
 
 ## Naming Workflow
 
 ### Analysis files
-- `analysis/phase_i/phase_i_<topic>.py`
-- `analysis/phase_j/phase_j_<topic>.py`
+- `analysis/phase_n/phase_n_<topic>.py`
+- `analysis/phase_o/phase_o_<topic>.py`
 - ...
-- `analysis/phase_m/phase_m_<topic>.py`
+- `analysis/phase_r/phase_r_<topic>.py`
 
 ### Script files
-- `scripts/run_phase_i_<topic>.sh`
+- `scripts/run_phase_n_<topic>.sh`
 - etc.
 
-### Solution outputs
-- `solutions/phase_i/phase_i_<topic>/...`
-
 ### Notes
-- `notes/phase_i/phase_i_<topic>_assessment.md`
-- `notes/phase_i/phase_i_closure.md`
+- `notes/phase_n/phase_n_<topic>_assessment.md`
+- `notes/phase_n/phase_n_closure.md`
 
 ---
 
 ## Phase-by-phase Implementation Workflow
 
-## Phase I — First-Principles Constants
+## Phase N — Operator Formalism
 Goal:
-- replace phenomenological $\beta_a$ with geometric/dynamical derivations
+- define $\hat{\theta}, \hat{p}_\theta$ and test commutation limits
 
 ### Outputs to create
-- derivation of spontaneous symmetry breaking from the $Q$ Jacobian
-- stability limit analysis
-- generated constant maps in `solutions/phase_i/`
-- Phase I assessment and closure notes
+- derivation of quaternionic momentum operators
+- uncertainty principle violation/validation analysis
+- Phase N assessment and closure notes
 
 ---
 
-## Phase J — 3D Dynamic Stability
+## Phase O — Wavefunction Mechanics
 Goal:
-- prove the fold survives time evolution and acceleration
+- solve for $|\Psi\rangle$ and localize the ground state
 
 ### Outputs to create
-- 3D+1 time-evolution analysis
-- acceleration/inertia probe
-- generated trajectory/stability data in `solutions/phase_j/`
-- Phase J assessment and closure notes
+- Quaternionic Schrödinger Equation solver
+- ground-state localization mapping (bulk + 1D/2D slices)
+- Phase O assessment and closure notes
 
 ---
 
-## Phase K — Multi-Particle Interactions
+## Phase P — Superposition & Tunneling
 Goal:
-- derive the force law between separate folds
+- measure the stability of enantiomeric superpositions
 
 ### Outputs to create
-- multi-fold interaction analysis
-- force-vs-distance ($1/r^2$ etc.) extraction
-- generated interaction maps in `solutions/phase_k/`
-- Phase K assessment and closure notes
+- parity-symmetric Hamiltonian analysis
+- WKB tunneling rate integration across the $\phi$ singular sheets
+- Phase P assessment and closure notes
 
 ---
 
-## Phase L — Topological Shedding / Emission
+## Phase Q — Transition Matrix Elements
 Goal:
-- model energy loss as topologically distinct "photon" budding
+- model the particle split (emission) as a quantum jump
 
 ### Outputs to create
-- excitation decay analysis
-- topological budding / wave-packet emission simulation
-- generated emission spectra in `solutions/phase_l/`
-- Phase L assessment and closure notes
+- transition matrix element ($\langle \Psi_m | \hat{H}_{int} | \Psi_n \rangle$) analysis
+- gauge coupling ($\hat{A}_\mu$) expectation value extraction
+- Phase Q assessment and closure notes
 
 ---
 
-## Phase M — Pair Creation / Annihilation
+## Phase R — Second Quantization
 Goal:
-- model the birth and death of enantiomers from the vacuum
+- calculate the pair production probability from vacuum stress
 
 ### Outputs to create
-- enantiomer collision (annihilation) analysis
-- extreme-field manifold tearing (creation) analysis
-- generated creation/annihilation logs in `solutions/phase_m/`
-- Phase M assessment and closure notes
+- creation/annihilation operator formalism derivation
+- vacuum $|0\rangle \to |L, R\rangle$ transition integration
+- Phase R assessment and closure notes
 
 ---
 
 ## Experiment Protocol
 
-1. **Update `derivations/`** with the new mathematical operator or interaction.
-2. **Create/update the analysis file** in the relevant `analysis/phase_x/` folder.
-3. **Execute the exhaustive protocol** (bulk + all 1D/2D slices).
-4. **Store results** in `solutions/phase_x/phase_x_<topic>/`.
-5. **Document findings** in `notes/phase_x/`.
-6. **Synthesize** only after the full angular domain is understood.
+1. **Update `derivations/`** with the operator or wave equation.
+2. **Execute the exhaustive protocol** (Bulk + all 1D/2D combinations).
+3. **Write interpretation** in `notes/`.
+4. **Link** every claim to a specific grid map or eigenvalue in `solutions/`.
 
 ---
 
 ## Immediate Next Implementation Step
 
-> Create `analysis/phase_i/` and begin the hunt for the geometric origin of the symmetry-breaking $\beta_a$ coefficients within the ordered quaternionic state map.
+> Create `analysis/phase_n/` and begin defining the momentum operators for the ordered factorized state map.
