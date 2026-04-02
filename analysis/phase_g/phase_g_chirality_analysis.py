@@ -107,10 +107,10 @@ def run_chirality_analysis():
 
     # 1. Mirror-Pair Test (Goal 2 & 3)
     print("Executing Mirror-Pair Validation...")
-    # Test Rich Enantiomers with non-zero chirality
+    # Test True Enantiomers via Topological Chiral Flip (phi -> phi + pi/2)
     seeds = [
         {"id": "Right-Handed", "params": [0.5, np.pi/8, np.pi/8, np.pi/8], "Xp": [0, 0.01, 0.01, 0.01]},
-        {"id": "Left-Handed", "params": [0.5, -np.pi/8, -np.pi/8, -np.pi/8], "Xp": [0, -0.01, -0.01, -0.01]}
+        {"id": "Left-Handed", "params": [0.5, np.pi/8, np.pi/8 + np.pi/2, np.pi/8], "Xp": [0, -0.01, -0.01, -0.01]}
     ]
 
     results = []
@@ -135,6 +135,10 @@ def run_chirality_analysis():
     slice_rh = [{"rho": r, "chi": float(solver.get_chirality_density(0.0, np.pi/8, r))} for r in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
     pd.DataFrame(slice_rh).to_csv(f"{out_dir}/slice_1d_rho_chi.csv", index=False)
 
+    # 1D Phi
+    slice_ph = [{"phi": p, "chi": float(solver.get_chirality_density(0.0, p, 0.0))} for p in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
+    pd.DataFrame(slice_ph).to_csv(f"{out_dir}/slice_1d_phi_chi.csv", index=False)
+
     # 2D Phi/Theta
     angles = np.linspace(-np.pi, np.pi, 8)
     slice_ph_th = []
@@ -149,6 +153,13 @@ def run_chirality_analysis():
         for rh in angles:
             slice_ph_rh.append({"phi": ph, "rho": rh, "chi": float(solver.get_chirality_density(0.0, ph, rh))})
     pd.DataFrame(slice_ph_rh).to_csv(f"{out_dir}/slice_2d_phi_rho_chi.csv", index=False)
+
+    # 2D Theta/Rho
+    slice_th_rh = []
+    for th in angles:
+        for rh in angles:
+            slice_th_rh.append({"theta": th, "rho": rh, "chi": float(solver.get_chirality_density(th, np.pi/8, rh))})
+    pd.DataFrame(slice_th_rh).to_csv(f"{out_dir}/slice_2d_theta_rho_chi.csv", index=False)
 
     # 3. Rotational Stability Scan (Goal 1 & 4)
     print("Running Rotational Stability Scan...")

@@ -184,26 +184,41 @@ def run_identity_analysis():
 
     # 4. Mandatory Slice Protocol - Exhaustive Matrix (Section 3.2)
     print("Running Exhaustive 1D/2D Slice Matrix...")
-    grid_res = 10
+    grid_res_1d = 20
+    grid_res_2d = 10
     
-    # 1D Rho Sweep
-    slice_rh = [{"rho": r, "mass": float(solver.solve(0.5, 0.0, np.pi/8, r, r_max=10.0).y[8, -1])} for r in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
+    # 1D Sweeps
+    angles_1d = np.linspace(-2*np.pi, 2*np.pi, grid_res_1d)
+    
+    slice_th = [{"theta": th, "mass": float(solver.solve(0.5, th, np.pi/4, 0.0, r_max=10.0).y[8, -1])} for th in angles_1d]
+    pd.DataFrame(slice_th).to_csv(f"{out_dir}/slice_1d_theta.csv", index=False)
+    
+    slice_ph = [{"phi": ph, "mass": float(solver.solve(0.5, 0.0, ph, 0.0, r_max=10.0).y[8, -1])} for ph in angles_1d]
+    pd.DataFrame(slice_ph).to_csv(f"{out_dir}/slice_1d_phi.csv", index=False)
+    
+    slice_rh = [{"rho": r, "mass": float(solver.solve(0.5, 0.0, np.pi/4, r, r_max=10.0).y[8, -1])} for r in angles_1d]
     pd.DataFrame(slice_rh).to_csv(f"{out_dir}/slice_1d_rho.csv", index=False)
     
-    # 2D Phi/Theta
-    angles = np.linspace(-np.pi, np.pi, 6)
+    # 2D Sweeps
+    angles_2d = np.linspace(-2*np.pi, 2*np.pi, grid_res_2d)
+    
     slice_ph_th = []
-    for ph in angles:
-        for th in angles:
+    for ph in angles_2d:
+        for th in angles_2d:
             slice_ph_th.append({"phi": ph, "theta": th, "mass": float(solver.solve(0.5, th, ph, 0.0, r_max=5.0).y[8, -1])})
     pd.DataFrame(slice_ph_th).to_csv(f"{out_dir}/slice_2d_phi_theta.csv", index=False)
 
-    # 2D Phi/Rho
     slice_ph_rh = []
-    for ph in angles:
-        for rh in angles:
+    for ph in angles_2d:
+        for rh in angles_2d:
             slice_ph_rh.append({"phi": ph, "rho": rh, "mass": float(solver.solve(0.5, 0.0, ph, rh, r_max=5.0).y[8, -1])})
     pd.DataFrame(slice_ph_rh).to_csv(f"{out_dir}/slice_2d_phi_rho.csv", index=False)
+    
+    slice_th_rh = []
+    for th in angles_2d:
+        for rh in angles_2d:
+            slice_th_rh.append({"theta": th, "rho": rh, "mass": float(solver.solve(0.5, th, np.pi/4, rh, r_max=5.0).y[8, -1])})
+    pd.DataFrame(slice_th_rh).to_csv(f"{out_dir}/slice_2d_theta_rho.csv", index=False)
 
     print("Analysis Complete.")
 

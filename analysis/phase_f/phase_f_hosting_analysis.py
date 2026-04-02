@@ -131,11 +131,15 @@ def run_hosting_analysis():
     # 1D Slices
     print("  1D Theta...")
     slice_th = [{"theta": t, "hosting_efficiency": float(1.0 - (solver.solve(0.5, t, np.pi/8, 0.0).y[10, -1] / psi_init))} for t in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
-    pd.DataFrame(slice_th).to_csv(f"solutions/phase_f/phase_f_hosting/slice_1d_theta.csv", index=False)
+    pd.DataFrame(slice_th).to_csv("solutions/phase_f/phase_f_hosting/slice_1d_theta.csv", index=False)
     
     print("  1D Rho...")
     slice_rh = [{"rho": r, "hosting_efficiency": float(1.0 - (solver.solve(0.5, 0.0, np.pi/8, r).y[10, -1] / psi_init))} for r in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
-    pd.DataFrame(slice_rh).to_csv(f"solutions/phase_f/phase_f_hosting/slice_1d_rho.csv", index=False)
+    pd.DataFrame(slice_rh).to_csv("solutions/phase_f/phase_f_hosting/slice_1d_rho.csv", index=False)
+
+    print("  1D Phi...")
+    slice_ph = [{"phi": p, "hosting_efficiency": float(1.0 - (solver.solve(0.5, 0.0, p, 0.0).y[10, -1] / psi_init))} for p in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
+    pd.DataFrame(slice_ph).to_csv("solutions/phase_f/phase_f_hosting/slice_1d_phi.csv", index=False)
 
     # 2D Slices
     grid_2d = 6
@@ -155,7 +159,15 @@ def run_hosting_analysis():
         for th in angles_2d:
             psi_f = solver.solve(0.5, th, ph, 0.0).y[10, -1]
             slice_ph_th.append({"phi": ph, "theta": th, "hosting_efficiency": float(1.0 - (psi_f / psi_init))})
-    pd.DataFrame(slice_ph_th).to_csv(f"solutions/phase_f/phase_f_hosting/slice_2d_phi_theta.csv", index=False)
+    pd.DataFrame(slice_ph_th).to_csv("solutions/phase_f/phase_f_hosting/slice_2d_phi_theta.csv", index=False)
+
+    print("  2D Phi/Rho...")
+    slice_ph_rh = []
+    for ph in angles_2d:
+        for rh in angles_2d:
+            psi_f = solver.solve(0.5, 0.0, ph, rh).y[10, -1]
+            slice_ph_rh.append({"phi": ph, "rho": rh, "hosting_efficiency": float(1.0 - (psi_f / psi_init))})
+    pd.DataFrame(slice_ph_rh).to_csv("solutions/phase_f/phase_f_hosting/slice_2d_phi_rho.csv", index=False)
 
     print("Analysis Complete.")
 

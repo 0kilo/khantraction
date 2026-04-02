@@ -167,6 +167,10 @@ def run_phenomenology_analysis():
     slice_rh = [{"rho": r, "M_ADM_proxy": float(solver.solve(0.5, 0.0, np.pi/8, r, r_max=20.0).y[8, -1])} for r in rh_vals]
     pd.DataFrame(slice_rh).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_1d_rho.csv", index=False)
 
+    print("  1D Phi...")
+    slice_ph = [{"phi": p, "M_ADM_proxy": float(solver.solve(0.5, 0.0, p, 0.0, r_max=20.0).y[8, -1])} for p in phi_vals]
+    pd.DataFrame(slice_ph).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_1d_phi.csv", index=False)
+
     # 2D Slices (Reduced grid for speed)
     grid_2d = 6
     angles_2d = np.linspace(-np.pi, np.pi, grid_2d)
@@ -186,6 +190,14 @@ def run_phenomenology_analysis():
             m = solver.solve(0.5, th, ph, 0.0, r_max=15.0).y[8, -1]
             slice_ph_th.append({"phi": ph, "theta": th, "M_ADM_proxy": float(m)})
     pd.DataFrame(slice_ph_th).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_2d_phi_theta.csv", index=False)
+
+    print("  2D Phi/Rho...")
+    slice_ph_rh = []
+    for ph in angles_2d:
+        for rh in angles_2d:
+            m = solver.solve(0.5, 0.0, ph, rh, r_max=15.0).y[8, -1]
+            slice_ph_rh.append({"phi": ph, "rho": rh, "M_ADM_proxy": float(m)})
+    pd.DataFrame(slice_ph_rh).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_2d_phi_rho.csv", index=False)
 
     # 4. External Indistinguishability Classes (Goal 2)
     print("Classifying External Indistinguishability...")

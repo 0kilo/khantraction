@@ -7,7 +7,7 @@ set -e
 echo "Starting Phase E External Phenomenology Analysis..."
 
 mkdir -p solutions/phase_e/phase_e_phenomenology/
-source venv/bin/activate && python analysis/phase_e_external_phenomenology.py
+source venv/bin/activate && python analysis/phase_e/phase_e_external_phenomenology.py
 
 echo "Phase E Analysis completed successfully."
 echo "Results deposited in solutions/phase_e/phase_e_phenomenology/"
