@@ -1,31 +1,37 @@
-# Task Plan: Khantraction Direct-Data Implementation
+# Task Plan: Khantraction Restart From Exponential Quaternion Ansatz
 
 ## Goal
-Implement the saved direct-data closure plan in code as far as the current derivations and codebase allow, regenerate outputs in the venv, update the affected phase documents and summaries, and then issue the Khantraction model conclusion from the implemented results.
+Build a fresh, phase-based research program starting from
+`q(omega, theta, phi, rho) = exp(a(omega) + b(theta) i + c(phi) j + d(rho) k)`
+to determine, using direct derivation and direct numerical data only, whether Khantraction can be a viable classical particle-level model.
 
 ## Phases
-- [x] Phase 1: Reset planning files and inventory reusable direct-geometry machinery
-- [x] Phase 2: Implement shared ordered-manifold runtime and rebuild Phase I
-- [x] Phase 3: Replace the Phase J proxy with direct 3D ordered-manifold evolution
-- [x] Phase 4: Rebuild Phase E and Phase K on the direct runtime
-- [x] Phase 5: Regenerate outputs in the venv and inspect results
-- [x] Phase 6: Update phase notes, summaries, trackers, and the final conclusion
+- [x] Phase 1: Reset the planning files and define the fresh research objective
+- [x] Phase 2: Design the global scan protocol, workflow, and viability criteria
+- [x] Phase 3: Write and save the restart research plan document
+- [x] Phase 4: Complete Phase 0 formal specification and scan-contract packet
+- [x] Phase 5: Complete Phase 1 quaternion kinematics and redundancy analysis
+- [x] Phase 6: Complete Phase 2 direct action-family derivation and classification
+- [x] Phase 7: Complete Phase 3 topological machinery derivation and tests
+- [ ] Phase 8: Begin Phase 4 direct static-solution program on the surviving routes
 
 ## Key Questions
-1. Which parts of the direct-data closure plan can be implemented immediately from the existing derivations?
-2. Can the Phase I pullback geometry replace the exploratory anisotropy coefficients in the new active runtime?
-3. Does the direct ordered-manifold 3D evolution preserve a localized object better than the old anchored proxy?
-4. Can motion-response and two-object interaction diagnostics be extracted from the direct runtime without falling back to overlap proxies?
-5. After implementation, does the evidence support, weaken, or eliminate the classical particle-level Khantraction claim?
+1. Does the exponential-quaternion ansatz support mathematically distinct sectors, or does it collapse to a universal localized lump?
+2. What extra machinery, if any, is required for the model to carry true particle-like species information?
+3. Can the model produce direct finite-energy, stable, transportable, interacting localized states without proxies?
+4. Is a topological or geometric reinterpretation required for viability?
+5. At what point should specific claims be retired rather than extended?
 
 ## Decisions Made
-- Use the planning-with-files workflow because this is a multi-phase implementation and synthesis task.
-- Rebuild the critical path around direct solver-backed geometry: I, J, E, and K.
-- Prefer one shared direct ordered-manifold runtime over separate ad hoc replacements.
-- Stay away from hand-built spectral, emission, and lifecycle proxies while implementing the classical-core path.
+- Start from scratch rather than inherit prior phase assumptions.
+- Use the user-supplied single-exponential ansatz as the primary starting point.
+- Require direct equations and direct data; do not use surrogate or proxy models in the new program.
+- Treat `omega, theta, phi, rho` as angular inputs to the ansatz, while `a, b, c, d` are scalar functions acting on those angles.
+- Use the user-required scan domain `[-2pi, 2pi]` for the angular exploration protocol unless a later phase proves a valid reduction.
+- Save the fresh program definition in a new plan document under `notes/`.
 
 ## Errors Encountered
-- Shared pair-field superposition in `analysis/direct_ordered_manifold.py` was initially broadcast incorrectly; fixed by allocating a full-grid ambient field before the Phase K rerun.
+- None so far.
 
 ## Status
-**Completed** - The direct implementation pass through I, J, E, and K is on disk, the affected phase documents are updated, and the final project conclusion now reflects the implemented direct-runtime evidence.
+**Completed Phase 7** - Phase 3 is closed. The next real step is Phase 4: build direct static solutions on the surviving routes, with `u` elevated to a fundamental field if the program wants a topological path.

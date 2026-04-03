@@ -1,6 +1,0 @@
-{
-  "runtime_module": "analysis/direct_ordered_manifold.py",
-  "replacement_statement": "Downstream direct-runtime phases now use the exact pullback metric and Christoffel symbols instead of exploratory beta coefficients.",
-  "omega_fixed_for_scan": 0.5,
-  "coefficient_rows": 65
-}

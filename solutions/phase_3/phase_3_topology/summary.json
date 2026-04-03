@@ -1,0 +1,61 @@
+{
+  "phase": "Phase 3",
+  "headline": {
+    "route_S1_global_scalar_angle_topology": "killed_exactly_by_null_homotopy",
+    "route_S2_unit_quaternion_topology": "survives_in_principle",
+    "main_conclusion": "Nontrivial topology cannot survive through the globally regular scalar-angle lift. It survives only if the unit-quaternion field is fundamental or the angle representation becomes multi-chart or singular."
+  },
+  "families": {
+    "periodic_simple": {
+      "class": "P",
+      "max_abs_J_ang": 10.648000000000005,
+      "J_ang_sign_change": true,
+      "formula_abs_error_max": 1.7763568394002505e-15,
+      "ball_pi_contained": false,
+      "single_chart_surjective_to_S3": false,
+      "route_S1_nonzero_degree_possible": false
+    },
+    "periodic_harmonic": {
+      "class": "P",
+      "max_abs_J_ang": 35.90400000000002,
+      "J_ang_sign_change": true,
+      "formula_abs_error_max": 1.4210854715202004e-14,
+      "ball_pi_contained": false,
+      "single_chart_surjective_to_S3": false,
+      "route_S1_nonzero_degree_possible": false
+    },
+    "lifted_chart_linear": {
+      "class": "L",
+      "max_abs_J_ang": 0.12375000000000001,
+      "J_ang_sign_change": false,
+      "formula_abs_error_max": 6.938893903907228e-17,
+      "ball_pi_contained": false,
+      "single_chart_surjective_to_S3": false,
+      "route_S1_nonzero_degree_possible": false
+    },
+    "periodic_topology_ready": {
+      "class": "P",
+      "max_abs_J_ang": 42.87500000000001,
+      "J_ang_sign_change": true,
+      "formula_abs_error_max": 7.105427357601002e-15,
+      "ball_pi_contained": true,
+      "single_chart_surjective_to_S3": true,
+      "route_S1_nonzero_degree_possible": false
+    }
+  },
+  "benchmark_summary": {
+    "s2_direct_hedgehog_degree_values": [
+      -0.8544390798849802,
+      -0.9289226204920789,
+      -0.9572477795220055
+    ],
+    "s1_scalar_angle_degree_values": {
+      "s1_scalar_angle_cartesian_decay_n33": -0.0007261940343658896,
+      "s1_scalar_angle_mixed_polynomial_n33": 1.0005576689441423e-19,
+      "s1_scalar_angle_trig_swirl_n33": -0.01217691033183402,
+      "s1_scalar_angle_cartesian_decay_n49": -0.0003294868465552811,
+      "s1_scalar_angle_mixed_polynomial_n49": -2.0095856673608276e-19,
+      "s1_scalar_angle_trig_swirl_n49": -0.005753342850588188
+    }
+  }
+}

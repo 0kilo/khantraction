@@ -1,0 +1,22 @@
+family,action_family,status,angle_sensitive_on_sampled_domain,nontrivial_kinetic_rank_possible,topological_route_detected,reason
+periodic_simple,A0_norm_only,retired_for_species,False,False,False,Norm channel depends only on omega through exp(a(omega)).
+periodic_simple,A1_full_quaternion_sigma,viable_core,True,True,True,Full quaternion derivatives remain nontrivial beyond the norm channel.
+periodic_simple,A2_split_sigma,viable_core,True,True,True,The unit-quaternion sector carries non-norm orientation structure directly.
+periodic_simple,A3_split_sigma_skyrme,viable_core,True,True,True,Quartic Maurer-Cartan structure is nonzero on the sampled domain.
+periodic_simple,A4_curvature_scale_only,retired_for_species,False,False,False,Curvature through the norm channel still remains angle-blind.
+periodic_simple,A5_curvature_split,viable_but_unresolved,True,True,True,"The split route survives, but the explicit curvature tensor couplings are not fixed yet."
+periodic_simple,A6_frame_connection,structurally_incomplete,True,True,True,"Maurer-Cartan data is present, but the direct connection action is not fixed yet."
+periodic_harmonic,A0_norm_only,retired_for_species,False,False,False,Norm channel depends only on omega through exp(a(omega)).
+periodic_harmonic,A1_full_quaternion_sigma,viable_core,True,True,True,Full quaternion derivatives remain nontrivial beyond the norm channel.
+periodic_harmonic,A2_split_sigma,viable_core,True,True,True,The unit-quaternion sector carries non-norm orientation structure directly.
+periodic_harmonic,A3_split_sigma_skyrme,viable_core,True,True,True,Quartic Maurer-Cartan structure is nonzero on the sampled domain.
+periodic_harmonic,A4_curvature_scale_only,retired_for_species,False,False,False,Curvature through the norm channel still remains angle-blind.
+periodic_harmonic,A5_curvature_split,viable_but_unresolved,True,True,True,"The split route survives, but the explicit curvature tensor couplings are not fixed yet."
+periodic_harmonic,A6_frame_connection,structurally_incomplete,True,True,True,"Maurer-Cartan data is present, but the direct connection action is not fixed yet."
+lifted_chart_linear,A0_norm_only,retired_for_species,False,False,False,Norm channel depends only on omega through exp(a(omega)).
+lifted_chart_linear,A1_full_quaternion_sigma,viable_core,True,True,True,Full quaternion derivatives remain nontrivial beyond the norm channel.
+lifted_chart_linear,A2_split_sigma,viable_core,True,True,True,The unit-quaternion sector carries non-norm orientation structure directly.
+lifted_chart_linear,A3_split_sigma_skyrme,viable_core,True,True,True,Quartic Maurer-Cartan structure is nonzero on the sampled domain.
+lifted_chart_linear,A4_curvature_scale_only,retired_for_species,False,False,False,Curvature through the norm channel still remains angle-blind.
+lifted_chart_linear,A5_curvature_split,viable_but_unresolved,True,True,True,"The split route survives, but the explicit curvature tensor couplings are not fixed yet."
+lifted_chart_linear,A6_frame_connection,structurally_incomplete,True,True,True,"Maurer-Cartan data is present, but the direct connection action is not fixed yet."

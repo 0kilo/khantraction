@@ -1,6 +1,0 @@
-omega_rot,mass_proxy,is_solver_backed,interpretation
-0.0,0.6961232297626876,False,analytic_proxy_only
-0.025,0.698298614855696,False,analytic_proxy_only
-0.05,0.7048247701347211,False,analytic_proxy_only
-0.07500000000000001,0.7157016955997632,False,analytic_proxy_only
-0.1,0.730929391250822,False,analytic_proxy_only

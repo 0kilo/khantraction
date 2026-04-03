@@ -1,0 +1,5 @@
+family,function_class,a_min,a_max,b_min,b_max,c_min,c_max,d_min,d_max,b_covers_minus_pi_to_pi,c_covers_minus_pi_to_pi,d_covers_minus_pi_to_pi,ball_pi_contained,single_chart_surjective_to_S3,route_S1_nonzero_degree_possible
+periodic_simple,P,-0.35,0.35,-2.2,2.2,-2.2,2.2,-2.2,2.2,False,False,False,False,False,False
+periodic_harmonic,P,-0.23492214020412233,0.23492214020412233,-2.1661684397472096,2.1661684397472096,-2.25942170776297,2.25942170776297,-1.5579660756572113,1.5579660756572113,False,False,False,False,False,False
+lifted_chart_linear,L,-0.7539822368615503,0.7539822368615503,-3.455751918948773,3.455751918948773,-2.827433388230814,2.827433388230814,-3.141592653589793,3.141592653589793,True,False,True,False,False,False
+periodic_topology_ready,P,-0.35,0.35,-3.5,3.5,-3.5,3.5,-3.5,3.5,True,True,True,True,True,False

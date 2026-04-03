@@ -1,0 +1,4 @@
+family,function_class,total_anchor_points,unique_q_classes,redundancy_ratio,duplicate_class_count,max_class_multiplicity,vacuum_anchor_count,sign_flip_anchor_count,singular_sheet_anchor_count,rank_0,rank_1,rank_2,rank_3,rank_4
+periodic_simple,P,14641,1080,0.9262345468205724,1064,135,625,0,0,256,1792,4704,5488,2401
+periodic_harmonic,P,14641,1080,0.9262345468205724,1064,135,625,0,0,0,0,0,5324,9317
+lifted_chart_linear,L,14641,14641,0.0,0,1,1,2,22,0,0,22,0,14619

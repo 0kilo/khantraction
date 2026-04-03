@@ -1,0 +1,35 @@
+{
+  "active_domain": {
+    "omega": ["-2pi", "2pi"],
+    "theta": ["-2pi", "2pi"],
+    "phi": ["-2pi", "2pi"],
+    "rho": ["-2pi", "2pi"]
+  },
+  "base_anchor_set": [
+    "-2pi",
+    "-3pi/2",
+    "-pi",
+    "-pi/2",
+    "-pi/4",
+    "0",
+    "pi/4",
+    "pi/2",
+    "pi",
+    "3pi/2",
+    "2pi"
+  ],
+  "named_regression_anchors": [
+    [0, 0, 0, 0],
+    [0, "pi/4", 0, 0],
+    [0, 0, "pi/4", 0],
+    [0, 0, 0, "pi/4"],
+    ["pi/4", 0, 0, 0],
+    ["pi/4", "pi/4", "pi/4", "pi/4"],
+    ["-pi/4", "-pi/4", "-pi/4", "-pi/4"],
+    ["pi", 0, 0, 0],
+    [0, "pi", 0, 0],
+    [0, 0, "pi", 0],
+    [0, 0, 0, "pi"]
+  ],
+  "solver_minimum_discovery_points_per_free_dimension": 11
+}

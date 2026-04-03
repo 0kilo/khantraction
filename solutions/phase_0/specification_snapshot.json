@@ -1,0 +1,40 @@
+{
+  "starting_object": "q(omega, theta, phi, rho) = exp(a(omega) + b(theta) i + c(phi) j + d(rho) k)",
+  "variable_types": {
+    "omega": "angle",
+    "theta": "angle",
+    "phi": "angle",
+    "rho": "angle",
+    "a": "real-valued scalar function",
+    "b": "real-valued scalar function",
+    "c": "real-valued scalar function",
+    "d": "real-valued scalar function"
+  },
+  "canonical_normalization": {
+    "a(0)": 0,
+    "b(0)": 0,
+    "c(0)": 0,
+    "d(0)": 0,
+    "q(0,0,0,0)": 1
+  },
+  "derived_quantities": {
+    "alpha": "a(omega)",
+    "beta": "b(theta)",
+    "gamma": "c(phi)",
+    "delta": "d(rho)",
+    "R": "sqrt(beta^2 + gamma^2 + delta^2)"
+  },
+  "hard_constraints": [
+    "|q| = exp(a(omega))",
+    "norm-only models are blind to theta, phi, rho at the pointwise level"
+  ],
+  "admissible_function_classes": [
+    "Class P: C^3, 2pi-periodic, finite through third derivative on [-2pi,2pi]",
+    "Class L: C^3 on [-2pi,2pi] without periodic identification, diagnostic only"
+  ],
+  "spacetime_promotion_routes": [
+    "S1: scalar-angle pullback",
+    "S2: scale-plus-unit-quaternion bundle section",
+    "S3: frame/connection reinterpretation"
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "phase": "Phase 2",
+  "headline": {
+    "norm_only_route": "retired_for_species",
+    "strongest_current_route": "A3_split_sigma_skyrme",
+    "main_conclusion": "After Phase 0 and Phase 1, only non-norm action families built from the full quaternion sector or the split unit-quaternion sector remain viable particle-level routes."
+  },
+  "families": {
+    "periodic_simple": {
+      "class": "P",
+      "max_trace_norm": 0.12249999999999998,
+      "max_trace_full": 29.23968931247132,
+      "max_trace_u": 14.520000000000003,
+      "max_trace_split": 14.642500000000002,
+      "max_skyrme_density": 70.27680000000002,
+      "max_abs_topological_density": 10.648000000000005,
+      "topological_density_sign_change": true,
+      "non_norm_slice_support": true
+    },
+    "periodic_harmonic": {
+      "class": "P",
+      "max_trace_norm": 0.11560000000000002,
+      "max_trace_full": 49.92508361061742,
+      "max_trace_u": 32.690000000000005,
+      "max_trace_split": 32.805600000000005,
+      "max_skyrme_density": 355.77640000000014,
+      "max_abs_topological_density": 35.90400000000002,
+      "topological_density_sign_change": true,
+      "non_norm_slice_support": true
+    },
+    "lifted_chart_linear": {
+      "class": "L",
+      "max_trace_norm": 0.06505237276456595,
+      "max_trace_full": 3.4757844170178513,
+      "max_trace_u": 0.7550000000000001,
+      "max_trace_split": 0.7694000000000002,
+      "max_skyrme_density": 0.18750625000000007,
+      "max_abs_topological_density": 0.12375000000000001,
+      "topological_density_sign_change": false,
+      "non_norm_slice_support": true
+    }
+  },
+  "action_catalog": {
+    "A0_norm_only": {
+      "route": "S1",
+      "status": "retired_for_species",
+      "reason": "Depends only on |q| = exp(a(omega)); blind to theta, phi, rho."
+    },
+    "A1_full_quaternion_sigma": {
+      "route": "S1",
+      "status": "viable_core",
+      "reason": "Derivative term sees the full quaternion map."
+    },
+    "A2_split_sigma": {
+      "route": "S2",
+      "status": "viable_core",
+      "reason": "Explicitly separates scale alpha and unit-quaternion orientation u."
+    },
+    "A3_split_sigma_skyrme": {
+      "route": "S2",
+      "status": "viable_core",
+      "reason": "Adds a direct quartic stabilizer and a live topological avenue."
+    },
+    "A4_curvature_scale_only": {
+      "route": "S1",
+      "status": "retired_for_species",
+      "reason": "Curvature coupling through the norm channel still remains angle-blind."
+    },
+    "A5_curvature_split": {
+      "route": "S2/S3",
+      "status": "viable_but_unresolved",
+      "reason": "Potentially viable if curvature sees more than alpha, but tensor structure is not fixed yet."
+    },
+    "A6_frame_connection": {
+      "route": "S3",
+      "status": "structurally_incomplete",
+      "reason": "Maurer-Cartan structure is present, but the direct action principle is not yet fixed."
+    }
+  }
+}

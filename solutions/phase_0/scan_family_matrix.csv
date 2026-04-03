@@ -1,0 +1,17 @@
+family_id,free_dimension,held_variables,varied_variables
+F4_ALL,4,,omega|theta|phi|rho
+F3_HOLD_OMEGA,3,omega,theta|phi|rho
+F3_HOLD_THETA,3,theta,omega|phi|rho
+F3_HOLD_PHI,3,phi,omega|theta|rho
+F3_HOLD_RHO,3,rho,omega|theta|phi
+F2_HOLD_PHI_RHO,2,phi|rho,omega|theta
+F2_HOLD_THETA_RHO,2,theta|rho,omega|phi
+F2_HOLD_THETA_PHI,2,theta|phi,omega|rho
+F2_HOLD_OMEGA_RHO,2,omega|rho,theta|phi
+F2_HOLD_OMEGA_PHI,2,omega|phi,theta|rho
+F2_HOLD_OMEGA_THETA,2,omega|theta,phi|rho
+F1_VARY_OMEGA,1,theta|phi|rho,omega
+F1_VARY_THETA,1,omega|phi|rho,theta
+F1_VARY_PHI,1,omega|theta|rho,phi
+F1_VARY_RHO,1,omega|theta|phi,rho
+F0_ANCHORS,0,omega|theta|phi|rho,anchors

@@ -1,0 +1,42 @@
+{
+  "periodic_simple": {
+    "class": "P",
+    "description": "Baseline periodic family with one-harmonic amplitude and enough imaginary amplitude to cross the first R = pi orientation-loss sheet.",
+    "formulas": {
+      "a": "0.35 sin(omega)",
+      "b": "2.20 sin(theta)",
+      "c": "2.20 sin(phi)",
+      "d": "2.20 sin(rho)"
+    }
+  },
+  "periodic_harmonic": {
+    "class": "P",
+    "description": "Periodic family with mixed harmonics to test sensitivity inside the admissible periodic class.",
+    "formulas": {
+      "a": "0.20 sin(omega) + 0.07 sin(2 omega)",
+      "b": "1.60 sin(theta) + 0.90 sin(2 theta)",
+      "c": "1.90 sin(phi) - 0.70 sin(2 phi)",
+      "d": "1.70 sin(rho) + 0.50 sin(3 rho)"
+    }
+  },
+  "lifted_chart_linear": {
+    "class": "L",
+    "description": "Non-periodic chart diagnostic family used only to test how much of the redundancy is intrinsic to the exponential map rather than to periodic admissible functions.",
+    "formulas": {
+      "a": "0.12 omega",
+      "b": "0.55 theta",
+      "c": "0.45 phi",
+      "d": "0.50 rho"
+    }
+  },
+  "periodic_topology_ready": {
+    "class": "P",
+    "description": "Periodic angle-respecting family with enough component amplitude to cover the logarithm ball |X| <= pi in a single chart.",
+    "formulas": {
+      "a": "0.35 sin(omega)",
+      "b": "3.50 sin(theta)",
+      "c": "3.50 sin(phi)",
+      "d": "3.50 sin(rho)"
+    }
+  }
+}

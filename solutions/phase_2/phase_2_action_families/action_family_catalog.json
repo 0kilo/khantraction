@@ -1,0 +1,37 @@
+{
+  "A0_norm_only": {
+    "route": "S1",
+    "status": "retired_for_species",
+    "reason": "Depends only on |q| = exp(a(omega)); blind to theta, phi, rho."
+  },
+  "A1_full_quaternion_sigma": {
+    "route": "S1",
+    "status": "viable_core",
+    "reason": "Derivative term sees the full quaternion map."
+  },
+  "A2_split_sigma": {
+    "route": "S2",
+    "status": "viable_core",
+    "reason": "Explicitly separates scale alpha and unit-quaternion orientation u."
+  },
+  "A3_split_sigma_skyrme": {
+    "route": "S2",
+    "status": "viable_core",
+    "reason": "Adds a direct quartic stabilizer and a live topological avenue."
+  },
+  "A4_curvature_scale_only": {
+    "route": "S1",
+    "status": "retired_for_species",
+    "reason": "Curvature coupling through the norm channel still remains angle-blind."
+  },
+  "A5_curvature_split": {
+    "route": "S2/S3",
+    "status": "viable_but_unresolved",
+    "reason": "Potentially viable if curvature sees more than alpha, but tensor structure is not fixed yet."
+  },
+  "A6_frame_connection": {
+    "route": "S3",
+    "status": "structurally_incomplete",
+    "reason": "Maurer-Cartan structure is present, but the direct action principle is not yet fixed."
+  }
+}
