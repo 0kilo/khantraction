@@ -1,20 +1,231 @@
-[
+{
+  "status": "phase_e_direct_phenomenology_complete",
+  "config": {
+    "grid_size": 11,
+    "dx": 0.55,
+    "dt": 0.03,
+    "time_steps": 18,
+    "impulse_strengths": [
+      0.02,
+      0.04,
+      0.08
+    ]
+  },
+  "model_scope": {
+    "type": "direct_pullback_profiles_plus_direct_impulse_response",
+    "statement": "Phase E now uses direct radial profiles from the exact pullback runtime and measures 3D impulse response on those backgrounds. The old beta-driven gradient probe is no longer the active path."
+  },
+  "representative_runs": [
     {
-        "species": "scalar",
-        "M_ADM": 0.022654705843664334,
-        "Q_eff": 0.8010416989644694,
-        "status": "success"
+      "species": "scalar",
+      "success": true,
+      "failure_reason": "",
+      "horizon_hit": false,
+      "final_mass": 0.032534129324309234,
+      "compactness_half": 9.290999999999846,
+      "compactness_90": 11.530999999999798,
+      "boundary_qnorm": 0.02558574041377004,
+      "boundary_state_prime_norm": 0.04473786908038434,
+      "tail_w": -3.665720097774263,
+      "tail_theta": 0.0,
+      "tail_phi": 0.0,
+      "tail_rho": 0.0
     },
     {
-        "species": "phi_dom",
-        "M_ADM": 5.510827939686633,
-        "Q_eff": 5.137433194309835,
-        "status": "success"
+      "species": "rich",
+      "success": true,
+      "failure_reason": "",
+      "horizon_hit": false,
+      "final_mass": 0.032534129324309234,
+      "compactness_half": 9.290999999999846,
+      "compactness_90": 11.530999999999798,
+      "boundary_qnorm": 0.02558574041377004,
+      "boundary_state_prime_norm": 0.04473786908038434,
+      "tail_w": -3.665720097774263,
+      "tail_theta": 3.141592653589793,
+      "tail_phi": -1.5707963267948966,
+      "tail_rho": 1.5707963267948966
     },
     {
-        "species": "fully_mixed",
-        "M_ADM": 5.518815159912528,
-        "Q_eff": 5.142529720780389,
-        "status": "success"
+      "species": "phi_offsheet",
+      "success": true,
+      "failure_reason": "",
+      "horizon_hit": false,
+      "final_mass": 0.032534129324309234,
+      "compactness_half": 9.290999999999846,
+      "compactness_90": 11.530999999999798,
+      "boundary_qnorm": 0.02558574041377004,
+      "boundary_state_prime_norm": 0.04473786908038434,
+      "tail_w": -3.665720097774263,
+      "tail_theta": 0.0,
+      "tail_phi": 0.6853981633974483,
+      "tail_rho": 0.0
     }
-]
+  ],
+  "rn_fit_results": [
+    {
+      "species": "scalar",
+      "fit_status": "success",
+      "tail_start_r": 9.010999999999852,
+      "M_ADM_fit": 0.08396759860443653,
+      "Q_eff_fit": 1.1267522196207713,
+      "Q_sq_fit": 1.269570564420335,
+      "fit_rmse": 0.0006558895199244389,
+      "tail_point_count": 300
+    },
+    {
+      "species": "rich",
+      "fit_status": "success",
+      "tail_start_r": 9.010999999999852,
+      "M_ADM_fit": 0.08396759860443653,
+      "Q_eff_fit": 1.1267522196207713,
+      "Q_sq_fit": 1.269570564420335,
+      "fit_rmse": 0.0006558895199244389,
+      "tail_point_count": 300
+    },
+    {
+      "species": "phi_offsheet",
+      "fit_status": "success",
+      "tail_start_r": 9.010999999999852,
+      "M_ADM_fit": 0.08396759860443653,
+      "Q_eff_fit": 1.1267522196207713,
+      "Q_sq_fit": 1.269570564420335,
+      "fit_rmse": 0.0006558895199244389,
+      "tail_point_count": 300
+    }
+  ],
+  "indistinguishability_classes": {
+    "class_1": [
+      "phi_offsheet",
+      "rich",
+      "scalar"
+    ]
+  },
+  "direct_response_summary": {
+    "phi_offsheet": {
+      "centroid_response_range": [
+        0.02239406393064169,
+        0.08959896227357249
+      ],
+      "response_ratio_range": [
+        1.1197031965320845,
+        1.119987028419656
+      ],
+      "compactness_shift_range": [
+        0.015867100866851835,
+        0.0388516731555808
+      ]
+    },
+    "rich": {
+      "centroid_response_range": [
+        0.02239406393064169,
+        0.08959896227357249
+      ],
+      "response_ratio_range": [
+        1.1197031965320845,
+        1.119987028419656
+      ],
+      "compactness_shift_range": [
+        0.015867100866851835,
+        0.0388516731555808
+      ]
+    },
+    "scalar": {
+      "centroid_response_range": [
+        0.02239406393064169,
+        0.08959896227357249
+      ],
+      "response_ratio_range": [
+        1.1197031965320845,
+        1.119987028419656
+      ],
+      "compactness_shift_range": [
+        0.015867100866851835,
+        0.0388516731555808
+      ]
+    }
+  },
+  "slice_1d": {
+    "theta": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_1d_theta.csv",
+      "sample_count": 11,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    },
+    "phi": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_1d_phi.csv",
+      "sample_count": 11,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    },
+    "rho": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_1d_rho.csv",
+      "sample_count": 11,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    }
+  },
+  "slice_2d": {
+    "theta_rho": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_2d_theta_rho.csv",
+      "sample_count": 25,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    },
+    "theta_phi": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_2d_theta_phi.csv",
+      "sample_count": 25,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    },
+    "phi_rho": {
+      "path": "solutions/phase_e/phase_e_phenomenology/slice_2d_phi_rho.csv",
+      "sample_count": 25,
+      "mass_range": [
+        0.032534129324309234,
+        0.032534129324309234
+      ],
+      "compactness_range": [
+        11.530999999999798,
+        11.530999999999798
+      ]
+    }
+  },
+  "goal_status": {
+    "simple_external_tails": "met",
+    "external_indistinguishability_classes": "met",
+    "direct_motion_response_measurement": "met",
+    "clean_inertial_law_for_tested_family": "met",
+    "species_specific_external_response": "not_met"
+  }
+}

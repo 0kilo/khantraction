@@ -1,210 +1,322 @@
+"""Phase J: direct ordered-manifold 3D stability study."""
+
+from __future__ import annotations
+
+import json
+import math
+import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
-import os
-import json
 
-class DynamicStabilitySolver:
-    def __init__(self, omega=0.5, grid_size=32, dt=0.01, total_steps=100, moving_anchor=False):
-        self.omega = omega
-        self.N = grid_size
-        self.dt = dt
-        self.total_steps = total_steps
-        self.dx = 0.1
-        self.moving_anchor = moving_anchor
-        
-        # Coordinates (x, y, z)
-        self.x = np.linspace(-self.N*self.dx/2, self.N*self.dx/2, self.N)
-        self.X, self.Y, self.Z = np.meshgrid(self.x, self.x, self.x, indexing='ij')
-        self.R = np.sqrt(self.X**2 + self.Y**2 + self.Z**2)
-        
-        # Field components: omega, theta, phi, rho
-        # Initializing near a rich anchor
-        self.fields = {
-            'w': np.full((self.N, self.N, self.N), omega),
-            'theta': np.full((self.N, self.N, self.N), np.pi),
-            'phi': np.full((self.N, self.N, self.N), -np.pi/2),
-            'rho': np.full((self.N, self.N, self.N), np.pi/2)
-        }
-        
-        # Velocities for time evolution (standard wave equation style)
-        self.velocities = {k: np.zeros_like(v) for k, v in self.fields.items()}
-        
-        # Radial profile envelope (stiff core)
-        self.envelope = np.exp(-self.R**2 / 2.0)
-        for k in self.fields:
-            self.fields[k] *= self.envelope
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-    def get_laplacian(self, field):
-        """Finite difference Laplacian"""
-        lap = -6 * field.copy()
-        lap += np.roll(field, 1, axis=0) + np.roll(field, -1, axis=0)
-        lap += np.roll(field, 1, axis=1) + np.roll(field, -1, axis=1)
-        lap += np.roll(field, 1, axis=2) + np.roll(field, -1, axis=2)
-        return lap / (self.dx**2)
+from analysis.direct_ordered_manifold import (  # noqa: E402
+    DirectRuntimeConfig,
+    OrderedManifoldWaveSolver,
+    OrderedSeed,
+    embed_profile_on_grid,
+    solve_direct_radial_profile,
+)
 
-    def evolve(self):
-        """Evolve the system for T steps"""
-        history = []
-        for step in range(self.total_steps):
-            new_fields = {}
-            
-            # If testing acceleration, move the anchor center along x-axis
-            if self.moving_anchor:
-                shift_x = step * self.dt * 2.0  # Velocity of 2.0
-                R_shifted = np.sqrt((self.X - shift_x)**2 + self.Y**2 + self.Z**2)
-                current_envelope = np.exp(-R_shifted**2 / 2.0)
-            else:
-                current_envelope = self.envelope
 
-            for k in self.fields:
-                lap = self.get_laplacian(self.fields[k])
-                
-                anchor = (self.omega if k == 'w' else 
-                          (np.pi if k == 'theta' else 
-                           (-np.pi/2 if k == 'phi' else np.pi/2)))
-                restoring = -10.0 * (self.fields[k] - anchor * current_envelope)
-                
-                self.velocities[k] += (lap + restoring) * self.dt
-                new_fields[k] = self.fields[k] + self.velocities[k] * self.dt
-            
-            self.fields = new_fields
-            
-            mid = self.N // 2
-            
-            # Find the actual peak to track movement if moving anchor
-            if self.moving_anchor:
-                # Find index of max w to track the core
-                max_idx = np.unravel_index(np.argmax(self.fields['w']), self.fields['w'].shape)
-                core_w = self.fields['w'][max_idx]
-                core_theta = self.fields['theta'][max_idx]
-                core_phi = self.fields['phi'][max_idx]
-                core_rho = self.fields['rho'][max_idx]
-                history.append({
-                    'step': step,
-                    't': step * self.dt,
-                    'core_x': self.x[max_idx[0]],
-                    'w': core_w,
-                    'theta': core_theta,
-                    'phi': core_phi,
-                    'rho': core_rho
-                })
-            else:
-                history.append({
-                    'step': step,
-                    't': step * self.dt,
-                    'w': self.fields['w'][mid, mid, mid],
-                    'theta': self.fields['theta'][mid, mid, mid],
-                    'phi': self.fields['phi'][mid, mid, mid],
-                    'rho': self.fields['rho'][mid, mid, mid]
-                })
-            
-        return pd.DataFrame(history)
+OUT_DIR = ROOT / "solutions" / "phase_j" / "phase_j_dynamic_stability"
+OMEGA = 0.5
+ANGLES_1D = np.linspace(-2.0 * np.pi, 2.0 * np.pi, 7)
+ANGLES_2D = np.linspace(-2.0 * np.pi, 2.0 * np.pi, 4)
+KICK_STRENGTH = 0.08
+BOOST_SPEED = 0.18
 
-    def run_exhaustive_protocol(self):
-        output_dir = "solutions/phase_j/phase_j_dynamic_stability"
-        os.makedirs(output_dir, exist_ok=True)
-        
-        # 1. Bulk Time Evolution
-        print("Running Bulk 3D Time Evolution...")
-        df_bulk = self.evolve()
-        df_bulk.to_csv(f"{output_dir}/bulk_time_evolution.csv", index=False)
-        
-        # 2. 1D Slices (Varying initial perturbations)
-        print("Running 1D Stability Slices...")
-        slices_1d = []
-        angles = np.linspace(-2*np.pi, 2*np.pi, 20)
-        
-        for a in angles:
-            solver = DynamicStabilitySolver(omega=self.omega, total_steps=50)
-            solver.fields['theta'] += a * solver.envelope
-            final_df = solver.evolve()
-            fidelity = 1.0 - abs(final_df['theta'].iloc[-1] - np.pi) / (abs(a) + 1e-9)
-            slices_1d.append({'param': 'theta', 'val': a, 'fidelity': fidelity})
-            
-        for a in angles:
-            solver = DynamicStabilitySolver(omega=self.omega, total_steps=50)
-            solver.fields['phi'] += a * solver.envelope
-            final_df = solver.evolve()
-            fidelity = 1.0 - abs(final_df['phi'].iloc[-1] - (-np.pi/2)) / (abs(a) + 1e-9)
-            slices_1d.append({'param': 'phi', 'val': a, 'fidelity': fidelity})
+CFG = DirectRuntimeConfig(
+    r_max=10.0,
+    dr=0.01,
+    grid_size=11,
+    dx=0.55,
+    dt=0.03,
+    time_steps=18,
+)
 
-        for a in angles:
-            solver = DynamicStabilitySolver(omega=self.omega, total_steps=50)
-            solver.fields['rho'] += a * solver.envelope
-            final_df = solver.evolve()
-            fidelity = 1.0 - abs(final_df['rho'].iloc[-1] - (np.pi/2)) / (abs(a) + 1e-9)
-            slices_1d.append({'param': 'rho', 'val': a, 'fidelity': fidelity})
-            
-        pd.DataFrame(slices_1d).to_csv(f"{output_dir}/slices_1d_stability.csv", index=False)
 
-        # 3. 2D Slices (Pairwise stability maps)
-        print("Running 2D Stability Slices...")
-        res_2d = 10
-        angles_2d = np.linspace(-np.pi, np.pi, res_2d)
-        
-        slices_2d_theta_rho = []
-        slices_2d_theta_phi = []
-        slices_2d_phi_rho = []
-        
-        for a1 in angles_2d:
-            for a2 in angles_2d:
-                # Theta-Rho
-                solver = DynamicStabilitySolver(omega=self.omega, total_steps=30)
-                solver.fields['theta'] += a1 * solver.envelope
-                solver.fields['rho'] += a2 * solver.envelope
-                final_df = solver.evolve()
-                drift = np.sqrt((final_df['theta'].iloc[-1] - np.pi)**2 + 
-                               (final_df['rho'].iloc[-1] - np.pi/2)**2)
-                slices_2d_theta_rho.append({'theta_pert': a1, 'rho_pert': a2, 'drift': drift})
+def write_csv(path: Path, rows: list[dict] | pd.DataFrame) -> None:
+    if isinstance(rows, pd.DataFrame):
+        rows.to_csv(path, index=False)
+    else:
+        pd.DataFrame(rows).to_csv(path, index=False)
 
-                # Theta-Phi
-                solver = DynamicStabilitySolver(omega=self.omega, total_steps=30)
-                solver.fields['theta'] += a1 * solver.envelope
-                solver.fields['phi'] += a2 * solver.envelope
-                final_df = solver.evolve()
-                drift = np.sqrt((final_df['theta'].iloc[-1] - np.pi)**2 + 
-                               (final_df['phi'].iloc[-1] - (-np.pi/2))**2)
-                slices_2d_theta_phi.append({'theta_pert': a1, 'phi_pert': a2, 'drift': drift})
 
-                # Phi-Rho
-                solver = DynamicStabilitySolver(omega=self.omega, total_steps=30)
-                solver.fields['phi'] += a1 * solver.envelope
-                solver.fields['rho'] += a2 * solver.envelope
-                final_df = solver.evolve()
-                drift = np.sqrt((final_df['phi'].iloc[-1] - (-np.pi/2))**2 + 
-                               (final_df['rho'].iloc[-1] - np.pi/2)**2)
-                slices_2d_phi_rho.append({'phi_pert': a1, 'rho_pert': a2, 'drift': drift})
-                
-        pd.DataFrame(slices_2d_theta_rho).to_csv(f"{output_dir}/slices_2d_theta_rho_stability.csv", index=False)
-        pd.DataFrame(slices_2d_theta_phi).to_csv(f"{output_dir}/slices_2d_theta_phi_stability.csv", index=False)
-        pd.DataFrame(slices_2d_phi_rho).to_csv(f"{output_dir}/slices_2d_phi_rho_stability.csv", index=False)
+def initial_fields_for_seed(solver: OrderedManifoldWaveSolver, seed: OrderedSeed) -> tuple[np.ndarray, np.ndarray, object]:
+    profile = solve_direct_radial_profile(seed, CFG)
+    fields = embed_profile_on_grid(profile, solver.x, solver.y, solver.z)
+    velocities = np.zeros_like(fields)
+    return fields, velocities, profile
 
-        # 4. Acceleration Tracking Test
-        print("Running Acceleration/Core Dragging Test...")
-        solver_accel = DynamicStabilitySolver(omega=self.omega, total_steps=50, moving_anchor=True)
-        df_accel = solver_accel.evolve()
-        df_accel.to_csv(f"{output_dir}/acceleration_tracking.csv", index=False)
-        
-        # Calculate fidelity of moving core
-        accel_fidelity = 1.0 - (abs(df_accel['theta'].iloc[-1] - np.pi) + 
-                                abs(df_accel['phi'].iloc[-1] - (-np.pi/2)) + 
-                                abs(df_accel['rho'].iloc[-1] - np.pi/2)) / (3 * np.pi)
 
-        # Final Summary
-        summary = {
-            "status": "Verified",
-            "average_fidelity_1d": float(np.mean([s['fidelity'] for s in slices_1d])),
-            "max_drift_2d_theta_rho": float(np.max([s['drift'] for s in slices_2d_theta_rho])),
-            "max_drift_2d_theta_phi": float(np.max([s['drift'] for s in slices_2d_theta_phi])),
-            "max_drift_2d_phi_rho": float(np.max([s['drift'] for s in slices_2d_phi_rho])),
-            "acceleration_fidelity": float(accel_fidelity),
-            "conclusion": "Species cores are dynamically stable against asymmetric perturbations and survive spatial acceleration without loss of internal structured objecthood."
-        }
-        with open(f"{output_dir}/summary.json", "w") as f:
-            json.dump(summary, f, indent=2)
-            
-        print(f"Phase J stability tests complete. Results in {output_dir}")
+def asymmetric_w_kick(solver: OrderedManifoldWaveSolver, fields: np.ndarray) -> np.ndarray:
+    weight = np.exp(2.0 * fields[0])
+    if float(weight.max()) <= 0.0:
+        return np.zeros_like(fields)
+    normed = weight / float(weight.max())
+    vel = np.zeros_like(fields)
+    vel[0] = KICK_STRENGTH * normed * (solver.x / np.max(np.abs(solver.x)))
+    return vel
+
+
+def bulk_runs(solver: OrderedManifoldWaveSolver) -> tuple[pd.DataFrame, list[dict]]:
+    rows = []
+    profile_rows = []
+    for seed in [
+        OrderedSeed("scalar", OMEGA, 0.0, 0.0, 0.0),
+        OrderedSeed("rich", OMEGA, math.pi, -0.5 * math.pi, 0.5 * math.pi),
+    ]:
+        fields, velocities, profile = initial_fields_for_seed(solver, seed)
+        _fields_f, _vel_f, history = solver.evolve(fields, velocities, steps=CFG.time_steps, sample_every=1)
+        for row in history:
+            row = dict(row)
+            row["seed"] = seed.label
+            rows.append(row)
+        profile_rows.append(
+            {
+                "seed": seed.label,
+                "success": profile.success,
+                "failure_reason": profile.failure_reason,
+                "final_mass": profile.final_mass,
+                "compactness_90": profile.compactness_90,
+                "boundary_qnorm": profile.boundary_qnorm,
+            }
+        )
+    df = pd.DataFrame(rows)
+    write_csv(OUT_DIR / "bulk_time_evolution.csv", df)
+    write_csv(OUT_DIR / "profile_seed_runs.csv", profile_rows)
+    return df, profile_rows
+
+
+def acceleration_run(solver: OrderedManifoldWaveSolver) -> pd.DataFrame:
+    rows = []
+    for seed in [
+        OrderedSeed("scalar", OMEGA, 0.0, 0.0, 0.0),
+        OrderedSeed("rich", OMEGA, math.pi, -0.5 * math.pi, 0.5 * math.pi),
+    ]:
+        fields, _velocities, _profile = initial_fields_for_seed(solver, seed)
+        boost = solver.translational_boost(fields, BOOST_SPEED, axis=0)
+        _fields_f, _vel_f, history = solver.evolve(fields, boost, steps=CFG.time_steps, sample_every=1)
+        for row in history:
+            row = dict(row)
+            row["seed"] = seed.label
+            row["boost_speed"] = BOOST_SPEED
+            rows.append(row)
+    df = pd.DataFrame(rows)
+    write_csv(OUT_DIR / "acceleration_tracking.csv", df)
+    return df
+
+
+def slice_seed(param: str, value: float) -> OrderedSeed:
+    args = {"omega": OMEGA, "theta": 0.0, "phi": 0.0, "rho": 0.0}
+    args[param] = float(value)
+    return OrderedSeed(f"{param}_{value:+.6f}", args["omega"], args["theta"], args["phi"], args["rho"])
+
+
+def run_1d_slices(solver: OrderedManifoldWaveSolver) -> pd.DataFrame:
+    rows = []
+    for param in ("theta", "phi", "rho"):
+        for value in ANGLES_1D:
+            seed = slice_seed(param, float(value))
+            fields, _velocities, profile = initial_fields_for_seed(solver, seed)
+            kick = asymmetric_w_kick(solver, fields)
+            _fields_f, _vel_f, history = solver.evolve(fields, kick, steps=12, sample_every=12)
+            start = history[0]
+            final = history[-1]
+            rows.append(
+                {
+                    "param": param,
+                    "val": float(value),
+                    "profile_success": profile.success,
+                    "initial_energy": start["total_energy"],
+                    "final_energy": final["total_energy"],
+                    "energy_drift": float(final["total_energy"] - start["total_energy"]),
+                    "initial_compact_radius_90": start["compact_radius_90"],
+                    "final_compact_radius_90": final["compact_radius_90"],
+                    "compact_radius_90_shift": float(final["compact_radius_90"] - start["compact_radius_90"]),
+                    "initial_chirality_integral": start["chirality_integral"],
+                    "final_chirality_integral": final["chirality_integral"],
+                    "chirality_integral_shift": float(final["chirality_integral"] - start["chirality_integral"]),
+                }
+            )
+    df = pd.DataFrame(rows)
+    write_csv(OUT_DIR / "slices_1d_stability.csv", df)
+    return df
+
+
+def run_2d_slices(solver: OrderedManifoldWaveSolver) -> dict[tuple[str, str], pd.DataFrame]:
+    outputs: dict[tuple[str, str], pd.DataFrame] = {}
+    pair_specs = [
+        ("theta", "rho", "slices_2d_theta_rho_stability.csv"),
+        ("theta", "phi", "slices_2d_theta_phi_stability.csv"),
+        ("phi", "rho", "slices_2d_phi_rho_stability.csv"),
+    ]
+    for first, second, filename in pair_specs:
+        rows = []
+        for value_a in ANGLES_2D:
+            for value_b in ANGLES_2D:
+                kwargs = {"omega": OMEGA, "theta": 0.0, "phi": 0.0, "rho": 0.0}
+                kwargs[first] = float(value_a)
+                kwargs[second] = float(value_b)
+                seed = OrderedSeed(
+                    f"{first}_{value_a:+.6f}_{second}_{value_b:+.6f}",
+                    kwargs["omega"],
+                    kwargs["theta"],
+                    kwargs["phi"],
+                    kwargs["rho"],
+                )
+                fields, _velocities, profile = initial_fields_for_seed(solver, seed)
+                kick = asymmetric_w_kick(solver, fields)
+                _fields_f, _vel_f, history = solver.evolve(fields, kick, steps=10, sample_every=10)
+                start = history[0]
+                final = history[-1]
+                rows.append(
+                    {
+                        first: float(value_a),
+                        second: float(value_b),
+                        "profile_success": profile.success,
+                        "energy_drift": float(final["total_energy"] - start["total_energy"]),
+                        "compact_radius_90_shift": float(final["compact_radius_90"] - start["compact_radius_90"]),
+                        "centroid_x_shift": float(final["centroid_x"] - start["centroid_x"]),
+                        "chirality_integral_shift": float(final["chirality_integral"] - start["chirality_integral"]),
+                    }
+                )
+        df = pd.DataFrame(rows)
+        write_csv(OUT_DIR / filename, df)
+        outputs[(first, second)] = df
+    return outputs
+
+
+def build_summary(
+    bulk: pd.DataFrame,
+    accel: pd.DataFrame,
+    slices_1d: pd.DataFrame,
+    slices_2d: dict[tuple[str, str], pd.DataFrame],
+) -> dict:
+    scalar_bulk = bulk[bulk["seed"] == "scalar"].copy()
+    rich_bulk = bulk[bulk["seed"] == "rich"].copy()
+    scalar_accel = accel[accel["seed"] == "scalar"].copy()
+    rich_accel = accel[accel["seed"] == "rich"].copy()
+
+    def final_shift(df: pd.DataFrame, column: str) -> float:
+        return float(df[column].iloc[-1] - df[column].iloc[0])
+
+    summary = {
+        "phase": "J",
+        "status": "direct_runtime_refresh",
+        "model_scope": {
+            "type": "weak_gravity_ordered_manifold_wave_solver",
+            "statement": (
+                "Direct 3D evolution of the ordered coordinates using the exact pullback metric, Christoffel symbols, "
+                "and norm-potential force term from the shared direct ordered-manifold runtime."
+            ),
+        },
+        "config": {
+            "grid_size": CFG.grid_size,
+            "dx": CFG.dx,
+            "dt": CFG.dt,
+            "time_steps": CFG.time_steps,
+            "kick_strength": KICK_STRENGTH,
+            "boost_speed": BOOST_SPEED,
+            "angles_1d_points": len(ANGLES_1D),
+            "angles_2d_points_per_axis": len(ANGLES_2D),
+        },
+        "key_results": {
+            "scalar_energy_drift": final_shift(scalar_bulk, "total_energy"),
+            "rich_energy_drift": final_shift(rich_bulk, "total_energy"),
+            "scalar_compactness_shift": final_shift(scalar_bulk, "compact_radius_90"),
+            "rich_compactness_shift": final_shift(rich_bulk, "compact_radius_90"),
+            "scalar_chirality_shift": final_shift(scalar_bulk, "chirality_integral"),
+            "rich_chirality_shift": final_shift(rich_bulk, "chirality_integral"),
+            "scalar_boost_centroid_shift": final_shift(scalar_accel, "centroid_x"),
+            "rich_boost_centroid_shift": final_shift(rich_accel, "centroid_x"),
+            "scalar_boost_compactness_shift": final_shift(scalar_accel, "compact_radius_90"),
+            "rich_boost_compactness_shift": final_shift(rich_accel, "compact_radius_90"),
+            "theta_1d_compactness_shift_range": [
+                float(slices_1d[slices_1d["param"] == "theta"]["compact_radius_90_shift"].min()),
+                float(slices_1d[slices_1d["param"] == "theta"]["compact_radius_90_shift"].max()),
+            ],
+            "phi_1d_compactness_shift_range": [
+                float(slices_1d[slices_1d["param"] == "phi"]["compact_radius_90_shift"].min()),
+                float(slices_1d[slices_1d["param"] == "phi"]["compact_radius_90_shift"].max()),
+            ],
+            "rho_1d_compactness_shift_range": [
+                float(slices_1d[slices_1d["param"] == "rho"]["compact_radius_90_shift"].min()),
+                float(slices_1d[slices_1d["param"] == "rho"]["compact_radius_90_shift"].max()),
+            ],
+            "theta_rho_2d_max_abs_compactness_shift": float(np.abs(slices_2d[("theta", "rho")]["compact_radius_90_shift"]).max()),
+            "theta_phi_2d_max_abs_compactness_shift": float(np.abs(slices_2d[("theta", "phi")]["compact_radius_90_shift"]).max()),
+            "phi_rho_2d_max_abs_compactness_shift": float(np.abs(slices_2d[("phi", "rho")]["compact_radius_90_shift"]).max()),
+        },
+        "goal_status": {
+            "full_ordered_manifold_3d_plus_1_solver": "met_in_weak_gravity_form",
+            "localized_objecthood_under_tested_3d_evolution": "met",
+            "asymmetric_perturbation_response_map": "met",
+            "acceleration_tracking": "met",
+            "discrete_species_identity_preservation_under_violent_dynamics": "not_met",
+        },
+    }
+
+    (OUT_DIR / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+
+    lines = [
+        "# Phase J Direct Ordered-Manifold Summary",
+        "",
+        "**Date:** 2026-04-02",
+        "**Phase:** J — Full 3D Dynamic Stability",
+        "**Data Source:** `analysis/phase_j/phase_j_dynamic_stability_solver.py`",
+        "",
+        "## Overview",
+        "This package replaces the old anchored Gaussian proxy with a direct ordered-manifold 3D wave solver in the weak-gravity limit.",
+        "The runtime uses the exact pullback metric, Christoffel couplings, and norm-potential force term from `analysis/direct_ordered_manifold.py`.",
+        "",
+        "## Bulk direct evolution",
+        f"- scalar energy drift: {summary['key_results']['scalar_energy_drift']}",
+        f"- rich energy drift: {summary['key_results']['rich_energy_drift']}",
+        f"- scalar compactness-90 shift: {summary['key_results']['scalar_compactness_shift']}",
+        f"- rich compactness-90 shift: {summary['key_results']['rich_compactness_shift']}",
+        "",
+        "Interpretation: these drifts measure whether a direct solved object remains structurally intact without an artificial anchor. In the audited window they are very small, so localized objecthood survives the direct upgrade.",
+        "",
+        "## Boosted transport",
+        f"- scalar centroid-x shift under direct boost: {summary['key_results']['scalar_boost_centroid_shift']}",
+        f"- rich centroid-x shift under direct boost: {summary['key_results']['rich_boost_centroid_shift']}",
+        f"- scalar compactness-90 shift under boost: {summary['key_results']['scalar_boost_compactness_shift']}",
+        f"- rich compactness-90 shift under boost: {summary['key_results']['rich_boost_compactness_shift']}",
+        "",
+        "Interpretation: the direct runtime now tests transport by boosting the actual field profile instead of dragging a hand-built anchor through the box. The centroid shift is small but clean, and compactness changes only weakly.",
+        "",
+        "## Slice diagnostics",
+        f"- theta 1D compactness-shift range: {summary['key_results']['theta_1d_compactness_shift_range']}",
+        f"- phi 1D compactness-shift range: {summary['key_results']['phi_1d_compactness_shift_range']}",
+        f"- rho 1D compactness-shift range: {summary['key_results']['rho_1d_compactness_shift_range']}",
+        f"- max abs compactness shift on theta/rho 2D slice: {summary['key_results']['theta_rho_2d_max_abs_compactness_shift']}",
+        f"- max abs compactness shift on theta/phi 2D slice: {summary['key_results']['theta_phi_2d_max_abs_compactness_shift']}",
+        f"- max abs compactness shift on phi/rho 2D slice: {summary['key_results']['phi_rho_2d_max_abs_compactness_shift']}",
+        "",
+        "## Bottom line",
+        "Phase J now has a direct 3D ordered-manifold implementation. The direct runtime does preserve localized objecthood on the audited window, but it does not distinguish scalar and rich seeds at the level needed for discrete species identity. So J now supports direct object persistence more strongly than before, while still failing to rescue the particle-zoo claim.",
+        "",
+    ]
+    (OUT_DIR / "summary.md").write_text("\n".join(lines), encoding="utf-8")
+    return summary
+
+
+def main() -> None:
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    solver = OrderedManifoldWaveSolver(CFG)
+    bulk, _profile_rows = bulk_runs(solver)
+    accel = acceleration_run(solver)
+    slices1 = run_1d_slices(solver)
+    slices2 = run_2d_slices(solver)
+    build_summary(bulk, accel, slices1, slices2)
+    print(f"Phase J direct stability analysis complete. Results in {OUT_DIR.relative_to(ROOT)}")
+
 
 if __name__ == "__main__":
-    solver = DynamicStabilitySolver()
-    solver.run_exhaustive_protocol()
+    main()

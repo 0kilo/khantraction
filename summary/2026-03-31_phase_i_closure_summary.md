@@ -1,97 +1,167 @@
-# Phase I Closure Summary — First-Principles Derivation of Constants
+# Phase I Closure Summary — Direct Pullback Coefficient Replacement
 
 **Date:** 2026-03-31  
 **Phase:** I — First-Principles Derivation of Constants  
-**Status:** Closed
+**Status:** Closed after direct runtime refresh
 
-## 1. Scope of Phase I
+## 0. Project-level disposition
 
-Phase I was the "Foundational Cleanup" phase of the transition to a real physics model. Its primary mandate was to replace the phenomenological symmetry-breaking constants ($\beta_a$) with a rigorous derivation anchored in the ordered quaternionic state map and identify the model's physical analogs.
+Phase I is no longer blocked at the level of coefficient replacement. The exact pullback metric, inverse metric, and Christoffel symbols are now the active coefficient source in the rebuilt direct runtime used by Phases J, E, and K. The remaining issue is empirical: that direct chain preserves universal objecthood but does not generate distinct species observables. The project-level synthesis is recorded in:
 
-The active working convention and constraints during this phase, as dictated by the Quantum Exploration Plan, were:
-- $\omega > 0$
-- $\theta, \phi, \rho \in [-2\pi, 2\pi]$
-- No redundancy quotienting.
-- Every study must include bulk analysis along with all combinations of 1D Slices and 2D Slices.
+- `notes/2026-04-02_direct_data_closure_plan.md`
+- `summary/2026-04-02_gap_closure_summary.md`
+- `summary/2026-04-02_khantraction_model_conclusion.md`
 
-The key burdens of proof were:
-- Prove that the pullback metric $G_{ij}$ natively breaks $O(4)$ symmetry.
-- Map the dynamical "stiffness" of the angular channels across the full state space.
-- Calculate the exact self-coupling limits required to keep the internal branch structure stable.
-- Identify the physical analogs for the fine-structure constant and the mass gap.
+## 1. Scope and motivation
 
----
+`khantraction_paper.md` treats Khantraction as an exploratory structured-fold model built on the ordered quaternionic map
 
-## 2. Final Phase I Conclusions
+$$
+Q(\omega,\theta,\phi,\rho)=e^\omega e^{\theta i} e^{\phi j} e^{\rho k}.
+$$
 
-### 2.1 Spontaneous Symmetry Breaking via Pullback Geometry
+`notes/real_physics_transition_plan.md` then asks a sharper question:
 
-**Claim:** The Ordered Quaternionic State Map natively contains the necessary anisotropy in its pullback metric $G_{ij}$ to break $O(4)$ symmetry, eliminating the need for phenomenological proxy constants.
-**Methodology & Rationale:** We mathematically derived the pullback metric and extracted the eigenvalues of its angular sub-matrix ($G_{ang}$). This allowed us to determine the intrinsic stiffness of the $\phi$ channel, as well as the symmetric $(\theta + \rho)$ and anti-symmetric $(\theta - \rho)$ channels. 
-**Results & Proof:** The analytical eigenvalue decomposition showed that the stiffness for the symmetric channel is $\lambda_+ = 1 + \sin(2\phi)$ and for the anti-symmetric channel is $\lambda_- = 1 - \sin(2\phi)$, all scaled by $e^{2\omega}$. For any $\phi \neq n\pi/2$, the stiffness of these channels is strictly unequal. This geometric asymmetry forces spontaneous symmetry breaking. The "effective" $\beta_a$ values are not constant but dynamical functions of the state coordinate $\phi$.
+> can the active dynamical constants be replaced by geometry derived directly from that ordered map?
 
-This conclusion is supported by:
+Before this refresh, Phase I only had a geometry-level answer. After the direct implementation pass, the burden of proof is broader:
+
+1. show the exact pullback anisotropy on the full active domain,
+2. wire that anisotropy into a live direct runtime,
+3. check whether the rebuilt runtime supports regular branches without the exploratory `beta_a` path,
+4. and see whether the resulting direct chain produces distinct species observables or only universal objecthood.
+
+## 2. Support chain
+
+This closure summary is supported by:
+
+- `khantraction_paper.md`
+- `notes/real_physics_transition_plan.md`
+- `derivations/derivation_71_exponential_quaternion_parameter_mapping_clean.md`
+- `derivations/derivation_75_ordered_pullback_and_exploratory_directional_phase_b_runtime.md`
 - `derivations/derivation_90_geometric_origin_of_anisotropy.md`
-- `notes/phase_i/phase_i_constants_derivation_assessment.md`
-
----
-
-### 2.2 Dynamic Stiffness and the Unbinding Limits
-
-**Claim:** The effective stiffness of the internal channels is dynamically controlled by $\phi$, and diverges to create unbinding limits that define stable topological basins.
-**Methodology & Rationale:** We performed an exhaustive numerical scan of the eigenvalues across the full angular domain, strictly implementing the 1D and 2D slice requirements of the transition protocol. By evaluating the anisotropy ratio across these slices, we could pinpoint exactly where stiffness diverges or collapses.
-**Results & Proof:** The scan verified that $\theta$ and $\rho$ do not alter stiffness, confirming $\phi$ as the unique "switch." The maximum anisotropy ratio reached $>15,888$ near singular locations. Specifically, at $\phi = \pm\pi/4$, the stiffness of the anti-symmetric channel exactly vanishes ($\lambda_- \to 0$). This establishes the "Unbinding Limits" where the topological fold loses its restoring force. 
-
-This conclusion is supported by:
+- `analysis/direct_ordered_manifold.py`
 - `analysis/phase_i/phase_i_geometric_anisotropy_scan.py`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_1d_phi.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_1d_theta.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_1d_rho.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_2d_phi_rho.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_2d_theta_phi.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/slice_2d_theta_rho.csv`
-- `solutions/phase_i/phase_i_geometric_anisotropy_scan/bulk_summary.json`
+- `notes/phase_i/phase_i_constants_derivation_assessment.md`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/summary.json`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/direct_profile_runs.csv`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/branch_stability_scan.csv`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/direct_runtime_coefficients.json`
+
+## 3. Method
+
+### 3.1 Exact pullback scan
+
+The script evaluates the exact pullback eigenvalues
+
+$$
+\lambda_\phi=e^{2\omega}, \qquad
+\lambda_\pm=e^{2\omega}(1\pm \sin 2\phi)
+$$
+
+across:
+
+- full 1D `phi`, `theta`, and `rho` slices on `[-2pi, 2pi]`,
+- full 2D `(phi, rho)`, `(theta, phi)`, and `(theta, rho)` slices on `[-2pi, 2pi]^2`,
+- exact named reference points,
+- and explicit alternating sheet-family tables.
+
+This is the right method for Goal 1 because it directly tests whether anisotropy is already built into the ordered map rather than inserted by hand.
+
+### 3.2 Direct runtime bridge
+
+The refresh then implements the exact pullback metric, inverse metric, and Christoffel symbols in `analysis/direct_ordered_manifold.py` and records that downstream Phases J, E, and K import that shared module.
+
+This is the right method for Goal 1 because it moves the project from “candidate geometry mechanism” to “active solver coefficient source.”
+
+### 3.3 Branch-stability scan
+
+The refresh adds a direct empirical scan over:
+
+- `lambda_q in {0.005, 0.01, 0.02, 0.04}`
+- `A0 in {0.01, 0.02, 0.03, 0.04}`
+
+using the direct ordered-variable radial solver.
+
+This is the right method for Goal 2 because it checks whether regular branch behavior survives in the new non-`beta_a` runtime.
+
+## 4. Results against the transition plan
+
+### 4.1 Goal 1 — Replace arbitrary anisotropic coefficients with derived dynamical values
+
+**Status:** Met for the new direct solver chain.
+
+**Result:** The exact pullback chain is now active in:
+
+- `analysis/direct_ordered_manifold.py`
+- `analysis/phase_j/phase_j_dynamic_stability_solver.py`
+- `analysis/phase_e/phase_e_external_phenomenology.py`
+- `analysis/phase_k/phase_k_multi_fold_force_law.py`
+
+The old exploratory `beta_a` coefficients are not used in that new chain.
+
+**Why this proves the claim:** coefficient replacement is no longer only an intention or a note-level recommendation; it is an implemented runtime fact.
+
+### 4.2 Goal 2 — Calculate self-coupling limits for branch stability
+
+**Status:** Partially met.
+
+**Result:** The branch scan records `16` regular branch candidates across the tested `(lambda_q, A0)` grid, with candidate ranges:
+
+- `lambda_q in [0.005, 0.04]`
+- `A0 in [0.01, 0.04]`
+
+**Why this only partially proves the claim:** the result is empirical rather than analytical. It demonstrates branch regularity in the direct chain, but it is not yet a closed-form self-coupling bound.
+
+### 4.3 Goal 3 — Map the derived constants to physical observables
+
+**Status:** Partially met.
+
+**Result:** The direct refresh now extracts regenerated profile observables such as final mass and compactness and uses the same coefficient chain downstream in Phases J, E, and K.
+
+**Why this only partially proves the claim:** no fine-structure analog, mass-gap law, or other sharp observable constant has yet been derived from first principles.
+
+### 4.4 Common slice protocol
+
+**Status:** Met.
+
+The Phase I package now contains all required bulk, 1D, and 2D studies on the full active domain.
+
+## 5. Direct findings
+
+The most important direct numbers are:
+
+- maximum regular sampled anisotropy ratio: `101320.51697625456`
+- `lambda_phi` constant at fixed `omega = 0.5`
+- direct representative profile success count: `3/3`
+- direct profile mass spread across scalar / rich / off-sheet seeds: `0.0`
+- direct profile compactness-90 spread across scalar / rich / off-sheet seeds: `0.0`
+
+So the direct runtime preserves the anisotropy mechanism geometrically, but that anisotropy does not show up as species-level mass or compactness splitting on the representative seed set.
+
+## 6. Interpretation
+
+Phase I now answers two different questions cleanly:
+
+1. **Can the exploratory `beta_a` path be replaced?**  
+   Yes. The direct runtime replacement is implemented.
+
+2. **Does that replacement recover distinct species?**  
+   No. The rebuilt direct chain yields degenerate representative profiles.
+
+That changes the project-level problem materially. The old blocker was “there is no direct coefficient replacement.” The new blocker is “the direct coefficient replacement appears to universalize the object family.”
+
+## 7. Supporting outputs
+
+Key files:
+
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/summary.json`
 - `solutions/phase_i/phase_i_geometric_anisotropy_scan/summary.md`
-- `notes/phase_i/phase_i_data_assessment.md`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/coefficient_map.csv`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/direct_profile_runs.csv`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/branch_stability_scan.csv`
+- `solutions/phase_i/phase_i_geometric_anisotropy_scan/direct_runtime_coefficients.json`
 
----
+## Bottom line
 
-### 2.3 Definition of Physical Analogs: $\alpha_K$ and $\Delta M_g$
-
-**Claim:** The geometric constants derived from the pullback metric naturally map to physical observables: a fine-structure constant and an internal mass gap.
-**Methodology & Rationale:** We compared the derived stiffness eigenvalues with the non-minimal coupling interactions. By taking dimensionless ratios of these parameters at the stable species-anchor points (e.g., $\phi = \pi/8$), we can define robust, scale-invariant interaction constants.
-**Results & Proof:** The **Khantraction Fine-Structure Constant ($\alpha_K$)** was calculated as the ratio of the non-minimal coupling $\xi$ to the unit channel stiffness ($\beta_{unit} = 1$), yielding $\alpha_K = \xi / 1 \approx 0.002$. The **Internal Mass Gap ($\Delta M_g$)** was calculated as the difference between the symmetric and anti-symmetric channel stiffnesses, $\Delta M_g = 2|\sin(2\phi)|$. At the anchor point $\phi = \pi/8$, this evaluates to $\Delta M_g \approx 1.414$. These constants dynamically replace the phenomenological parameters and provide the dimensionless foundation needed for a discrete particle-like spectrum.
-
-This conclusion is supported by:
-- `notes/phase_i/phase_i_physical_analogs.md`
-- `derivations/derivation_90_geometric_origin_of_anisotropy.md`
-
----
-
-## 3. What Phase I has *not* claimed
-
-Phase I has **not** established:
-- The exact time-evolution of these stable basins in full 3D+1 dynamics.
-- The behavior of these states under violent spatial acceleration.
-- The emergent interaction forces (attraction/repulsion) when two distinct folds are separated by distance.
-- The specific mechanisms for discrete energy shedding or pair creation.
-
-## 4. Why the phase is considered closed
-
-Phase I is closed because all explicit goals assigned in the `real_physics_transition_plan.md` have been met:
-1. The arbitrary anisotropic Maurer-Cartan coefficients ($\beta_a$) have been completely replaced with dynamical values derived from the pullback geometry.
-2. The exact self-coupling limits (the $\lambda_- \to 0$ unbinding limits) have been rigorously identified across 1D, 2D, and bulk scans.
-3. The derived constants have been successfully mapped to the physical observables $\alpha_K$ and $\Delta M_g$.
-
-## 5. Recommended handoff to later phases
-
-The first-principles constants derived here are the critical prerequisites for moving beyond 1D statics into 3D dynamics. The recommended handoff is:
-- Abandon all use of static $\beta_a$ constants in future code.
-- Implement the dynamically calculated $\lambda_\phi, \lambda_+, \lambda_-$ derived from $G_{ang}$ natively in the solver logic for **Phase J: Full 3D Dynamic Stability**.
-- Use the identified stability basins ($|\phi| < \pi/4$) as the boundary conditions when testing structural survival against asymmetric perturbations.
-
----
-
-## 6. Bottom line
-
-**Bottom line:** Phase I has successfully transitioned Khantraction from a hand-tuned toy model to a first-principles geometric theory. The interaction strengths and energy gaps are no longer imposed from the outside; they are derived directly from the ordered quaternionic state map's native pullback metric. The identification of the unbinding limits defines the stable topological basins of the theory, providing a robust, dynamically consistent foundation for 3D simulation.
+**Bottom line:** Phase I now closes at a stronger level than the audit-only version. The exact pullback anisotropy is no longer only a geometry observation; it is the active coefficient source for the rebuilt direct runtime. But the resulting direct profiles are degenerate across the representative seed family, so Phase I now supports universal objecthood rather than distinct particle-like species. Analytical self-coupling limits and sharp observable constants remain open.

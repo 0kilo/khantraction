@@ -1,9 +1,7 @@
 {
-    "M0.0_Q0.8": [
-        "scalar"
-    ],
-    "M5.5_Q5.1": [
-        "phi_dom",
-        "fully_mixed"
-    ]
+  "class_1": [
+    "phi_offsheet",
+    "rich",
+    "scalar"
+  ]
 }

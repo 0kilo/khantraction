@@ -1,32 +1,31 @@
-# Phase I Geometric Anisotropy Scan Summary
+# Phase I Direct Pullback Runtime Summary
 
-**Date:** 2026-03-31  
+**Date:** 2026-04-02
 **Phase:** I — First-Principles Derivation of Constants
+**Data Source:** `analysis/phase_i/phase_i_geometric_anisotropy_scan.py`
 
-## 1. Overview
-This directory contains the numerical scan outputs analyzing the eigenvalues of the angular pullback metric $G_{ang}$ derived from the ordered quaternionic state map $Q(\omega, \theta, \phi, \rho)$. The primary objective of this scan was to verify whether the metric intrinsically provides anisotropic symmetry breaking for the angular channels without requiring hand-tuned $\beta_a$ phenomenological constants.
+## Overview
+This package now does more than scan the pullback geometry.
+It keeps the exact pullback eigenvalue study, adds a direct ordered-variable radial runtime, and uses that runtime as the coefficient bridge for downstream Phases J, E, and K.
 
-## 2. Scan Methodology
-In accordance with the Transition Plan protocol, we evaluated the eigenvalues $\lambda_\phi, \lambda_+, \lambda_-$ of the angular pullback metric at a fixed scale ($\omega = 0.5$) across the unquotiented angular domain $[-2\pi, 2\pi]$. The scan executed:
-- **1D Slices:** Fixing two angles and varying the third (`slice_1d_phi.csv`, `slice_1d_theta.csv`, `slice_1d_rho.csv`).
-- **2D Slices:** Fixing one angle and varying the other two (`slice_2d_phi_rho.csv`, `slice_2d_theta_phi.csv`, `slice_2d_theta_rho.csv`).
-- **Bulk Summary:** Aggregation of maximum anisotropy ratios and singular boundary locations (`bulk_summary.json`).
+## Geometry results
+- `lambda_phi` stays constant at `e^(2omega) = 2.718281828459045` for fixed `omega = 0.5`.
+- maximum regular sampled anisotropy ratio on the dense phi sweep: 101320.51697625456
+- active-scale paired-mode gap at `phi = pi/8`: 3.844231028159116
 
-## 3. Data Interpretation and Results
+## Direct runtime bridge
+- direct profile success count on the representative seed set: 3
+- direct profile mass spread across scalar/rich/off-sheet seeds: 0.0
+- direct profile compactness-90 spread across scalar/rich/off-sheet seeds: 0.0
+- downstream direct-runtime phases now import the exact pullback metric and Christoffel symbols from `analysis/direct_ordered_manifold.py`.
+- the old exploratory `beta_a` coefficients are not used in that new chain.
 
-### 3.1 $\phi$ as the Unique Anisotropy Switch
-The 1D slices definitively show that the anisotropy is governed entirely by $\phi$:
-- Sweeping $\phi$ (`slice_1d_phi.csv`) causes the eigenvalues $\lambda_+ = 1 + \sin(2\phi)$ and $\lambda_- = 1 - \sin(2\phi)$ to oscillate, shifting stiffness between the symmetric $(\theta + \rho)$ and anti-symmetric $(\theta - \rho)$ channels.
-- Sweeping $\theta$ or $\rho$ (`slice_1d_theta.csv`, `slice_1d_rho.csv`) produces perfectly constant eigenvalues when $\phi$ is fixed. This validates that the local energy landscape of internal fluctuations is $\theta$- and $\rho$-independent but highly sensitive to $\phi$.
+## Branch-stability scan
+- regular branch candidate count on the `(lambda_q, A0)` scan: 16
+- regular candidate lambda range: [0.005, 0.04]
+- regular candidate central-amplitude range: [0.01, 0.04]
 
-### 3.2 Dynamic Stiffness and Anisotropy Divergence
-The `bulk_summary.json` confirms that the stiffness range spans from exactly $0.0$ to $5.436$ (which is $2e^{2\omega}$ at $\omega=0.5$).
-- The **Maximum Anisotropy Ratio** reaches $>15,888$ near the singular locations. This massive disparity mathematically enforces that certain angular combinations become heavily suppressed (infinitely stiff) compared to others.
+Interpretation: Phase I now supports a real coefficient replacement claim for the new direct runtime. The exact pullback geometry is no longer only an interpretation layer; it is the active kinetic structure used downstream. But the direct representative seed set is degenerate in mass and compactness, so coefficient replacement alone does not reproduce the exploratory trait splitting. The self-coupling scan is still empirical and does not yet amount to a full analytical stability bound.
 
-### 3.3 Identification of the Unbinding Limits
-The scan locates the exact points where $\lambda_- \to 0$ (e.g., singular $\phi$ locations around $\pm \pi/4$, specifically mapped near $\pm 2.348$ and $\pm 5.521$ given numerical root finding on $\cos(2\phi) \approx 0$). At these exact boundaries:
-- The effective stiffness of the anti-symmetric channel vanishes completely.
-- This defines the topological "Unbinding Limits" of the theory: a state crossing this boundary loses its internal restoring force and dissolves.
-
-## 4. Conclusion
-The numerical scan flawlessly corroborates the analytical derivation. The geometric pullback metric of the ordered map natively provides dynamic, $\phi$-dependent interaction strengths ($\beta_{eff}$) that are orders of magnitude stronger than the toy constants from Phase C, successfully breaking the $O(4)$ symmetry from first principles.
+## Bottom line
+Phase I now closes at a stronger level than the audit-only version. The exact pullback anisotropy remains the controlling geometric mechanism, and the new direct runtime uses that mechanism in place of the exploratory beta-coefficient path. But the resulting direct representative profiles remain degenerate, so the new chain supports universal objecthood rather than distinct particle-like species. What remains open is a full analytical self-coupling derivation and a sharper mapping from those direct coefficients to physical observables.

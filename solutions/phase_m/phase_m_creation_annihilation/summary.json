@@ -1,6 +1,132 @@
 {
-  "status": "Verified",
-  "creation_threshold_energy": 2.5510204081632653,
-  "annihilation_completeness": "Achieved for exact enantiomer pairs",
-  "conclusion": "Manifold tearing and vielbein cancellation provide a complete life-cycle for Khantraction species."
+  "status": "audited_pair_lifecycle_refresh",
+  "type": "pair_lifecycle_proxy",
+  "chirality_formula": "cos(2phi)",
+  "creation_gate_type": "fixed_threshold_plus_sheet_susceptibility_proxy",
+  "annihilation_tolerance": 0.08,
+  "imposed_creation_threshold": 2.55,
+  "sampled_first_created_energy": 2.5510204081632653,
+  "pair_rest_energy_proxy": 1.0,
+  "left_anchor": {
+    "w": 0.5,
+    "theta": 1.5707963267948966,
+    "phi": 1.9634954084936207,
+    "rho": 0.0
+  },
+  "right_anchor": {
+    "w": 0.5,
+    "theta": 1.5707963267948966,
+    "phi": 0.39269908169872414,
+    "rho": 0.0
+  },
+  "pair_reference_checks": [
+    {
+      "label": "exact_enantiomer",
+      "theta": 1.5707963267948966,
+      "phi": 0.39269908169872414,
+      "rho": 0.0,
+      "status": "Vacuum",
+      "chi_left": -0.7071067811865477,
+      "chi_right": 0.7071067811865476,
+      "chi_gap": 1.1102230246251565e-16,
+      "expected_partner_phi": 0.3926990816987242,
+      "phi_gap": 5.551115123125783e-17,
+      "theta_gap": 0.0,
+      "rho_gap": 0.0,
+      "pair_score": 1.249000902703301e-16,
+      "released_energy_proxy": 1.0
+    },
+    {
+      "label": "parity_partner",
+      "theta": 1.5707963267948966,
+      "phi": -0.39269908169872414,
+      "rho": 0.0,
+      "status": "Residual Dipole",
+      "chi_left": -0.7071067811865477,
+      "chi_right": 0.7071067811865476,
+      "chi_gap": 1.1102230246251565e-16,
+      "expected_partner_phi": 0.3926990816987242,
+      "phi_gap": 0.7853981633974483,
+      "theta_gap": 0.0,
+      "rho_gap": 0.0,
+      "pair_score": 0.19634954084936218,
+      "released_energy_proxy": 0.8036504591506378
+    },
+    {
+      "label": "same_handed_copy",
+      "theta": 1.5707963267948966,
+      "phi": 1.9634954084936207,
+      "rho": 0.0,
+      "status": "Residual Dipole",
+      "chi_left": -0.7071067811865477,
+      "chi_right": -0.7071067811865477,
+      "chi_gap": 1.4142135623730954,
+      "expected_partner_phi": 0.3926990816987242,
+      "phi_gap": 1.5707963267948966,
+      "theta_gap": 0.0,
+      "rho_gap": 0.0,
+      "pair_score": 1.8069126440718195,
+      "released_energy_proxy": 0.0
+    }
+  ],
+  "phi_reference_points": {
+    "near_zero": {
+      "label": "phi_zero",
+      "phi": 0.0,
+      "creation_prob_proxy": 0.9090909090909091,
+      "chi": 1.0
+    },
+    "near_pos_pi_over_4": {
+      "label": "phi_pos_pi_over_4",
+      "phi": 0.7853981633974483,
+      "creation_prob_proxy": 9.999999999999995,
+      "chi": 6.123233995736766e-17
+    },
+    "near_neg_pi_over_4": {
+      "label": "phi_neg_pi_over_4",
+      "phi": -0.7853981633974483,
+      "creation_prob_proxy": 9.999999999999995,
+      "chi": 6.123233995736766e-17
+    },
+    "near_pi_over_2": {
+      "label": "phi_pi_over_2",
+      "phi": 1.5707963267948966,
+      "creation_prob_proxy": 0.9090909090909091,
+      "chi": -1.0
+    }
+  },
+  "annihilation_status_counts": {
+    "theta": {
+      "Residual Dipole": 90,
+      "Vacuum": 10
+    },
+    "phi": {
+      "Residual Dipole": 99,
+      "Vacuum": 1
+    },
+    "rho": {
+      "Residual Dipole": 88,
+      "Vacuum": 12
+    }
+  },
+  "slice_2d_rows": {
+    "theta_phi": 900,
+    "theta_rho": 900,
+    "phi_rho": 900
+  },
+  "creation_prob_proxy_range": {
+    "theta_phi": [
+      0.9090909090909091,
+      6.487654604391116
+    ],
+    "theta_rho": [
+      0.9090909090909091,
+      0.9090909090909091
+    ],
+    "phi_rho": [
+      0.9090909090909091,
+      6.487654604391116
+    ]
+  },
+  "conclusion": "The active Phase M package supports a chirality-cancellation and sheet-susceptibility pair-lifecycle proxy. It does not directly implement dynamical annihilation collisions or vacuum tearing."
 }

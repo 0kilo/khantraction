@@ -1,31 +1,31 @@
-# Task Plan: Phase C Closure Audit
+# Task Plan: Khantraction Direct-Data Implementation
 
 ## Goal
-Verify that the Phase C closure summary is complete, accurate, and fully supported by the paper, the classical exploration plan, the derivations, the analysis code, the solution artifacts, and the phase notes; then update the affected notes and summary files where needed.
+Implement the saved direct-data closure plan in code as far as the current derivations and codebase allow, regenerate outputs in the venv, update the affected phase documents and summaries, and then issue the Khantraction model conclusion from the implemented results.
 
 ## Phases
-- [x] Phase 1: Plan and setup
-- [x] Phase 2: Read source documents and map claims to evidence
-- [x] Phase 3: Verify supporting analyses, solutions, and summaries
-- [x] Phase 4: Update notes and closure summary
-- [x] Phase 5: Review consistency and deliver findings
+- [x] Phase 1: Reset planning files and inventory reusable direct-geometry machinery
+- [x] Phase 2: Implement shared ordered-manifold runtime and rebuild Phase I
+- [x] Phase 3: Replace the Phase J proxy with direct 3D ordered-manifold evolution
+- [x] Phase 4: Rebuild Phase E and Phase K on the direct runtime
+- [x] Phase 5: Regenerate outputs in the venv and inspect results
+- [x] Phase 6: Update phase notes, summaries, trackers, and the final conclusion
 
 ## Key Questions
-1. What is the paper's purpose and motivation, and how does Phase C serve that purpose?
-2. What explicit goals and success criteria does `notes/classical_exploration_plan.md` set for Phase C?
-3. Does every claim in `summary/2026-03-29_phase_c_closure_summary.md` have direct support in derivations, notes, code, and solution artifacts?
-4. Does every Phase C solution directory contain an adequate interpretive summary?
-5. Are any Phase C claims overstated relative to what the solver and raw outputs actually show?
-6. What corrections or additions are required so the summary is complete, accurate, and traceable?
+1. Which parts of the direct-data closure plan can be implemented immediately from the existing derivations?
+2. Can the Phase I pullback geometry replace the exploratory anisotropy coefficients in the new active runtime?
+3. Does the direct ordered-manifold 3D evolution preserve a localized object better than the old anchored proxy?
+4. Can motion-response and two-object interaction diagnostics be extracted from the direct runtime without falling back to overlap proxies?
+5. After implementation, does the evidence support, weaken, or eliminate the classical particle-level Khantraction claim?
 
 ## Decisions Made
-- Use the planning-with-files workflow because this is a multi-document research audit with edits across existing deliverables.
-- Treat the audit scope as the full Phase C evidence chain: paper, plan, derivations, analyses, notes, solutions, and the closure summary itself.
+- Use the planning-with-files workflow because this is a multi-phase implementation and synthesis task.
+- Rebuild the critical path around direct solver-backed geometry: I, J, E, and K.
+- Prefer one shared direct ordered-manifold runtime over separate ad hoc replacements.
+- Stay away from hand-built spectral, emission, and lifecycle proxies while implementing the classical-core path.
 
 ## Errors Encountered
-- No blocking runtime errors after the solver refresh.
-- The main issue was evidence drift: the old Phase C note and closure summary overstated what the active runtime proved.
-- The old Phase C package also lacked top-level solution summaries for all directories and did not present the audited result in the same complete style as the refreshed Phase A and Phase B summaries.
+- Shared pair-field superposition in `analysis/direct_ordered_manifold.py` was initially broadcast incorrectly; fixed by allocating a full-grid ambient field before the Phase K rerun.
 
 ## Status
-**Completed** - The Phase C audit has been refreshed, the solver outputs were regenerated in the venv, all solution directories now have summaries, and the note/closure documents now match the actual evidence.
+**Completed** - The direct implementation pass through I, J, E, and K is on disk, the affected phase documents are updated, and the final project conclusion now reflects the implemented direct-runtime evidence.

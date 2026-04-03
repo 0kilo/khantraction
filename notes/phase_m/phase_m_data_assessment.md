@@ -1,37 +1,102 @@
-# Phase M Data Assessment: Pair Creation and Annihilation Results
+# Phase M Data Assessment - Refreshed Pair-Lifecycle Outputs
 
-**Date:** 2026-03-31  
-**Status:** Completed
+**Date:** 2026-04-02  
+**Status:** Complete after audit refresh
 
-## 1. Analysis of the Lifecycle Data
+## 1. Output package
 
-### 1.1 Spontaneous Pair Creation (The "Tearing" Event)
-The bulk creation sweep (`bulk_creation_sweep.csv`) successfully identified the transition from a trivial vacuum fluctuation to a structured fold pair.
-- **Creation Threshold:** The manifold "tears" and produces an L+R pair at an input energy of **2.55 units**. 
-- **Topological Logic:** Below this threshold, the energy is insufficient to "tie" the required knots in the glue field. Above it, the surplus energy is retained as kinetic/potential energy of the two newly formed species.
+The refreshed Phase M solution directory now contains the active audited evidence files:
 
-### 1.2 Dynamic Annihilation (The "Untying" Event)
-The 1D collision slices (`slices_1d_annihilation.csv`) verified the conditions for vielbein cancellation.
-- **Completeness:** When a Right-Handed species and its exact Left-Handed inverse collide, the net chirality drops to **zero**. 
-- **Result:** The simulation reports a return to the "Vacuum" state, with the total mass-energy of both folds (1.0 units) released as radiation. 
-- **Angular Sensitivity:** Off-phase collisions (where $\theta$ or $\phi$ do not perfectly mirror) result in a "Residual Dipole," proving that annihilation is a high-precision topological event.
+- `bulk_creation_sweep.csv`
+- `pair_reference_checks.csv`
+- `creation_phi_reference.csv`
+- `slices_1d_annihilation_theta.csv`
+- `slices_1d_annihilation_phi.csv`
+- `slices_1d_annihilation_rho.csv`
+- `slices_1d_annihilation.csv`
+- `slices_2d_creation_theta_phi.csv`
+- `slices_2d_creation_theta_rho.csv`
+- `slices_2d_creation_phi_rho.csv`
+- `slices_2d_creation_probability.csv`
+- `summary.json`
+- `summary.md`
 
-### 1.3 Creation Stability Maps
-The 2D slices (`slices_2d_creation_probability.csv`) show that the probability of pair production is non-uniform.
-- **Catalysis:** The singular sheets ($\phi = \pm \pi/4$) act as areas of high instability where the manifold is most likely to tear. This aligns with the "softening" of eigenvalues observed in Phase I and Phase L.
+These are the files that should be used to interpret the current runtime.
 
-## 2. Fulfillment of Goals
+## 2. What the regenerated data shows
 
-### 2.1 Goal 1: Annihilation Modeling
-The simulation of L+R collisions successfully demonstrated the "untying" of the geometric knot and the return to vacuum.
+### 2.1 Bulk creation gate
 
-### 2.2 Goal 2: Creation Modeling
-The vacuum energy spike simulation successfully demonstrated the creation of opposite-chirality folds from a zero-baseline state.
+The bulk table contains `50` energy samples. It shows a clean switch from:
 
-## 3. Verification of Criteria
-- **Parameter Domains:** Full $[-2\pi, 2\pi]$ sweeps for collision cross-sections were completed.
-- **Analysis Protocol:** Bulk, 1D, and 2D study combinations were all executed.
-- **Key Question Answered:** Yes, the Khantraction model naturally supports the creation and annihilation of mirror-pair enantiomers out of/into the vacuum state under extreme energy density.
+- `Sub-threshold fluctuation`
 
----
-**Conclusion:** Phase M is complete. We have successfully modeled the full lifecycle of Khantraction species.
+to:
+
+- `L+R Pair Created`
+
+once the scan crosses the fixed gate.
+
+The important reading is:
+
+- imposed threshold: `2.55`
+- first sampled created row: `2.5510204081632653`
+
+So the table documents the behavior of the gate, not a discovered onset from dynamics.
+
+### 2.2 Pair-reference checks
+
+The pair-reference table is the most important annihilation evidence:
+
+- exact enantiomer:
+  - `Vacuum`
+  - `pair_score ~ 1.249e-16`
+- parity partner:
+  - `Residual Dipole`
+  - `pair_score ~ 0.19635`
+- same-handed copy:
+  - `Residual Dipole`
+  - `pair_score ~ 1.80691`
+
+This confirms that the current model now distinguishes the true chiral-flip partner from a parity partner.
+
+### 2.3 One-dimensional annihilation slices
+
+The refreshed annihilation slices show localized vacuum-return windows:
+
+- `theta`: `10 / 100`
+- `phi`: `1 / 100`
+- `rho`: `12 / 100`
+
+These are not generic annihilation regions. They are narrow compatibility windows around the exact periodic partner conditions allowed by the simplified score.
+
+### 2.4 Two-dimensional creation slices
+
+The refreshed 2D creation slices now satisfy the full `[-2pi, 2pi]` protocol and show:
+
+- strong variation on phi-involving slices,
+- flat baseline on the `theta-rho` slice at fixed `phi = 0`.
+
+The named phi reference table makes the localization clearer:
+
+- `phi = 0`: `0.9090909090909091`
+- `phi = +pi/4`: `9.999999999999995`
+- `phi = -pi/4`: `9.999999999999995`
+- `phi = pi/2`: `0.9090909090909091`
+
+So the current creation rule is explicitly singular-sheet localized.
+
+## 3. Correct reading of the data
+
+The regenerated data supports three narrow statements:
+
+1. the active Phase M model can represent exact-partner annihilation differently from parity or same-handed overlap,
+2. it can represent a phi-localized creation tendency near the singular sheets,
+3. it can represent a fixed energy-threshold gate for pair creation.
+
+The data does not support:
+
+1. a field-theory collision solve,
+2. dynamical Maurer-Cartan cancellation in spacetime,
+3. an emergent vacuum-tearing threshold derived from the equations of motion,
+4. or the claim that the full Real Physics Transition Plan is already complete.

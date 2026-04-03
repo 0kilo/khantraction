@@ -1,82 +1,157 @@
-# Phase J Closure Summary — Full 3D Dynamic Stability
+# Phase J Closure Summary — Direct Ordered-Manifold 3D Stability
 
 **Date:** 2026-03-31  
 **Phase:** J — Full 3D Dynamic Stability  
-**Status:** Closed
+**Status:** Closed after direct runtime refresh
 
-## 1. Scope of Phase J
-Phase J was the first "Temporal" phase of the transition from a static geometric toy model to a true dynamical physical framework. Following the strict guidelines defined in `notes/real_physics_transition_plan.md`, its mandate was to elevate Khantraction from radial ordinary differential equations (ODE) into a complete 3D+1 partial differential equation (PDE) environment.
+## 0. Project-level disposition
 
-The strict constraint protocol mandated full unquotiented domains ($\omega > 0$, $\theta, \phi, \rho \in [-2\pi, 2\pi]$) and an exhaustive analysis consisting of 1D, 2D slice testing, and bulk evolution tests.
+Phase J is no longer blocked by missing implementation. The old anchored Gaussian proxy has been replaced by a direct weak-gravity ordered-manifold 3D solver. The remaining blocker is empirical: the rebuilt runtime preserves localized objecthood, but it does not distinguish scalar and rich seeds strongly enough to support discrete particle-species identity. The project-level synthesis is recorded in:
 
-The key burdens of proof were:
-1. Transition the radial ODE system to a 3D+1 PDE wave equation.
-2. Introduce asymmetric perturbations to the fold's boundary to test resilience against geometric collapse or dispersion.
-3. Track the time evolution of the ordered internal branch structure during acceleration in 3D space.
+- `notes/2026-04-02_direct_data_closure_plan.md`
+- `summary/2026-04-02_gap_closure_summary.md`
+- `summary/2026-04-02_khantraction_model_conclusion.md`
 
----
+## 1. Scope and motivation
 
-## 2. Final Phase J Conclusions
+`notes/real_physics_transition_plan.md` assigns Phase J the first serious dynamical question in the real-physics transition:
 
-### 2.1 Khantraction cores survive 3D dynamic fluctuations
-**Claim:** The local internal structure of a Khantraction object (the "knot") acts as a robust dynamical entity that oscillates around its anchor state rather than collapsing or dispersing into flat vacuum when subjected to temporal evolution.
+> does a Khantraction object maintain structural objecthood and identity under real 3D time evolution?
 
-**Methodology & Rationale:** We derived the 3D generalized wave operator in ordered coordinates and implemented a finite-difference `DynamicStabilitySolver` on a 3D cartesian grid. We then initialized a localized fold state (with $\omega, \theta, \phi, \rho$ values matched to the anchor of a known species) and ran a time-evolution simulation using a kinetic potential well.
+Before this refresh, the code only answered that question with a hand-anchored wave proxy. After the direct implementation pass, the burden is sharper:
 
-**Results & Proof:** The 3D bulk time evolution (`bulk_time_evolution.csv`) demonstrated that all field components exhibit bounded oscillatory relaxation behavior. Despite numerical dissipation and grid constraints, the spacetime-fold settled into a dynamic equilibrium, validating the geometric stability hypothesized in earlier phases.
+1. implement the ordered-manifold wave equation in a genuine 3D runtime,
+2. test free evolution, asymmetric kicks, and transport on solved backgrounds,
+3. track invariant-like diagnostics directly,
+4. and decide whether the direct chain preserves localized objecthood only or discrete species identity as well.
 
-This conclusion is supported by:
+## 2. Support chain
+
+This closure summary is supported by:
+
+- `khantraction_paper.md`
+- `notes/real_physics_transition_plan.md`
 - `derivations/derivation_91_3d_ordered_wave_operator.md`
+- `analysis/direct_ordered_manifold.py`
 - `analysis/phase_j/phase_j_dynamic_stability_solver.py`
-- `solutions/phase_j/phase_j_dynamic_stability/bulk_time_evolution.csv`
 - `notes/phase_j/phase_j_dynamic_stability_assessment.md`
-- `notes/phase_j/phase_j_data_assessment.md`
-
----
-
-### 2.2 Asymmetric Resilience is Guaranteed by Restoring Pressures
-**Claim:** A spacetime-fold is resilient against arbitrary asymmetric boundary perturbations and random angular shears, maintaining its distinct internal fingerprint.
-
-**Methodology & Rationale:** Following the strict 1D and 2D slice protocol, we systematically applied perturbations sweeping the full $[-2\pi, 2\pi]$ domain to the internal angular channels ($\theta, \phi, \rho$). We evolved the system to observe if perturbations would knock the state into an entirely new topological basin. The solver evaluated independent 1D perturbations and exhaustive 2D pairwise combinations ($(\theta, \rho)$, $(\theta, \phi)$, $(\phi, \rho)$).
-
-**Results & Proof:** For the 1D perturbations, the objects retained an **average fidelity of 0.535** relative to their unperturbed anchors, actively rejecting structural collapse. Under 2D pairwise stress maps, the drift was heavily bounded, exhibiting a maximum geometric drift of roughly **2.441** for $(\theta, \rho)$ and $(\theta, \phi)$ pairs, and **2.287** for $(\phi, \rho)$. This formally proves that the structural core generates a powerful "restoring pressure" that dynamically traps the parameters.
-
-This conclusion is supported by:
-- `analysis/phase_j/phase_j_dynamic_stability_solver.py`
+- `solutions/phase_j/phase_j_dynamic_stability/summary.json`
+- `solutions/phase_j/phase_j_dynamic_stability/bulk_time_evolution.csv`
+- `solutions/phase_j/phase_j_dynamic_stability/acceleration_tracking.csv`
 - `solutions/phase_j/phase_j_dynamic_stability/slices_1d_stability.csv`
 - `solutions/phase_j/phase_j_dynamic_stability/slices_2d_theta_rho_stability.csv`
 - `solutions/phase_j/phase_j_dynamic_stability/slices_2d_theta_phi_stability.csv`
 - `solutions/phase_j/phase_j_dynamic_stability/slices_2d_phi_rho_stability.csv`
+
+## 3. Method
+
+### 3.1 Direct 3D wave evolution
+
+The rebuilt Phase J solver evolves the ordered coordinates directly in 3D using:
+
+- the exact pullback metric,
+- the exact inverse metric,
+- the exact Christoffel symbols,
+- and the direct norm-potential force term.
+
+This is the right method for Goal 1 because it replaces the old anchor-based surrogate with the actual weak-gravity ordered-manifold dynamics.
+
+### 3.2 Asymmetric-kick stress maps
+
+The solver applies a direct asymmetric `w`-channel kick and records:
+
+- energy drift,
+- compactness drift,
+- centroid drift,
+- chirality-integral drift.
+
+This is the right method for Goal 2 because it tests whether the object disperses or deforms under asymmetric direct forcing.
+
+### 3.3 Direct boost transport
+
+The solver applies a direct translational boost to the solved profile and tracks:
+
+- centroid motion,
+- compactness shift,
+- energy drift.
+
+This is the right method for Goal 3 because it measures transport of the actual direct object rather than motion of a dragged anchor.
+
+## 4. Results against the transition plan
+
+### 4.1 Goal 1 — Move beyond static radial ODE integration into full 3D+1 time evolution
+
+**Status:** Met in weak-gravity direct form.
+
+**Result:** The direct solver is implemented and regenerated successfully. It no longer relies on a Gaussian anchor.
+
+### 4.2 Goal 2 — Introduce asymmetric perturbations to test resilience
+
+**Status:** Met directly.
+
+**Result:** The full direct package now includes 1D and 2D asymmetric-kick maps over the full active domain.
+
+### 4.3 Goal 3 — Track time evolution during acceleration
+
+**Status:** Met directly.
+
+**Result:** The direct boost runs track centroid motion and compactness on the solved profiles themselves.
+
+### 4.4 Common slice protocol
+
+**Status:** Met.
+
+All required 1D and 2D slice combinations are present in the direct runtime package.
+
+## 5. Direct findings
+
+The decisive numbers are:
+
+- scalar energy drift: `8.364579092918004e-07`
+- rich energy drift: `8.364579092918004e-07`
+- scalar compactness-90 shift in free evolution: `0.0`
+- rich compactness-90 shift in free evolution: `0.0`
+- scalar centroid shift under direct boost: `0.0014607158466764868`
+- rich centroid shift under direct boost: `0.0014607158466764868`
+- scalar compactness-90 shift under direct boost: `0.0010330192029899266`
+- rich compactness-90 shift under direct boost: `0.0010330192029899266`
+
+So the direct runtime is stable over the audited window and transports the object cleanly enough to justify objecthood language.
+
+But the same numbers are also the critical warning sign:
+
+- scalar and rich seeds are dynamically degenerate,
+- the 1D slice compactness-shift ranges are identical across `theta`, `phi`, and `rho`,
+- the 2D slice compactness-shift maxima are also identical across the three planes.
+
+## 6. Interpretation
+
+Phase J now answers the implementation question cleanly:
+
+- **Does a direct ordered-manifold 3D solver exist?**  
+  Yes.
+
+- **Does it preserve localized objecthood on the audited window?**  
+  Yes.
+
+- **Does it preserve discrete species identity?**  
+  No direct evidence of that survives the refresh.
+
+That means J now supports a stable universal fold-like object in 3D, but not a differentiated particle zoo.
+
+## 7. Supporting outputs
+
+Key files:
+
 - `solutions/phase_j/phase_j_dynamic_stability/summary.json`
-- `notes/phase_j/phase_j_data_assessment.md`
-
----
-
-### 2.3 Cores drag their internal state during spatial acceleration
-**Claim:** A moving Khantraction fold successfully "drags" its highly ordered internal branch structure along with it as it accelerates across 3D space, acting as a genuine discrete particle.
-
-**Methodology & Rationale:** We simulated a moving anchor by actively accelerating the kinetic potential well center at a continuous rate, dynamically pulling the core. We then tracked the peak index of the scale coordinate $\omega$ over time and measured the inner structure's fidelity at this moving peak.
-
-**Results & Proof:** The simulation effectively forced the core through the spatial grid. Analysis of the moving peak (`acceleration_tracking.csv`) revealed that the inner parameters $(\theta, \phi, \rho)$ rode along the accelerated peak with a very high **acceleration fidelity of 0.813**. This demonstrates that the internal rotational states are deeply coupled to the scale envelope and physically translate in union, confirming true objecthood in motion.
-
-This conclusion is supported by:
-- `analysis/phase_j/phase_j_dynamic_stability_solver.py`
+- `solutions/phase_j/phase_j_dynamic_stability/summary.md`
+- `solutions/phase_j/phase_j_dynamic_stability/bulk_time_evolution.csv`
 - `solutions/phase_j/phase_j_dynamic_stability/acceleration_tracking.csv`
-- `solutions/phase_j/phase_j_dynamic_stability/summary.json`
-- `notes/phase_j/phase_j_data_assessment.md`
+- `solutions/phase_j/phase_j_dynamic_stability/slices_1d_stability.csv`
+- `solutions/phase_j/phase_j_dynamic_stability/slices_2d_theta_rho_stability.csv`
+- `solutions/phase_j/phase_j_dynamic_stability/slices_2d_theta_phi_stability.csv`
+- `solutions/phase_j/phase_j_dynamic_stability/slices_2d_phi_rho_stability.csv`
 
----
+## Bottom line
 
-## 3. Fulfillment of Transition Criteria
-Phase J explicitly met all goals outlined in the `notes/real_physics_transition_plan.md`:
-- **Goal 1 (3D+1 Evolution):** Fulfilled via implementation of the 3D finite-difference PDE solver.
-- **Goal 2 (Asymmetric Resilience):** Fulfilled via robust 1D and exhaustive pairwise 2D perturbation scans spanning unquotiented limits.
-- **Goal 3 (Acceleration):** Fulfilled via explicit spatial dragging tracking of the internal core parameters.
-
----
-
-## 4. Recommended Handoff to Phase K
-Phase J is officially closed. The robust objecthood established here unlocks the ability to study multi-fold interactions. The handoff to **Phase K: Multi-Particle Interactions** will leverage these stable 3D objects to simulate the interaction of two separate folds. With stability guaranteed, any interference measured between two metric envelopes can confidently be classified as an emergent force law (e.g., $1/r^2$) rather than a breakdown of the coordinate system.
-
----
-**Bottom Line:** Phase J has confirmed that Khantraction objects are not fragile mathematical artifacts but are dynamically stable, resilient spacetime structures. They maintain their discrete identity and internal geometric organization even when subjected to violent 3D asymmetric fluctuations and continuous spatial acceleration.
+**Bottom line:** Phase J now closes on a real direct implementation rather than a proxy. The rebuilt solver shows that a localized Khantraction object remains stable over the audited 3D evolution window, stays compact under direct asymmetric kicks, and transports cleanly under direct boosts. But scalar and rich seeds remain dynamically degenerate. So Phase J now supports stable universal objecthood, not discrete particle-species identity.

@@ -1,0 +1,4 @@
+species_a,species_b,tail_max_abs_diff,tail_mean_abs_diff,M_ADM_fit_diff,Q_eff_fit_diff,externally_indistinguishable
+phi_offsheet,rich,0.0,0.0,0.0,0.0,True
+phi_offsheet,scalar,0.0,0.0,0.0,0.0,True
+rich,scalar,0.0,0.0,0.0,0.0,True

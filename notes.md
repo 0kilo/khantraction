@@ -1,50 +1,60 @@
-# Notes: Phase C Closure Audit
+# Notes: Khantraction Direct-Data Implementation
 
 ## Source Map
 
 ### Primary framing
 - `khantraction_paper.md`
-- `notes/classical_exploration_plan.md`
-- `summary/2026-03-29_phase_c_closure_summary.md`
-- `summary/2026-03-28_phase_a_closure_summary.md`
-- `summary/2026-03-29_phase_b_closure_summary.md`
+- `notes/2026-04-02_direct_data_closure_plan.md`
+- `notes/real_physics_transition_plan.md`
 
-### Phase C derivations
-- `derivations/derivation_78_maurer_cartan_tensor.md`
-- `derivations/derivation_79_einstein_trace_with_mc_breaking.md`
+### Critical derivations
+- `derivations/derivation_75_ordered_pullback_and_exploratory_directional_phase_b_runtime.md`
+- `derivations/derivation_90_geometric_origin_of_anisotropy.md`
+- `derivations/derivation_91_3d_ordered_wave_operator.md`
+- `derivations/derivation_92_multi_fold_interaction_energy.md`
 
-### Inherited prerequisite evidence
-- `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`
-- `solutions/phase_b/phase_b_exact_radial_solver/summary.md`
+### Active implementation targets
+- `analysis/phase_i/phase_i_geometric_anisotropy_scan.py`
+- `analysis/phase_j/phase_j_dynamic_stability_solver.py`
+- `analysis/phase_e/phase_e_external_phenomenology.py`
+- `analysis/phase_k/phase_k_multi_fold_force_law.py`
+- `analysis/phase_b/phase_b_improved_dynamics_solver.py`
 
-### Phase C analyses
-- `analysis/phase_c/phase_c_mc_radial_solver.py`
-
-### Phase C notes
-- `notes/phase_c/phase_c_corrected_mc_radial_assessment.md`
-- `notes/phase_c/phase_c_synthesis_2026-04-02.md`
-
-### Phase C solutions
-- `solutions/phase_c/summary.md`
-- `solutions/phase_c/phase_c_mc_equations/summary.md`
-- `solutions/phase_c/phase_c_angular_traits/summary.json`
-- `solutions/phase_c/phase_c_angular_traits/summary.md`
-- `solutions/phase_c/phase_c_angular_traits/representative_seed_results.csv`
-- `solutions/phase_c/phase_c_angular_traits/angle_only_anchor_results.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_1d_theta.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_1d_phi.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_1d_rho.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_2d_theta_rho.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_2d_phi_theta.csv`
-- `solutions/phase_c/phase_c_angular_traits/slice_2d_phi_rho.csv`
-- `solutions/phase_c/phase_c_angular_traits/profiles/summary.md`
+### Affected phase documents
+- `summary/2026-03-31_phase_i_closure_summary.md`
+- `summary/2026-03-31_phase_j_closure_summary.md`
+- `summary/2026-03-29_phase_e_closure_summary.md`
+- `summary/2026-03-31_phase_k_closure_summary.md`
 
 ## Findings
 
-### Final
-- Phase C is supportable as closed only as an exploratory trait-differentiation phase.
-- The native linear-basis classical runtime remains angularly blind; that evidence is inherited from the refreshed Phase B exact solver.
-- The active Phase C solver is not a pure derivation-78/79 implementation. It adds metric regularization and a phi-localized angular potential on top of the anisotropic Maurer-Cartan coupling.
-- Within that active runtime, the channels do separate: phi is the dominant driver, rho is secondary, theta is weak on the audited standalone 1D slice.
-- The strongest phi-rich representative states are high-mass and compact but terminate early on the horizon event rather than surviving to the full outer interval.
-- The closure summary, phase note, synthesis note, and audit report were all refreshed to state those points explicitly and cite the supporting documents.
+### Reusable direct machinery already present
+- `analysis/phase_b/phase_b_improved_dynamics_solver.py` already contains:
+  - exact pullback metric `G(w, phi)`,
+  - inverse metric,
+  - metric derivatives,
+  - Christoffel symbols,
+  - a direct ordered-variable radial solver.
+- That code is the best starting point for replacing the exploratory `beta_a` path.
+
+### Implemented direct chain
+- `analysis/direct_ordered_manifold.py` now provides the exact pullback metric, inverse metric, Christoffels, direct radial solver, 3D wave solver, and direct interaction-energy bookkeeping.
+- Phase I now uses that module as the coefficient bridge and no longer stops at geometry-only scans.
+- Phase J now uses direct ordered-manifold 3D evolution instead of the anchored proxy.
+- Phase E now uses direct pullback profiles and a direct impulse-response ladder.
+- Phase K now uses direct 3D same-background interaction-energy calculations instead of the old one-dimensional overlap proxy.
+
+### Resulting empirical pattern
+- The direct chain supports stable localized objecthood.
+- The direct chain supports a clean family-level motion-response law.
+- The direct chain supports direct same-background interaction energy and force gradients.
+- The direct chain is degenerate across scalar, rich, and off-sheet representative seeds in:
+  - mass,
+  - compactness,
+  - transport response,
+  - external tails,
+  - same-background interaction data.
+
+### Final synthesis
+- The implementation gap is no longer the reason Khantraction fails as a particle-level model.
+- The direct implementation itself now provides the decisive negative result: the exact pullback chain universalizes the audited seed family instead of preserving particle-like species structure.

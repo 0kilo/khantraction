@@ -1,29 +1,54 @@
 {
-    "Right-Handed": {
-        "chirality": 0.7071067811865476,
-        "modes": [
-            {
-                "n": 0,
-                "energy": 0.9093699942084978
-            }
-        ]
-    },
-    "Left-Handed": {
-        "chirality": -0.7071067811865476,
-        "modes": [
-            {
-                "n": 0,
-                "energy": 0.869622394058611
-            }
-        ]
-    },
-    "Scalar": {
-        "chirality": 1.0,
-        "modes": [
-            {
-                "n": 0,
-                "energy": 0.9173867490363242
-            }
-        ]
-    }
+  "Scalar Anchor": {
+    "theta": 0.0,
+    "phi": 0.0,
+    "rho": 0.0,
+    "chirality": 1.0,
+    "mode_count": 1,
+    "modes": [
+      {
+        "n": 0,
+        "energy": 0.9173867490363242
+      }
+    ]
+  },
+  "Right-Handed Base": {
+    "theta": 0.0,
+    "phi": 0.39269908169872414,
+    "rho": 0.0,
+    "chirality": 0.7071067811865476,
+    "mode_count": 1,
+    "modes": [
+      {
+        "n": 0,
+        "energy": 0.9093699942084978
+      }
+    ]
+  },
+  "Parity Partner": {
+    "theta": 0.0,
+    "phi": -0.39269908169872414,
+    "rho": 0.0,
+    "chirality": 0.7071067811865476,
+    "mode_count": 1,
+    "modes": [
+      {
+        "n": 0,
+        "energy": 0.9093699942084978
+      }
+    ]
+  },
+  "Left-Handed Flip": {
+    "theta": 0.0,
+    "phi": 1.9634954084936207,
+    "rho": 0.0,
+    "chirality": -0.7071067811865477,
+    "mode_count": 1,
+    "modes": [
+      {
+        "n": 0,
+        "energy": 0.869622394058611
+      }
+    ]
+  }
 }

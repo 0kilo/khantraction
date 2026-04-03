@@ -1,36 +1,165 @@
-# Phase M Assessment: Pair Creation and Annihilation
+# Phase M Assessment - Pair-Lifecycle Audit Refresh
 
-**Date:** 2026-03-31  
-**Status:** Completed / Closed
+**Date:** 2026-04-02  
+**Phase:** M - Pair Creation / Annihilation  
+**Status:** Complete after audit refresh
 
-## 1. Research Plan & Methodology
+## Purpose
 
-### 1.1 Objective
-The objective of Phase M is to finalize the transition to a real physics model by demonstrating the dynamic life cycle of spacetime-folds. We aim to prove that Khantraction objects can be created from high-energy vacuum fluctuations and annihilated upon contact with their mirror-pair counterparts.
+This note records what the refreshed Phase M package actually proves after tracing:
 
-### 1.2 Theoretical Hypothesis
-We hypothesize that the "Ordered Map" contains topological invariants that must be conserved. 
-- **Annihilation:** When a fold with chirality $\chi$ overlaps with a fold of $-\chi$, the total Maurer-Cartan flux should sum to zero. This "untying" of the geometric knot releases the binding energy as massless radiation (from Phase L).
-- **Creation:** Under extreme curvature $R$, the manifold's effort to remain regular forces it to "pinch" twice, creating a pair of folds with opposite chirality to maintain a net zero topological charge.
+- `khantraction_paper.md`
+- `notes/real_physics_transition_plan.md`
+- `summary/2026-03-29_phase_g_closure_summary.md`
+- `notes/phase_g/phase_g_verified_chirality_assessment.md`
+- `summary/2026-03-29_phase_h_closure_summary.md`
+- `notes/phase_h/phase_h_verified_quantum_assessment.md`
+- `summary/2026-03-31_phase_k_closure_summary.md`
+- `notes/phase_k/phase_k_multi_particle_interactions_assessment.md`
+- `summary/2026-03-31_phase_l_closure_summary.md`
+- `notes/phase_l/phase_l_topological_shedding_assessment.md`
+- `derivations/derivation_94_manifold_tearing_and_annihilation.md`
+- `analysis/phase_m/phase_m_creation_annihilation_sim.py`
+- `solutions/phase_m/phase_m_creation_annihilation/summary.json`
+- `solutions/phase_m/phase_m_creation_annihilation/summary.md`
+- `solutions/phase_m/phase_m_creation_annihilation/bulk_creation_sweep.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/pair_reference_checks.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/creation_phi_reference.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_1d_annihilation_theta.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_1d_annihilation_phi.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_1d_annihilation_rho.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_2d_creation_theta_phi.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_2d_creation_theta_rho.csv`
+- `solutions/phase_m/phase_m_creation_annihilation/slices_2d_creation_phi_rho.csv`
 
-### 1.3 Analysis Protocol
-- **Domains:** $\omega > 0$; $\theta, \phi, \rho \in [-2\pi, 2\pi]$.
-- **Bulk Analysis:** Scan for the "Annihilation Threshold" (critical overlap distance) and "Creation Threshold" (critical energy spike).
-- **1D Slices:**
-  - Vary $\theta$ (fixed $\phi, \rho$). Check if specific angular phases resist annihilation.
-  - Vary $\phi$ (fixed $\theta, \rho$). Test the barrier effect of singular sheets on pair production.
-  - Vary $\rho$ (fixed $\theta, \phi$).
-- **2D Slices:**
-  - Vary $(\theta, \phi)$ (fixed $\rho$).
-  - Vary $(\theta, \rho)$ (fixed $\phi$).
-  - Vary $(\phi, \rho)$ (fixed $\theta$).
+## 1. What the active runtime actually is
 
-## 2. Implementation Workflow
+The refreshed Phase M runtime is not a collision PDE and it is not a vacuum-tearing field solve.
 
-1. **Derivation:** Formalize the conservation of quaternionic topological charge and the manifold tearing math in `derivations/derivation_94_manifold_tearing_and_annihilation.md`.
-2. **Analysis Code:** Develop `analysis/phase_m/phase_m_creation_annihilation_sim.py` to simulate collisions and vacuum spikes.
-3. **Execution:** Run the suite via `scripts/run_phase_m_pair_sim.sh`.
-4. **Validation:** Verify that total $\chi$ is conserved and that energy transitions match the $E_{total} = \sum M_i$ mass balance.
+It is a narrower pair-lifecycle model:
 
----
-**Key Question:** Does the model naturally support the creation and annihilation of mirror-pair enantiomers out of/into the vacuum state under extreme energy density?
+- chirality from audited Phase G: `chi = cos(2phi)`
+- annihilation score:
+  - chirality cancellation,
+  - exact-partner phi distance,
+  - theta alignment,
+  - rho alignment
+- fixed creation threshold gate at `2.55`
+- singular-sheet susceptibility `1 / (|cos(2phi)| + 0.1)`
+
+So the active script does not currently:
+
+- solve fold overlap in spacetime,
+- evolve Maurer-Cartan frames during collision,
+- derive radiation from the emitted fields,
+- or derive pair creation from a real vacuum instability.
+
+## 2. Main audit corrections
+
+### 2.1 The old chirality rule was inconsistent with audited Phase G
+
+The previous Phase M script used a chirality proxy proportional to `sin(2phi) * sin(theta)`.
+
+That contradicted audited Phase G, which established:
+
+- chirality is controlled by `phi`,
+- parity preserves it,
+- the exact enantiomer is generated by the topological chiral flip.
+
+The refreshed script now uses the audited relation `chi = cos(2phi)`.
+
+### 2.2 The old 2D slices violated the active domain protocol
+
+The previous Phase M 2D scans only sampled `[-pi, pi]`.
+
+The refreshed package now scans the full active domain:
+
+- `theta, phi, rho in [-2pi, 2pi]`
+
+for all required 1D and 2D tables.
+
+### 2.3 The old "creation threshold discovered" wording was too strong
+
+The previous writeup treated `2.55` as though it had been discovered from dynamics.
+
+The refreshed audit shows that `2.55` is an imposed threshold constant in the code. The bulk table only records the first sampled value above that fixed gate.
+
+### 2.4 The old "full lifecycle complete" wording was too strong
+
+Because audited Phases H, K, and L remain narrowed, Phase M cannot be treated as the point where the Real Physics Transition Plan has already been solved end to end.
+
+## 3. Main findings
+
+### 3.1 Exact enantiomer annihilation is represented coherently in the current simplified model
+
+The pair reference table now shows:
+
+- exact enantiomer: `Vacuum`
+- parity partner: `Residual Dipole`
+- same-handed copy: `Residual Dipole`
+
+This is the correct qualitative handedness structure for the present model.
+
+### 3.2 The annihilation acceptance region is localized, not generic
+
+The 1D slices show:
+
+- `theta`: `10` vacuum rows out of `100`
+- `phi`: `1` vacuum row out of `100`
+- `rho`: `12` vacuum rows out of `100`
+
+These are localized windows around the exact periodic partner locations, not generic annihilation across the domain.
+
+### 3.3 Creation is phi-localized in the current simplified rule
+
+The named phi references show:
+
+- low baseline at `phi = 0`
+- high susceptibility at `phi = +/- pi/4`
+- low baseline again at `phi = pi/2`
+
+The `theta-rho` slice at fixed `phi = 0` is completely flat, confirming that the current creation rule is driven by phi.
+
+### 3.4 The bulk threshold is imposed
+
+The refreshed package records:
+
+- `imposed_creation_threshold = 2.55`
+- `sampled_first_created_energy = 2.5510204081632653`
+
+So the bulk scan is a gate diagnostic, not an emergent threshold derivation.
+
+## 4. Correct interpretation
+
+What survives:
+
+- a coherent pair-lifecycle model exists,
+- it now matches the audited chirality architecture,
+- it distinguishes exact enantiomers from parity partners,
+- it maps singular-sheet-localized creation tendency,
+- and it satisfies the Phase M sampling protocol.
+
+What does not survive:
+
+- the claim that Phase M already solves real annihilation collisions,
+- the claim that vacuum tearing has been derived dynamically,
+- the claim that annihilation radiation has been proven on solved backgrounds,
+- the claim that the full Real Physics Transition Plan is already complete.
+
+## 5. Goal status against `notes/real_physics_transition_plan.md`
+
+### Goal 1 - Simulate annihilation of a right-handed enantiomer with its exact left-handed counterpart
+
+**Status:** Partially met in simplified form only.
+
+The current package encodes an exact-partner annihilation rule and distinguishes it from parity or same-handed overlaps, but it does not solve a collision in spacetime.
+
+### Goal 2 - Model pair creation from an extreme external field or high-energy vacuum event
+
+**Status:** Partially met in simplified form only.
+
+The current package includes a fixed threshold gate and a singular-sheet susceptibility map, but it does not derive pair creation from a dynamical tearing solve.
+
+## 6. Bottom line
+
+**Bottom line:** Phase M now supports a narrowed pair-lifecycle result. The active runtime is internally consistent with audited chirality and can represent exact chiral-flip annihilation and singular-sheet-localized creation tendencies, but it does not yet prove dynamical pair annihilation or vacuum tearing from first principles.

@@ -1,0 +1,36 @@
+{
+  "phase": "H",
+  "status": "audit_refresh",
+  "model_scope": {
+    "type": "semiclassical_proxy",
+    "background_statement": "Hand-built quartic well plus chirality and loading shifts; not a solved wave equation on an audited Phase F trapping background.",
+    "chirality_statement": "Chirality matches Phase G: chi = det(J) = cos(2phi)."
+  },
+  "config": {
+    "hosting_depth_proxy": 0.999,
+    "lambda_chi": 0.05,
+    "mu_eff": 0.5,
+    "r_h_proxy": 3.0,
+    "energy_bracket": [
+      0.01,
+      2.0
+    ],
+    "angles_1d_points": 17,
+    "angles_2d_points_per_axis": 9
+  },
+  "key_results": {
+    "parity_pair_e0_abs_diff": 0.0,
+    "chiral_flip_pair_e0_abs_diff": 0.039747600149886875,
+    "loading_e0_span": 0.06648914123729466,
+    "loading_monotone_increasing": true,
+    "theta_slice_width": 0.0,
+    "phi_slice_width": 0.05622564488235715,
+    "rho_slice_width": 0.0,
+    "phi_theta_slice_width": 0.05622564488235715,
+    "theta_rho_slice_width": 0.0,
+    "phi_rho_slice_width": 0.05622564488235715,
+    "theta_slice_valid_count": 17,
+    "phi_slice_valid_count": 17,
+    "rho_slice_valid_count": 17
+  }
+}

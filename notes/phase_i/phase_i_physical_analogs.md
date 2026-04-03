@@ -1,45 +1,57 @@
-# Phase I Finalization: Identification of Physical Analogs
+# Phase I Note — Heuristic Physical-Analog Proposals and Current Limits
 
-**Date:** 2026-03-31  
+**Date:** 2026-04-02  
 **Phase:** I — First-Principles Derivation of Constants
 
-## 1. Goal 3 Fulfillment: Mapping Geometric Constants to Physical Analogs
+## Purpose
 
-To satisfy the "Real Physics" transition criteria, we map the dimensionless geometric ratios found in the $Q$-map Jacobian to standard physical concepts.
+This note records the current status of the “physical analog” part of Phase I after the audit refresh.
 
-### 1.1 The Khantraction Fine-Structure Constant ($\alpha_K$)
-We define the coupling between the geometric curvature and the glue field as the primary interaction strength. 
-Using the ratio of the non-minimal coupling $\xi$ to the unit channel stiffness ($\beta_{unit} = 1$):
+## 1. What survives
 
-$$
-\alpha_K = \frac{\xi}{\beta_{unit}} = 0.002
-$$
+The pullback scan does provide useful geometric quantities that could later be compared to observables:
 
-This represents the probability of a "geometric fluctuation" interacting with the "glue knot." While the value (1/500) differs from the Standard Model $\alpha$ (1/137), it provides a stable, dimensionless interaction constant for the model.
+- a unit-scale paired-mode gap
+  $$
+  \Delta_{\text{unit}}(\phi)=2|\sin(2\phi)|
+  $$
+- an active-scale paired-mode gap
+  $$
+  \Delta_{\text{active}}(\phi,\omega)=2e^{2\omega}|\sin(2\phi)|
+  $$
 
-### 1.2 The Internal Mass Gap ($\Delta M_g$)
-The "Mass Gap" in Khantraction is the energy difference between the symmetric ($+$) and anti-symmetric ($-$) angular channels. From the eigenvalues $\lambda_\pm = 1 \pm \sin(2\phi)$, the dimensionless stiffness gap is:
+At `phi = pi/8`:
 
-$$
-\text{Gap}(\phi) = |\lambda_+ - \lambda_-| = 2|\sin(2\phi)|
-$$
+- `Delta_unit = 1.414213562373095`
+- `Delta_active(omega = 0.5) = 3.844231028159116`
 
-At the species-anchor points (e.g., $\phi = \pi/8$), the gap is:
+These are real geometric diagnostics of channel splitting.
 
-$$
-\Delta M_g \approx 1.414 \text{ (unit-less energy density shift)}
-$$
+## 2. What does not survive
 
-This gap ensures that the species are energetically distinct and prevents them from "smearing" into one another, fulfilling the requirement for a discrete particle-like spectrum.
+The earlier note treated two quantities as if they had already been mapped to observables:
 
-### 1.3 Exact Self-Coupling Limits
-The scan confirmed that at $\phi = \pm\pi/4$, the $\lambda_-$ eigenvalue reaches **0**. 
-- **Physical Interpretation:** This is the "Unbinding Limit." Any field configuration attempting to cross this slice loses its restoring force in the anti-symmetric channel, leading to topological "unknotting" (annihilation) or transition.
-- **Stability Limit:** The model remains stable only within the basins $|\phi| < \pi/4$.
+- `alpha_K = xi`
+- `Delta M_g = 2|sin(2phi)|`
 
-## 2. Verification of Phase I Success
-- **Criteria 1 (Dynamical Weights):** Derived in `derivation_90`.
-- **Criteria 2 (Stability Limits):** Identified as the $\lambda \to 0$ singular boundaries.
-- **Criteria 3 (Physical Analogs):** Defined above as $\alpha_K$ and $\Delta M_g$.
+That is too strong.
 
-Phase I has now met all the requirements of the Transition Plan.
+Reasons:
+
+- `xi` is still an input model parameter, not an observable extracted from a new first-principles interaction calculation.
+- `2|sin(2phi)|` is only the **unit-scale** stiffness split of the pullback scan. It is not yet a measured mass gap from a dynamical spectrum.
+- the active scan at fixed `omega = 0.5` actually carries the scale factor `e^{2omega}`, so even the raw geometric gap depends on how the comparison is normalized.
+
+## 3. Correct interpretation
+
+The honest Phase I reading is:
+
+- geometric gap diagnostics exist,
+- those diagnostics may become candidates for later observable analogs,
+- but the mapping to physical observables remains open.
+
+So Goal 3 of `notes/real_physics_transition_plan.md` is not yet closed.
+
+## 4. Bottom line
+
+**Bottom line:** Phase I currently offers heuristic geometric candidates for later observable analogs, not derived observable constants. Any future “fine-structure” or “mass-gap” language has to come from a later dynamical extraction, not from the present pullback scan alone.

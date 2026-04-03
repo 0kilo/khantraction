@@ -1,0 +1,376 @@
+{
+  "runtime": {
+    "beta": [
+      0.01,
+      0.02,
+      0.03
+    ],
+    "metric_regularization": 0.0001,
+    "angular_phi_potential": 0.01,
+    "horizon_event_fraction": 0.48,
+    "A0": 0.005,
+    "xp0": [
+      0.0,
+      0.01,
+      0.01,
+      0.0
+    ],
+    "r_max": 20.0
+  },
+  "operator_checks": [
+    {
+      "sample": "base",
+      "theta": 0.39269908169872414,
+      "phi": 0.39269908169872414,
+      "rho": 0.39269908169872414,
+      "chi": 0.7071067811865475,
+      "parity_chi": 0.7071067811865475,
+      "parity_delta": 0.0,
+      "flip_chi": -0.7071067811865476,
+      "flip_sum": -1.1102230246251565e-16,
+      "parity_preserves_chi": true,
+      "flip_reverses_chi": true
+    },
+    {
+      "sample": "offset_positive",
+      "theta": 0.7,
+      "phi": 0.19634954084936207,
+      "rho": -0.9,
+      "chi": 0.9238795325112866,
+      "parity_chi": 0.9238795325112866,
+      "parity_delta": 0.0,
+      "flip_chi": -0.9238795325112867,
+      "flip_sum": -1.1102230246251565e-16,
+      "parity_preserves_chi": true,
+      "flip_reverses_chi": true
+    },
+    {
+      "sample": "offset_negative",
+      "theta": -1.1,
+      "phi": 1.1780972450961724,
+      "rho": 1.2,
+      "chi": -0.7071067811865475,
+      "parity_chi": -0.7071067811865475,
+      "parity_delta": 0.0,
+      "flip_chi": 0.7071067811865474,
+      "flip_sum": -1.1102230246251565e-16,
+      "parity_preserves_chi": true,
+      "flip_reverses_chi": true
+    }
+  ],
+  "a_chiral_reference": [
+    {
+      "phi": -2.356194490192345,
+      "chi": -1.836970198721032e-16
+    },
+    {
+      "phi": -0.7853981633974483,
+      "chi": 6.123233995736787e-17
+    },
+    {
+      "phi": 0.7853981633974483,
+      "chi": 6.123233995736787e-17
+    },
+    {
+      "phi": 2.356194490192345,
+      "chi": -1.836970198721032e-16
+    }
+  ],
+  "representative_runs": {
+    "right_handed_base": {
+      "run": "right_handed_base",
+      "chirality_density": 0.7071067811865475,
+      "omega0": 0.5,
+      "theta0": 0.39269908169872414,
+      "phi0": 0.39269908169872414,
+      "rho0": 0.39269908169872414,
+      "A0": 0.005,
+      "xp0": [
+        0.0,
+        0.01,
+        0.01,
+        0.0
+      ],
+      "r_max": 20.0,
+      "status": 0,
+      "status_message": "The solver successfully reached the end of the integration interval.",
+      "terminated_early": false,
+      "horizon_event_radii": [],
+      "r_final": 20.0,
+      "final_mass": 0.6961232297626876,
+      "final_2m_over_r": 0.06961232297626876,
+      "sample_count": 226
+    },
+    "parity_partner": {
+      "run": "parity_partner",
+      "chirality_density": 0.7071067811865475,
+      "omega0": 0.5,
+      "theta0": -0.39269908169872414,
+      "phi0": -0.39269908169872414,
+      "rho0": -0.39269908169872414,
+      "A0": 0.005,
+      "xp0": [
+        0.0,
+        0.01,
+        0.01,
+        0.0
+      ],
+      "r_max": 20.0,
+      "status": 0,
+      "status_message": "The solver successfully reached the end of the integration interval.",
+      "terminated_early": false,
+      "horizon_event_radii": [],
+      "r_final": 20.0,
+      "final_mass": 0.6961150082064491,
+      "final_2m_over_r": 0.0696115008206449,
+      "sample_count": 226
+    },
+    "left_handed_flip": {
+      "run": "left_handed_flip",
+      "chirality_density": -0.7071067811865476,
+      "omega0": 0.5,
+      "theta0": 0.39269908169872414,
+      "phi0": 1.9634954084936207,
+      "rho0": 0.39269908169872414,
+      "A0": 0.005,
+      "xp0": [
+        0.0,
+        0.01,
+        0.01,
+        0.0
+      ],
+      "r_max": 20.0,
+      "status": 0,
+      "status_message": "The solver successfully reached the end of the integration interval.",
+      "terminated_early": false,
+      "horizon_event_radii": [],
+      "r_final": 20.0,
+      "final_mass": 0.6961221532111318,
+      "final_2m_over_r": 0.06961221532111318,
+      "sample_count": 209
+    },
+    "right_handed_sheet": {
+      "run": "right_handed_sheet",
+      "chirality_density": 0.7071067811865476,
+      "omega0": 0.5,
+      "theta0": 0.0,
+      "phi0": 0.39269908169872414,
+      "rho0": 0.0,
+      "A0": 0.005,
+      "xp0": [
+        0.0,
+        0.01,
+        0.01,
+        0.0
+      ],
+      "r_max": 20.0,
+      "status": 0,
+      "status_message": "The solver successfully reached the end of the integration interval.",
+      "terminated_early": false,
+      "horizon_event_radii": [],
+      "r_final": 20.0,
+      "final_mass": 0.8928812067096225,
+      "final_2m_over_r": 0.08928812067096224,
+      "sample_count": 203
+    },
+    "left_handed_sheet": {
+      "run": "left_handed_sheet",
+      "chirality_density": -0.7071067811865477,
+      "omega0": 0.5,
+      "theta0": 0.0,
+      "phi0": 1.9634954084936207,
+      "rho0": 0.0,
+      "A0": 0.005,
+      "xp0": [
+        0.0,
+        0.01,
+        0.01,
+        0.0
+      ],
+      "r_max": 20.0,
+      "status": 0,
+      "status_message": "The solver successfully reached the end of the integration interval.",
+      "terminated_early": false,
+      "horizon_event_radii": [],
+      "r_final": 20.0,
+      "final_mass": 0.8928800953055511,
+      "final_2m_over_r": 0.08928800953055512,
+      "sample_count": 188
+    }
+  },
+  "pair_comparisons": {
+    "parity_pair": {
+      "pair": "parity_pair",
+      "run_a": "right_handed_base",
+      "run_b": "parity_partner",
+      "status_a": 0,
+      "status_b": 0,
+      "r_final_a": 20.0,
+      "r_final_b": 20.0,
+      "mass_a": 0.6961232297626876,
+      "mass_b": 0.6961150082064491,
+      "mass_abs_diff": 8.221556238474648e-06,
+      "tail_max_abs_diff": 1.6992644258646827e-05,
+      "chi_a": 0.7071067811865475,
+      "chi_b": 0.7071067811865475,
+      "chirality_product": 0.4999999999999999,
+      "same_chirality_sign": true,
+      "sign_reversed": false
+    },
+    "sheet_mirror_pair": {
+      "pair": "sheet_mirror_pair",
+      "run_a": "right_handed_sheet",
+      "run_b": "left_handed_sheet",
+      "status_a": 0,
+      "status_b": 0,
+      "r_final_a": 20.0,
+      "r_final_b": 20.0,
+      "mass_a": 0.8928812067096225,
+      "mass_b": 0.8928800953055511,
+      "mass_abs_diff": 1.1114040713300355e-06,
+      "tail_max_abs_diff": 4.0558220278583135e-05,
+      "chi_a": 0.7071067811865476,
+      "chi_b": -0.7071067811865477,
+      "chirality_product": -0.5000000000000001,
+      "same_chirality_sign": false,
+      "sign_reversed": true
+    },
+    "base_mirror_pair": {
+      "pair": "base_mirror_pair",
+      "run_a": "right_handed_base",
+      "run_b": "left_handed_flip",
+      "status_a": 0,
+      "status_b": 0,
+      "r_final_a": 20.0,
+      "r_final_b": 20.0,
+      "mass_a": 0.6961232297626876,
+      "mass_b": 0.6961221532111318,
+      "mass_abs_diff": 1.0765515557897842e-06,
+      "tail_max_abs_diff": 2.2485853117135135e-05,
+      "chi_a": 0.7071067811865475,
+      "chi_b": -0.7071067811865476,
+      "chirality_product": -0.5,
+      "same_chirality_sign": false,
+      "sign_reversed": true
+    }
+  },
+  "slice_summaries": {
+    "slice_1d_theta_chi": {
+      "chi_range": [
+        0.7071067811865476,
+        0.7071067811865476
+      ],
+      "mass_range": [
+        0.8928812067096225,
+        0.8928812067283111
+      ],
+      "terminated_early_count": 0
+    },
+    "slice_1d_phi_chi": {
+      "chi_range": [
+        -0.9009688679024191,
+        1.0
+      ],
+      "mass_range": [
+        0.006669459753901254,
+        3.094736146864507
+      ],
+      "terminated_early_count": 0
+    },
+    "slice_1d_rho_chi": {
+      "chi_range": [
+        0.7071067811865475,
+        0.7071067811865476
+      ],
+      "mass_range": [
+        0.5069720344958978,
+        0.8928812067276453
+      ],
+      "terminated_early_count": 0
+    },
+    "slice_2d_theta_rho_chi": {
+      "chi_range": [
+        0.7071067811865475,
+        0.7071067811865476
+      ],
+      "mass_range": [
+        0.5069720344632846,
+        0.892881206720412
+      ],
+      "terminated_early_count": 0
+    },
+    "slice_2d_phi_theta_chi": {
+      "chi_range": [
+        -0.9009688679024189,
+        1.0
+      ],
+      "mass_range": [
+        0.006669459753928844,
+        3.0947361339642048
+      ],
+      "terminated_early_count": 0
+    },
+    "slice_2d_phi_rho_chi": {
+      "chi_range": [
+        -0.9009688679024189,
+        1.0
+      ],
+      "mass_range": [
+        0.006669459753918084,
+        3.0947361339672934
+      ],
+      "terminated_early_count": 0
+    }
+  },
+  "rotation_proxy": [
+    {
+      "omega_rot": 0.0,
+      "mass_proxy": 0.6961232297626876,
+      "is_solver_backed": false,
+      "interpretation": "analytic_proxy_only"
+    },
+    {
+      "omega_rot": 0.025,
+      "mass_proxy": 0.698298614855696,
+      "is_solver_backed": false,
+      "interpretation": "analytic_proxy_only"
+    },
+    {
+      "omega_rot": 0.05,
+      "mass_proxy": 0.7048247701347211,
+      "is_solver_backed": false,
+      "interpretation": "analytic_proxy_only"
+    },
+    {
+      "omega_rot": 0.07500000000000001,
+      "mass_proxy": 0.7157016955997632,
+      "is_solver_backed": false,
+      "interpretation": "analytic_proxy_only"
+    },
+    {
+      "omega_rot": 0.1,
+      "mass_proxy": 0.730929391250822,
+      "is_solver_backed": false,
+      "interpretation": "analytic_proxy_only"
+    }
+  ],
+  "key_results": {
+    "parity_preserves_all_samples": true,
+    "flip_reverses_all_samples": true,
+    "base_mirror_mass_abs_diff": 1.0765515557897842e-06,
+    "sheet_mirror_mass_abs_diff": 1.1114040713300355e-06,
+    "parity_pair_mass_abs_diff": 8.221556238474648e-06,
+    "phi_slice_chi_range": [
+      -0.9009688679024191,
+      1.0
+    ],
+    "theta_slice_chi_range": [
+      0.7071067811865476,
+      0.7071067811865476
+    ],
+    "rho_slice_chi_range": [
+      0.7071067811865475,
+      0.7071067811865476
+    ]
+  }
+}

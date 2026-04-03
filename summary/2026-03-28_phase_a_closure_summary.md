@@ -4,6 +4,10 @@
 **Phase:** A — Parameter foundation  
 **Status:** Closed after audit refresh
 
+## 0. Project-level disposition
+
+Phase A remains closed and foundational in the direct-data closure plan. It is not a blocking gap for the final classical particle-level verdict. The project-level synthesis is recorded in `summary/2026-04-02_gap_closure_summary.md`, `notes/2026-04-02_direct_data_closure_plan.md`, and `summary/2026-04-02_khantraction_model_conclusion.md`.
+
 ## 1. Scope and motivation
 
 `khantraction_paper.md` frames Khantraction as an exploratory toy model for compact, structured spacetime-fold objects rather than a finished particle theory. In that setting, the ordered quaternion map

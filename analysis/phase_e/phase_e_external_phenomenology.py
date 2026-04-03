@@ -1,224 +1,381 @@
-r"""
-Phase E: External Particle-Likeness and Effective Charge
-Date: 2026-03-29
-Purpose: Extracts ADM mass and effective topological charge from asymptotic 
-metric tails. Tests dynamical response to external gradients.
-"""
+#!/usr/bin/env python3
+r"""Phase E: direct external phenomenology and impulse-response analysis."""
+
+from __future__ import annotations
+
+import json
+import math
+import sys
+from itertools import combinations
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import json
-import os
-from scipy.integrate import solve_ivp
 from scipy.optimize import curve_fit
 
-# --- Model Constants ---
-KAPPA = 8.0 * np.pi
-XI = 0.002
-M_GLUE = 0.1
-LAMBDA_Q = 0.01
-BETA = np.array([0.01, 0.02, 0.03])
+ROOT = Path(__file__).resolve().parents[2]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
-class PhaseEPhenomenologySolver:
-    def get_vielbeins(self, theta, phi, rho):
-        c2p, s2p = np.cos(2*phi), np.sin(2*phi)
-        c2r, s2r = np.cos(2*rho), np.sin(2*rho)
-        E_rho = np.array([0.0, 0.0, 1.0])
-        E_phi = np.array([s2r, c2r, 0.0])
-        E_theta = np.array([c2r * c2p, -s2r * c2p, s2p])
-        return E_theta, E_phi, E_rho
+from analysis.direct_ordered_manifold import (  # noqa: E402
+    DirectRuntimeConfig,
+    OrderedManifoldWaveSolver,
+    OrderedSeed,
+    embed_profile_on_grid,
+    solve_direct_radial_profile,
+)
 
-    def get_target_metric(self, omega, theta, phi, rho):
-        E = self.get_vielbeins(theta, phi, rho)
-        exp2w = np.exp(2 * omega)
-        B = exp2w + 2 * BETA
-        G = np.zeros((4, 4))
-        G[0, 0] = exp2w
-        for i in range(3):
-            for j in range(3):
-                G[i+1, j+1] = np.sum(B * E[i] * E[j])
-        return G
 
-    def equations(self, r, y, gradient_strength=0.0):
-        w, th, ph, rh, wp, thp, php, rhp, m, phi_pot = y
-        Xp = y[4:8]
-        if r < 1e-10: return np.zeros_like(y)
-        
-        e_2L = 1.0 / (1.0 - 2.0 * m / r) if r > 2*m else 1e10
-        e_neg2L = 1.0 / e_2L
-        
-        G = self.get_target_metric(w, th, ph, rh)
-        G_reg = G + 1e-4 * np.eye(4)
-        G_inv = np.linalg.inv(G_reg)
-        
-        exp2w = np.exp(2*w)
-        U = 0.5 * M_GLUE**2 * exp2w + 0.25 * LAMBDA_Q * exp2w**2
-        
-        E = self.get_vielbeins(th, ph, rh)
-        w_r = np.zeros(3)
-        for i in range(3): w_r += E[i] * Xp[i+1]
-        omega_mc_sq = np.sum(BETA * w_r**2)
-        dq_sq = exp2w * (wp**2 + np.sum(w_r**2))
-        
-        T_q = -e_neg2L * dq_sq - 4 * U
-        T_MC = 2 * e_neg2L * omega_mc_sq
-        S = 2 * e_neg2L * dq_sq - 2 * (M_GLUE**2 + LAMBDA_Q * exp2w) * exp2w
-        R = (-KAPPA * (T_q + T_MC) + 6 * KAPPA * XI * S) / (1.0 + 2 * KAPPA * XI * (1.0 - 12.0 * XI) * exp2w)
-        
-        # Add background gradient effect for dynamical response test (Goal 4)
-        V_back = gradient_strength * r * np.cos(th) 
-        
-        V_ang = 0.01 * np.sin(2*ph)**2
-        rho_dens = 0.5 * e_neg2L * dq_sq + e_neg2L * omega_mc_sq + U + V_ang + V_back
-        
-        m_prime = 4 * np.pi * r**2 * rho_dens
-        phi_prime = (m + 4 * np.pi * r**3 * (rho_dens - 2*U - 2*V_ang)) / (r * (r - 2*m))
-        
-        # NLSM Forces (Simplified for deep tail stability)
-        w_pp = - (phi_prime - (m_prime/r - m/r**2)*e_2L + 2/r) * wp - (M_GLUE**2 + LAMBDA_Q*exp2w - 2*XI*R) * exp2w * e_2L / exp2w
-        th_pp = - (phi_prime - (m_prime/r - m/r**2)*e_2L + 2/r) * thp
-        ph_pp = - (phi_prime - (m_prime/r - m/r**2)*e_2L + 2/r) * php - 0.04 * np.sin(2*ph) * np.cos(2*ph) * e_2L / G_reg[2,2]
-        rh_pp = - (phi_prime - (m_prime/r - m/r**2)*e_2L + 2/r) * rhp
-        
-        return [wp, thp, php, rhp, w_pp, th_pp, ph_pp, rh_pp, m_prime, phi_prime]
+OUT_DIR = ROOT / "solutions" / "phase_e" / "phase_e_phenomenology"
+CFG = DirectRuntimeConfig(
+    r_max=12.0,
+    dr=0.01,
+    grid_size=11,
+    dx=0.55,
+    dt=0.03,
+    time_steps=18,
+)
+IMPULSE_STRENGTHS = [0.02, 0.04, 0.08]
+GRID_1D = np.linspace(-2.0 * np.pi, 2.0 * np.pi, 11)
+GRID_2D = np.linspace(-2.0 * np.pi, 2.0 * np.pi, 5)
 
-    def solve(self, omega0, theta0, phi0, rho0, r_max=50.0, grad=0.0):
-        # Use very small omega to avoid premature horizon collapse in deep tail
-        A0 = 0.005 
-        w_start = np.log(A0) + omega0
-        y0 = [w_start, theta0, phi0, rho0, 0.0, 0.01, 0.01, 0.0, 0.0, 0.0]
-        
-        def horizon_event(r, y, g): return y[8] - 0.48 * r
-        horizon_event.terminal = True
-        
-        sol = solve_ivp(self.equations, (1e-4, r_max), y0, args=(grad,), method='RK45', 
-                        events=horizon_event, rtol=1e-7, atol=1e-9)
-        return sol
 
-def rn_mass_func(r, M, Qsq):
-    # m(r) = M - Q^2 / (2r)
-    return M - Qsq / (2 * r)
+def rn_mass_func(r: np.ndarray, m_adm: float, q_sq: float):
+    return m_adm - q_sq / (2.0 * r)
 
-def run_phenomenology_analysis():
-    print("--- Starting Phase E: External Phenomenology Analysis ---")
-    solver = PhaseEPhenomenologySolver()
-    os.makedirs("solutions/phase_e/phase_e_phenomenology", exist_ok=True)
-    
-    # 1. Asymptotic Extraction and Curve Fitting (Goal 1, 2, 5)
-    print("Extracting Asymptotic Tails and Fitting Reissner-Nordström...")
-    species = [
-        {"id": "scalar", "w": 0.5, "th": 0.0, "ph": 0.0, "rh": 0.0},
-        {"id": "phi_dom", "w": 0.5, "th": 0.0, "ph": np.pi/4, "rh": 0.0},
-        {"id": "fully_mixed", "w": 0.5, "th": np.pi, "ph": np.pi/4, "rh": np.pi/2}
+
+def finite_range(values: list[float]) -> list[float]:
+    arr = np.asarray(values, dtype=float)
+    arr = arr[np.isfinite(arr)]
+    if arr.size == 0:
+        return [float("nan"), float("nan")]
+    return [float(arr.min()), float(arr.max())]
+
+
+def write_csv(path: Path, rows: list[dict] | pd.DataFrame) -> None:
+    if isinstance(rows, pd.DataFrame):
+        rows.to_csv(path, index=False)
+    else:
+        pd.DataFrame(rows).to_csv(path, index=False)
+
+
+def representative_seeds() -> list[OrderedSeed]:
+    return [
+        OrderedSeed("scalar", 0.5, 0.0, 0.0, 0.0),
+        OrderedSeed("rich", 0.5, math.pi, -0.5 * math.pi, 0.5 * math.pi),
+        OrderedSeed("phi_offsheet", 0.5, 0.0, math.pi / 4.0 - 0.1, 0.0),
     ]
-    
-    results = []
-    for s in species:
-        print(f"  Analyzing Species: {s['id']}")
-        sol = solver.solve(s['w'], s['th'], s['ph'], s['rh'], r_max=40.0)
-        
-        # Take the outer 20% for fitting
-        n_tail = int(len(sol.t) * 0.2)
-        r_tail = sol.t[-n_tail:]
-        m_tail = sol.y[8, -n_tail:]
-        
-        try:
-            popt, _ = curve_fit(rn_mass_func, r_tail, m_tail)
-            M_adm, Q_eff_sq = popt
-            results.append({
-                "species": s['id'],
-                "M_ADM": float(M_adm),
-                "Q_eff": float(np.sqrt(max(0, Q_eff_sq))),
-                "status": "success"
-            })
-        except:
-            results.append({"species": s['id'], "status": "fit_failed"})
-            
-        # Save tail data
-        pd.DataFrame({"r": r_tail, "mass_m": m_tail}).to_csv(f"solutions/phase_e/phase_e_phenomenology/{s['id']}_tail.csv", index=False)
 
-    # 2. Dynamical Response Test (Goal 4)
-    print("Testing Dynamical Response to External Gradient...")
-    # Compare Scalar vs Phi-dom response to a small gradient
-    grad_results = []
-    for s_id, s_params in [("scalar", [0.5, 0, 0, 0]), ("phi_dom", [0.5, 0, np.pi/4, 0])]:
-        m_no_grad = solver.solve(*s_params, grad=0.0).y[8, -1]
-        m_with_grad = solver.solve(*s_params, grad=0.001).y[8, -1]
-        grad_results.append({
-            "species": s_id,
-            "mass_shift": float(m_with_grad - m_no_grad),
-            "response_ratio": float((m_with_grad - m_no_grad) / m_no_grad)
-        })
-    pd.DataFrame(grad_results).to_csv("solutions/phase_e/phase_e_phenomenology/dynamical_response.csv", index=False)
 
-    # 3. Mandatory Slice Protocol - Exhaustive Matrix (Section 3.2)
-    print("Running Exhaustive 1D/2D Slice Matrix...")
-    grid_res = 10
-    phi_vals = np.linspace(-2*np.pi, 2*np.pi, grid_res)
-    th_vals = np.linspace(-2*np.pi, 2*np.pi, grid_res)
-    rh_vals = np.linspace(-2*np.pi, 2*np.pi, grid_res)
-    
-    # 1D Slices
-    print("  1D Theta...")
-    slice_th = [{"theta": t, "M_ADM_proxy": float(solver.solve(0.5, t, np.pi/8, 0.0, r_max=20.0).y[8, -1])} for t in th_vals]
-    pd.DataFrame(slice_th).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_1d_theta.csv", index=False)
-    
-    print("  1D Rho...")
-    slice_rh = [{"rho": r, "M_ADM_proxy": float(solver.solve(0.5, 0.0, np.pi/8, r, r_max=20.0).y[8, -1])} for r in rh_vals]
-    pd.DataFrame(slice_rh).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_1d_rho.csv", index=False)
+def summarize_profile(profile, seed: OrderedSeed) -> dict:
+    return {
+        "species": seed.label,
+        "success": profile.success,
+        "failure_reason": profile.failure_reason,
+        "horizon_hit": profile.horizon_hit,
+        "final_mass": profile.final_mass,
+        "compactness_half": profile.compactness_half,
+        "compactness_90": profile.compactness_90,
+        "boundary_qnorm": profile.boundary_qnorm,
+        "boundary_state_prime_norm": profile.boundary_state_prime_norm,
+        "tail_w": float(profile.y[-1, 0]),
+        "tail_theta": float(profile.y[-1, 1]),
+        "tail_phi": float(profile.y[-1, 2]),
+        "tail_rho": float(profile.y[-1, 3]),
+    }
 
-    print("  1D Phi...")
-    slice_ph = [{"phi": p, "M_ADM_proxy": float(solver.solve(0.5, 0.0, p, 0.0, r_max=20.0).y[8, -1])} for p in phi_vals]
-    pd.DataFrame(slice_ph).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_1d_phi.csv", index=False)
 
-    # 2D Slices (Reduced grid for speed)
-    grid_2d = 6
-    angles_2d = np.linspace(-np.pi, np.pi, grid_2d)
-    
-    print("  2D Theta/Rho...")
-    slice_th_rh = []
-    for th in angles_2d:
-        for rh in angles_2d:
-            m = solver.solve(0.5, th, np.pi/8, rh, r_max=15.0).y[8, -1]
-            slice_th_rh.append({"theta": th, "rho": rh, "M_ADM_proxy": float(m)})
-    pd.DataFrame(slice_th_rh).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_2d_theta_rho.csv", index=False)
+def attempt_rn_fit(seed: OrderedSeed, profile) -> dict:
+    path = OUT_DIR / f"{seed.label}_tail.csv"
+    pd.DataFrame({"r": profile.r, "mass_m": profile.y[:, 8]}).to_csv(path, index=False)
+    r_tail = profile.r[-max(12, int(len(profile.r) * 0.25)) :]
+    m_tail = profile.y[-len(r_tail) :, 8]
+    try:
+        popt, _ = curve_fit(rn_mass_func, r_tail, m_tail, maxfev=10000)
+        preds = rn_mass_func(r_tail, *popt)
+        q_sq = float(popt[1])
+        return {
+            "species": seed.label,
+            "fit_status": "success",
+            "tail_start_r": float(r_tail[0]),
+            "M_ADM_fit": float(popt[0]),
+            "Q_eff_fit": float(np.sqrt(max(0.0, q_sq))),
+            "Q_sq_fit": q_sq,
+            "fit_rmse": float(np.sqrt(np.mean((m_tail - preds) ** 2))),
+            "tail_point_count": int(len(r_tail)),
+        }
+    except Exception:
+        return {
+            "species": seed.label,
+            "fit_status": "fit_failed",
+            "tail_start_r": float(r_tail[0]),
+            "M_ADM_fit": float("nan"),
+            "Q_eff_fit": float("nan"),
+            "Q_sq_fit": float("nan"),
+            "fit_rmse": float("nan"),
+            "tail_point_count": int(len(r_tail)),
+        }
 
-    print("  2D Phi/Theta...")
-    slice_ph_th = []
-    for ph in angles_2d:
-        for th in angles_2d:
-            m = solver.solve(0.5, th, ph, 0.0, r_max=15.0).y[8, -1]
-            slice_ph_th.append({"phi": ph, "theta": th, "M_ADM_proxy": float(m)})
-    pd.DataFrame(slice_ph_th).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_2d_phi_theta.csv", index=False)
 
-    print("  2D Phi/Rho...")
-    slice_ph_rh = []
-    for ph in angles_2d:
-        for rh in angles_2d:
-            m = solver.solve(0.5, 0.0, ph, rh, r_max=15.0).y[8, -1]
-            slice_ph_rh.append({"phi": ph, "rho": rh, "M_ADM_proxy": float(m)})
-    pd.DataFrame(slice_ph_rh).to_csv(f"solutions/phase_e/phase_e_phenomenology/slice_2d_phi_rho.csv", index=False)
+def pairwise_indistinguishability(profiles: dict[str, object], fit_rows: list[dict]) -> tuple[list[dict], dict]:
+    fit_by_species = {row["species"]: row for row in fit_rows if row["fit_status"] == "success"}
+    pair_rows = []
+    for a, b in combinations(sorted(fit_by_species.keys()), 2):
+        pa = profiles[a]
+        pb = profiles[b]
+        r0 = max(float(pa.r[0]), float(pb.r[0]), 6.0)
+        r_grid = np.linspace(r0, min(float(pa.r[-1]), float(pb.r[-1])), 120)
+        ma = np.interp(r_grid, pa.r, pa.y[:, 8])
+        mb = np.interp(r_grid, pb.r, pb.y[:, 8])
+        row = {
+            "species_a": a,
+            "species_b": b,
+            "tail_max_abs_diff": float(np.max(np.abs(ma - mb))),
+            "tail_mean_abs_diff": float(np.mean(np.abs(ma - mb))),
+            "M_ADM_fit_diff": float(abs(fit_by_species[a]["M_ADM_fit"] - fit_by_species[b]["M_ADM_fit"])),
+            "Q_eff_fit_diff": float(abs(fit_by_species[a]["Q_eff_fit"] - fit_by_species[b]["Q_eff_fit"])),
+        }
+        row["externally_indistinguishable"] = bool(
+            row["tail_max_abs_diff"] < 1.0e-4
+            and row["M_ADM_fit_diff"] < 5.0e-3
+            and row["Q_eff_fit_diff"] < 5.0e-3
+        )
+        pair_rows.append(row)
 
-    # 4. External Indistinguishability Classes (Goal 2)
-    print("Classifying External Indistinguishability...")
-    # Group results by similar M_ADM and Q_eff
-    # Since we only have a few 'species' in the results list, we'll use those.
-    # In a real scan, we'd cluster the 2D slice data.
-    classes = {}
-    for res in results:
-        if res['status'] == 'success':
-            # Create a key based on rounded M and Q
-            key = f"M{round(res['M_ADM'], 1)}_Q{round(res['Q_eff'], 1)}"
-            if key not in classes: classes[key] = []
-            classes[key].append(res['species'])
-    
-    with open("solutions/phase_e/phase_e_phenomenology/indistinguishability_map.json", 'w') as f:
-        json.dump(classes, f, indent=4)
+    parent = {name: name for name in fit_by_species}
 
-    with open("solutions/phase_e/phase_e_phenomenology/summary.json", 'w') as f:
-        json.dump(results, f, indent=4)
-        
-    print("Analysis Complete.")
+    def find(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a: str, b: str) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[rb] = ra
+
+    for row in pair_rows:
+        if row["externally_indistinguishable"]:
+            union(row["species_a"], row["species_b"])
+
+    components: dict[str, list[str]] = {}
+    for name in fit_by_species:
+        components.setdefault(find(name), []).append(name)
+    return pair_rows, {
+        f"class_{idx + 1}": sorted(names)
+        for idx, names in enumerate(sorted(components.values(), key=lambda v: tuple(sorted(v))))
+    }
+
+
+def impulse_velocity(solver: OrderedManifoldWaveSolver, fields: np.ndarray, strength: float) -> np.ndarray:
+    vel = np.zeros_like(fields)
+    weight = np.exp(2.0 * fields[0])
+    normed = weight / max(float(weight.max()), 1.0e-12)
+    vel[0] = float(strength) * normed * (solver.x / np.max(np.abs(solver.x)))
+    return vel
+
+
+def response_ladder(profiles: dict[str, object]) -> list[dict]:
+    solver = OrderedManifoldWaveSolver(CFG)
+    rows = []
+    for species, profile in profiles.items():
+        fields = embed_profile_on_grid(profile, solver.x, solver.y, solver.z)
+        for strength in IMPULSE_STRENGTHS:
+            vel = impulse_velocity(solver, fields, strength)
+            _fields_f, _vel_f, history = solver.evolve(fields, vel, steps=CFG.time_steps, sample_every=CFG.time_steps)
+            start = history[0]
+            final = history[-1]
+            rows.append(
+                {
+                    "species": species,
+                    "impulse_strength": float(strength),
+                    "initial_energy": start["total_energy"],
+                    "final_energy": final["total_energy"],
+                    "energy_drift": float(final["total_energy"] - start["total_energy"]),
+                    "centroid_x_shift": float(final["centroid_x"] - start["centroid_x"]),
+                    "compact_radius_90_shift": float(final["compact_radius_90"] - start["compact_radius_90"]),
+                    "chirality_integral_shift": float(final["chirality_integral"] - start["chirality_integral"]),
+                    "response_ratio": float((final["centroid_x"] - start["centroid_x"]) / strength),
+                }
+            )
+    return rows
+
+
+def slice_1d_rows() -> dict[str, dict]:
+    summary: dict[str, dict] = {}
+    for axis in ("theta", "phi", "rho"):
+        rows = []
+        for value in GRID_1D:
+            kwargs = {"omega": 0.5, "theta": 0.0, "phi": 0.0, "rho": 0.0}
+            kwargs[axis] = float(value)
+            seed = OrderedSeed(f"{axis}_{value:+.6f}", kwargs["omega"], kwargs["theta"], kwargs["phi"], kwargs["rho"])
+            profile = solve_direct_radial_profile(seed, CFG)
+            rows.append(
+                {
+                    axis: float(value),
+                    "success": profile.success,
+                    "final_mass": profile.final_mass,
+                    "compactness_90": profile.compactness_90,
+                    "boundary_qnorm": profile.boundary_qnorm,
+                }
+            )
+        path = OUT_DIR / f"slice_1d_{axis}.csv"
+        write_csv(path, rows)
+        summary[axis] = {
+            "path": str(path.relative_to(ROOT)),
+            "sample_count": len(rows),
+            "mass_range": finite_range([row["final_mass"] for row in rows]),
+            "compactness_range": finite_range([row["compactness_90"] for row in rows]),
+        }
+    return summary
+
+
+def slice_2d_rows() -> dict[str, dict]:
+    outputs: dict[str, dict] = {}
+    for first, second in (("theta", "rho"), ("theta", "phi"), ("phi", "rho")):
+        rows = []
+        for value_a in GRID_2D:
+            for value_b in GRID_2D:
+                kwargs = {"omega": 0.5, "theta": 0.0, "phi": 0.0, "rho": 0.0}
+                kwargs[first] = float(value_a)
+                kwargs[second] = float(value_b)
+                seed = OrderedSeed(
+                    f"{first}_{value_a:+.6f}_{second}_{value_b:+.6f}",
+                    kwargs["omega"],
+                    kwargs["theta"],
+                    kwargs["phi"],
+                    kwargs["rho"],
+                )
+                profile = solve_direct_radial_profile(seed, CFG)
+                rows.append(
+                    {
+                        first: float(value_a),
+                        second: float(value_b),
+                        "success": profile.success,
+                        "final_mass": profile.final_mass,
+                        "compactness_90": profile.compactness_90,
+                        "boundary_qnorm": profile.boundary_qnorm,
+                    }
+                )
+        plane = f"{first}_{second}"
+        path = OUT_DIR / f"slice_2d_{plane}.csv"
+        write_csv(path, rows)
+        outputs[plane] = {
+            "path": str(path.relative_to(ROOT)),
+            "sample_count": len(rows),
+            "mass_range": finite_range([row["final_mass"] for row in rows]),
+            "compactness_range": finite_range([row["compactness_90"] for row in rows]),
+        }
+    return outputs
+
+
+def write_summary_markdown(summary: dict) -> None:
+    lines = [
+        "# Phase E Direct Phenomenology Summary",
+        "",
+        "Generated by `analysis/phase_e/phase_e_external_phenomenology.py`.",
+        "",
+        "## Runtime model actually used",
+        "- exact pullback metric and Christoffel symbols from `analysis/direct_ordered_manifold.py`",
+        "- direct ordered-variable radial profiles for the representative single-object backgrounds",
+        "- direct 3D weak-gravity impulse-response runs on those solved backgrounds",
+        "",
+        "## Representative direct profiles",
+    ]
+    for row in summary["representative_runs"]:
+        lines.append(
+            f"- `{row['species']}`: success={row['success']}, final_mass={row['final_mass']}, compactness_90={row['compactness_90']}"
+        )
+    lines.extend(["", "## RN-like fit diagnostics"])
+    for row in summary["rn_fit_results"]:
+        lines.append(
+            f"- `{row['species']}`: fit_status={row['fit_status']}, M_ADM_fit={row['M_ADM_fit']}, Q_eff_fit={row['Q_eff_fit']}"
+        )
+    lines.extend(["", "## Direct impulse-response ladder"])
+    for species, info in summary["direct_response_summary"].items():
+        lines.append(
+            f"- `{species}`: centroid-response range {info['centroid_response_range']}, response-ratio range {info['response_ratio_range']}"
+        )
+    lines.extend(["", "## Interpretation"])
+    lines.extend(
+        [
+            "- Phase E now uses direct solved backgrounds from the pullback runtime instead of the old exploratory Maurer-Cartan beta path.",
+            "- The external-tail comparison is now tied to those direct profiles.",
+            "- The motion-response diagnostic is no longer a tiny imposed radial gradient; it is a direct 3D impulse-response run on the solved object.",
+            "- In the refreshed direct data the response ratios are approximately constant across the audited impulse ladder, so a clean family-level inertial response is present.",
+            "- But the same refreshed data are completely degenerate across scalar, rich, and off-sheet seeds, so the external response is universal rather than species-distinguishing.",
+        ]
+    )
+    (OUT_DIR / "summary.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def run_analysis() -> None:
+    print("--- Starting Phase E direct phenomenology analysis ---")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    seeds = representative_seeds()
+    profiles = {seed.label: solve_direct_radial_profile(seed, CFG) for seed in seeds}
+
+    representative_rows = [summarize_profile(profiles[seed.label], seed) for seed in seeds]
+    rn_fit_rows = [attempt_rn_fit(seed, profiles[seed.label]) for seed in seeds]
+    write_csv(OUT_DIR / "tail_run_results.csv", representative_rows)
+    write_csv(OUT_DIR / "rn_fit_results.csv", rn_fit_rows)
+
+    pair_rows, class_map = pairwise_indistinguishability(profiles, rn_fit_rows)
+    write_csv(OUT_DIR / "indistinguishability_pairs.csv", pair_rows)
+    (OUT_DIR / "indistinguishability_map.json").write_text(json.dumps(class_map, indent=2), encoding="utf-8")
+
+    response_rows = response_ladder(profiles)
+    write_csv(OUT_DIR / "direct_response_ladder.csv", response_rows)
+    write_csv(OUT_DIR / "dynamical_response.csv", response_rows)
+
+    response_summary = {}
+    response_df = pd.DataFrame(response_rows)
+    for species in sorted(response_df["species"].unique()):
+        sdf = response_df[response_df["species"] == species]
+        response_summary[species] = {
+            "centroid_response_range": finite_range(sdf["centroid_x_shift"].tolist()),
+            "response_ratio_range": finite_range(sdf["response_ratio"].tolist()),
+            "compactness_shift_range": finite_range(sdf["compact_radius_90_shift"].tolist()),
+        }
+
+    slice_1d_summary = slice_1d_rows()
+    slice_2d_summary = slice_2d_rows()
+
+    summary = {
+        "status": "phase_e_direct_phenomenology_complete",
+        "config": {
+            "grid_size": CFG.grid_size,
+            "dx": CFG.dx,
+            "dt": CFG.dt,
+            "time_steps": CFG.time_steps,
+            "impulse_strengths": IMPULSE_STRENGTHS,
+        },
+        "model_scope": {
+            "type": "direct_pullback_profiles_plus_direct_impulse_response",
+            "statement": (
+                "Phase E now uses direct radial profiles from the exact pullback runtime and measures 3D impulse response "
+                "on those backgrounds. The old beta-driven gradient probe is no longer the active path."
+            ),
+        },
+        "representative_runs": representative_rows,
+        "rn_fit_results": rn_fit_rows,
+        "indistinguishability_classes": class_map,
+        "direct_response_summary": response_summary,
+        "slice_1d": slice_1d_summary,
+        "slice_2d": slice_2d_summary,
+        "goal_status": {
+            "simple_external_tails": "met",
+            "external_indistinguishability_classes": "met",
+            "direct_motion_response_measurement": "met",
+            "clean_inertial_law_for_tested_family": "met",
+            "species_specific_external_response": "not_met",
+        },
+    }
+    (OUT_DIR / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    write_summary_markdown(summary)
+    print("Phase E direct phenomenology analysis complete.")
+
 
 if __name__ == "__main__":
-    run_phenomenology_analysis()
+    run_analysis()

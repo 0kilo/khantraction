@@ -4,6 +4,10 @@
 **Phase:** B — Structured-object picture  
 **Status:** Closed after audit refresh
 
+## 0. Project-level disposition
+
+Phase B remains an important precursor result because static structured objecthood survives audit. Its old raw size-invariance claim is retired at the project level because the current observables remain setup-dependent. The governing synthesis is recorded in `summary/2026-04-02_gap_closure_summary.md`, `notes/2026-04-02_direct_data_closure_plan.md`, and `summary/2026-04-02_khantraction_model_conclusion.md`.
+
 ## 1. Scope and motivation
 
 `khantraction_paper.md` does **not** present Khantraction as a finished particle theory. It presents it as a speculative toy model for localized, compact, structured spacetime-fold objects with a continuous scalar-to-quaternion branch family.

@@ -1,23 +1,69 @@
 # Phase M Analysis Summary: Pair Creation and Annihilation
 
-## 1. Objective
-To interpret the simulated data for spontaneous creation of Khantraction folds from vacuum energy and the annihilation of mirror-pair enantiomers.
+**Date:** 2026-04-02  
+**Phase:** M - Pair Creation / Annihilation
 
-## 2. Bulk Creation Scan Results
-- **Threshold Energy:** 2.55 units.
-- **Interpretation:** The manifold exhibits spontaneous "tearing" into Left and Right handed pairs only when localized energy density exceeds 2.55. Below this threshold, fluctuations remain sub-threshold and do not spawn persistent knots.
+This directory contains the refreshed outputs for the audited Phase M runtime in `analysis/phase_m/phase_m_creation_annihilation_sim.py`.
 
-## 3. 1D Annihilation Slices
-- **Method:** We collided a Left-Handed anchor species with a Right-Handed species while independently varying $\theta$, $\phi$, and $\rho$ to test interaction cross-sections.
-- **Results:** Perfect vielbein cancellation (resulting in the 'Vacuum' state) occurs exactly when the parameters of the colliding folds are perfectly mirrored. Deviations in $\theta$ or $\phi$ result in 'Residual Dipole' signatures rather than total annihilation. Varying $\rho$ does not disrupt the simplified chirality proxy cancellation but in a complete manifold sense it must also perfectly mirror for complete untying.
-- **Interpretation:** Annihilation is highly specific to exact enantiomer pairs, guaranteeing conservation of topological charge $\mathcal{Q}_{top} = 0$.
+## 1. Active audited outputs
 
-## 4. 2D Creation Stability Slices
-- **Method:** We mapped creation probability across all pairs of angular variables: $(\theta, \phi)$, $(\theta, \rho)$, and $(\phi, \rho)$.
-- **Results:**
-  - In the $(\theta, \phi)$ and $(\phi, \rho)$ slices, creation probability peaks heavily near $\phi = \pm \pi/4$.
-  - In the $(\theta, \rho)$ slice at fixed $\phi=0$, the creation probability is flat and minimal.
-- **Interpretation:** Singular sheets ($\phi = \pm \pi/4$) behave as regions of vanishing geometric stiffness. They are the topological "weak points" where the manifold is most susceptible to tearing into opposite-chirality pairs under extreme external stress.
+The current script regenerates these evidence files:
 
-## 5. Conclusion
-The simulation data unequivocally confirms that Khantraction objects possess a robust lifecycle involving discrete creation and annihilation governed by topological constraints, fulfilling the conditions laid out in the transition plan.
+- `bulk_creation_sweep.csv`
+- `pair_reference_checks.csv`
+- `creation_phi_reference.csv`
+- `slices_1d_annihilation_theta.csv`
+- `slices_1d_annihilation_phi.csv`
+- `slices_1d_annihilation_rho.csv`
+- `slices_1d_annihilation.csv`
+- `slices_2d_creation_theta_phi.csv`
+- `slices_2d_creation_theta_rho.csv`
+- `slices_2d_creation_phi_rho.csv`
+- `slices_2d_creation_probability.csv`
+- `summary.json`
+
+## 2. What the active runtime is
+
+The active runtime is a simplified pair-lifecycle model:
+
+- chirality `chi = cos(2phi)`
+- an exact-partner annihilation score
+- a fixed creation threshold
+- a hand-built singular-sheet susceptibility
+
+So this package is not a solved collision or vacuum-tearing model.
+
+## 3. Interpretation of the data
+
+### 3.1 Annihilation references
+
+`pair_reference_checks.csv` is the key file for interpreting the annihilation side:
+
+- the exact chiral-flip partner returns `Vacuum`,
+- the parity partner does not,
+- the same-handed copy does not.
+
+That is the main usable annihilation result of the current package.
+
+### 3.2 Creation gate
+
+`bulk_creation_sweep.csv` documents a fixed threshold gate:
+
+- imposed threshold `2.55`
+- first sampled created row `2.5510204081632653`
+
+This is not a discovered dynamical threshold.
+
+### 3.3 Phi-localized creation tendency
+
+`creation_phi_reference.csv` and the 2D creation slices show that the current creation rule is strongest near the singular sheets and flat on the `theta-rho` slice at fixed `phi = 0`.
+
+## 4. Conclusions
+
+This solution package is appropriate evidence for a narrowed Phase M claim:
+
+1. the active runtime contains a corrected pair-lifecycle model consistent with audited chirality,
+2. it distinguishes exact chiral-flip annihilation from parity or same-handed overlap,
+3. it maps a singular-sheet-localized creation tendency under a fixed threshold gate.
+
+It is not evidence that Phase M has already proven dynamical annihilation, genuine vacuum tearing, or completion of the Real Physics Transition Plan.

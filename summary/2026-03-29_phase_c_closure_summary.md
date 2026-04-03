@@ -4,6 +4,10 @@
 **Phase:** C — Distinct angular traits  
 **Status:** Closed after audit refresh
 
+## 0. Project-level disposition
+
+Phase C remains exploratory evidence only in the project-level closure plan. That caution is now stronger than before: after the direct Phase I refresh, the exact pullback coefficient chain does not reproduce the exploratory trait splitting. So Phase C is now understood as a property of the exploratory symmetry-broken runtime, not of the rebuilt direct solver chain. The governing synthesis is recorded in `summary/2026-04-02_gap_closure_summary.md`, `notes/2026-04-02_direct_data_closure_plan.md`, and `summary/2026-04-02_khantraction_model_conclusion.md`.
+
 ## 1. Scope and motivation
 
 `khantraction_paper.md` frames Khantraction as a speculative toy model for localized structured spacetime-fold objects, not as a finished particle theory.
