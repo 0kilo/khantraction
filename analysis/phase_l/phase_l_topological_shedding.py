@@ -54,34 +54,68 @@ def run_emission_suite():
     
     # 2. 1D Slices: Finding Resonances
     print("Running 1D Emission Slices...")
-    slice_1d = []
+    slice_1d_theta = []
+    slice_1d_phi = []
+    slice_1d_rho = []
     test_angles = np.linspace(-2*np.pi, 2*np.pi, 100)
     for a in test_angles:
         # Vary theta (emission resonance check)
         p = excited_r.copy()
         p['theta'] = a
         e_flux, _ = simulate_emission(p, steps=1)
-        slice_1d.append({'param': 'theta', 'val': a, 'e_flux': e_flux})
+        slice_1d_theta.append({'theta': a, 'phi': excited_r['phi'], 'rho': excited_r['rho'], 'e_flux': e_flux})
+        
         # Vary phi (barrier check)
         p = excited_r.copy()
         p['phi'] = a
         e_flux, _ = simulate_emission(p, steps=1)
-        slice_1d.append({'param': 'phi', 'val': a, 'e_flux': e_flux})
-    pd.DataFrame(slice_1d).to_csv(f"{output_dir}/slices_1d_emission.csv", index=False)
+        slice_1d_phi.append({'theta': excited_r['theta'], 'phi': a, 'rho': excited_r['rho'], 'e_flux': e_flux})
+        
+        # Vary rho
+        p = excited_r.copy()
+        p['rho'] = a
+        e_flux, _ = simulate_emission(p, steps=1)
+        slice_1d_rho.append({'theta': excited_r['theta'], 'phi': excited_r['phi'], 'rho': a, 'e_flux': e_flux})
+        
+    pd.DataFrame(slice_1d_theta).to_csv(f"{output_dir}/vary_theta_phi_fixed_rho_fixed.csv", index=False)
+    pd.DataFrame(slice_1d_phi).to_csv(f"{output_dir}/vary_phi_theta_fixed_rho_fixed.csv", index=False)
+    pd.DataFrame(slice_1d_rho).to_csv(f"{output_dir}/vary_rho_theta_fixed_phi_fixed.csv", index=False)
 
     # 3. 2D Slices: Threshold Maps
     print("Running 2D Emission Slices...")
     res_2d = 30
-    angles_2d = np.linspace(-np.pi, np.pi, res_2d)
-    slice_2d = []
+    angles_2d = np.linspace(-2*np.pi, 2*np.pi, res_2d)
+    
+    slice_2d_theta_phi = []
+    slice_2d_theta_rho = []
+    slice_2d_phi_rho = []
+    
     for a1 in angles_2d:
         for a2 in angles_2d:
+            # vary theta, phi
+            p = excited_r.copy()
+            p['theta'] = a1
+            p['phi'] = a2
+            e_flux, _ = simulate_emission(p, steps=1)
+            slice_2d_theta_phi.append({'theta': a1, 'phi': a2, 'rho': excited_r['rho'], 'e_flux': e_flux})
+            
+            # vary theta, rho
             p = excited_r.copy()
             p['theta'] = a1
             p['rho'] = a2
             e_flux, _ = simulate_emission(p, steps=1)
-            slice_2d.append({'theta': a1, 'rho': a2, 'e_flux': e_flux})
-    pd.DataFrame(slice_2d).to_csv(f"{output_dir}/slices_2d_theta_rho_emission.csv", index=False)
+            slice_2d_theta_rho.append({'theta': a1, 'phi': excited_r['phi'], 'rho': a2, 'e_flux': e_flux})
+            
+            # vary phi, rho
+            p = excited_r.copy()
+            p['phi'] = a1
+            p['rho'] = a2
+            e_flux, _ = simulate_emission(p, steps=1)
+            slice_2d_phi_rho.append({'theta': excited_r['theta'], 'phi': a1, 'rho': a2, 'e_flux': e_flux})
+
+    pd.DataFrame(slice_2d_theta_phi).to_csv(f"{output_dir}/theta_phi_rho_fixed.csv", index=False)
+    pd.DataFrame(slice_2d_theta_rho).to_csv(f"{output_dir}/theta_rho_phi_fixed.csv", index=False)
+    pd.DataFrame(slice_2d_phi_rho).to_csv(f"{output_dir}/phi_rho_theta_fixed.csv", index=False)
 
     # 4. Trajectory Tracking (Bulk Packet)
     print("Tracking Sample Packet Trajectory...")

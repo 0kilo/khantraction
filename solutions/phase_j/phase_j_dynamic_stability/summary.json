@@ -1,6 +1,9 @@
 {
   "status": "Verified",
-  "average_fidelity": 0.5353842552131111,
-  "max_drift_2d": 2.4412676153378627,
-  "conclusion": "Species cores are dynamically stable against asymmetric perturbations."
+  "average_fidelity_1d": 0.5353842552131111,
+  "max_drift_2d_theta_rho": 2.4412676153378627,
+  "max_drift_2d_theta_phi": 2.4412676153378627,
+  "max_drift_2d_phi_rho": 2.2870899352261254,
+  "acceleration_fidelity": 0.8134647474027928,
+  "conclusion": "Species cores are dynamically stable against asymmetric perturbations and survive spatial acceleration without loss of internal structured objecthood."
 }

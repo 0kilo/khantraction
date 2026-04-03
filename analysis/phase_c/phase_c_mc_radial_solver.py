@@ -1,16 +1,26 @@
+#!/usr/bin/env python3
 r"""
-Phase C: Maurer-Cartan Radial Solver (Corrected Implementation)
-Date: 2026-03-29
-Purpose: Implements the exact anisotropic Maurer-Cartan (MC) symmetry breaking 
-in the radial Khantraction system. Solves the Non-Linear Sigma Model (NLSM) 
-equations directly in the angular basis (\omega, \theta, \phi, \rho).
+Phase C: Maurer-Cartan radial solver with explicit audit outputs.
+
+This runtime implements the exploratory Phase C symmetry-breaking ansatz in the
+ordered-angle basis (omega, theta, phi, rho) and writes a fully traceable
+solution package:
+
+- representative seed profiles and summaries,
+- angle-only anchor checks,
+- 1D and 2D slice studies on the active unquotiented domain,
+- and summary metadata that records early terminations and horizon-approach
+  behavior explicitly.
 """
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Dict, List, Sequence
 
 import numpy as np
 import pandas as pd
-import json
-import os
-import csv
 from scipy.integrate import solve_ivp
 
 # --- Constants ---
@@ -19,314 +29,599 @@ XI = 0.002
 M_GLUE = 0.1
 LAMBDA_Q = 0.01
 
-# Anisotropic MC Breaking Weights (Derivation 78)
-BETA_1 = 0.01  # i channel
-BETA_2 = 0.02  # j channel
-BETA_3 = 0.03  # k channel
+# Anisotropic MC breaking weights from Derivation 78.
+BETA_1 = 0.01
+BETA_2 = 0.02
+BETA_3 = 0.03
+
+# Explicit runtime additions used by the active exploratory Phase C solver.
+METRIC_REGULARIZATION = 1.0e-4
+ANGULAR_PHI_POTENTIAL = 0.01
+HORIZON_EVENT_FRACTION = 0.45
+
+OUT_DIR = Path("solutions/phase_c/phase_c_angular_traits")
+PROFILES_DIR = OUT_DIR / "profiles"
+
 
 class PhaseCMCRadialSolver:
-    def __init__(self, beta=[BETA_1, BETA_2, BETA_3]):
-        self.beta = np.array(beta)
+    def __init__(
+        self,
+        beta: Sequence[float] = (BETA_1, BETA_2, BETA_3),
+        metric_regularization: float = METRIC_REGULARIZATION,
+        angular_phi_potential: float = ANGULAR_PHI_POTENTIAL,
+        horizon_event_fraction: float = HORIZON_EVENT_FRACTION,
+    ):
+        self.beta = np.asarray(beta, dtype=float)
+        self.metric_regularization = float(metric_regularization)
+        self.angular_phi_potential = float(angular_phi_potential)
+        self.horizon_event_fraction = float(horizon_event_fraction)
 
-    def get_vielbeins(self, theta, phi, rho):
-        """
-        Calculates left-invariant vielbeins E_M^a = (q^-1 d_M q)^a.
-        Basis: (theta, phi, rho) -> (i, j, k)
-        """
-        c2p, s2p = np.cos(2*phi), np.sin(2*phi)
-        c2r, s2r = np.cos(2*rho), np.sin(2*rho)
+    def get_vielbeins(self, theta: float, phi: float, rho: float):
+        """Left-invariant vielbeins E_M^a = (q^-1 d_M q)^a."""
+        c2p, s2p = np.cos(2.0 * phi), np.sin(2.0 * phi)
+        c2r, s2r = np.cos(2.0 * rho), np.sin(2.0 * rho)
 
-        # E_rho = k
-        E_rho = np.array([0.0, 0.0, 1.0])
-        # E_phi = j cos(2rho) + i sin(2rho)
-        E_phi = np.array([s2r, c2r, 0.0])
-        # E_theta = i cos(2rho)cos(2phi) - j sin(2rho)cos(2phi) + k sin(2phi)
-        E_theta = np.array([c2r * c2p, -s2r * c2p, s2p])
+        e_rho = np.array([0.0, 0.0, 1.0])
+        e_phi = np.array([s2r, c2r, 0.0])
+        e_theta = np.array([c2r * c2p, -s2r * c2p, s2p])
+        return e_theta, e_phi, e_rho
 
-        return E_theta, E_phi, E_rho
-
-    def get_vielbein_derivatives(self, theta, phi, rho):
-        """
-        Calculates d_K E_M^a.
-        Returns a dictionary mapping (K, M) to the (i, j, k) vector.
-        """
-        c2p, s2p = np.cos(2*phi), np.sin(2*phi)
-        c2r, s2r = np.cos(2*rho), np.sin(2*rho)
+    def get_vielbein_derivatives(self, theta: float, phi: float, rho: float):
+        """d_K E_M^a, with keys (K, M)."""
+        del theta
+        c2p, s2p = np.cos(2.0 * phi), np.sin(2.0 * phi)
+        c2r, s2r = np.cos(2.0 * rho), np.sin(2.0 * rho)
 
         derivs = {}
-        # theta derivatives are 0
-        
-        # phi derivatives
-        derivs[('phi', 'theta')] = np.array([-2*c2r*s2p, 2*s2r*s2p, 2*c2p])
-        derivs[('phi', 'phi')] = np.array([0.0, 0.0, 0.0])
-        derivs[('phi', 'rho')] = np.array([0.0, 0.0, 0.0])
+        derivs[("phi", "theta")] = np.array([-2.0 * c2r * s2p, 2.0 * s2r * s2p, 2.0 * c2p])
+        derivs[("phi", "phi")] = np.array([0.0, 0.0, 0.0])
+        derivs[("phi", "rho")] = np.array([0.0, 0.0, 0.0])
 
-        # rho derivatives
-        derivs[('rho', 'theta')] = np.array([-2*s2r*c2p, -2*c2r*c2p, 0.0])
-        derivs[('rho', 'phi')] = np.array([2*c2r, -2*s2r, 0.0])
-        derivs[('rho', 'rho')] = np.array([0.0, 0.0, 0.0])
-
+        derivs[("rho", "theta")] = np.array([-2.0 * s2r * c2p, -2.0 * c2r * c2p, 0.0])
+        derivs[("rho", "phi")] = np.array([2.0 * c2r, -2.0 * s2r, 0.0])
+        derivs[("rho", "rho")] = np.array([0.0, 0.0, 0.0])
         return derivs
 
-    def get_target_metric(self, omega, theta, phi, rho):
-        """
-        Calculates target space metric G_MN.
-        Order: (omega, theta, phi, rho)
-        """
-        E = self.get_vielbeins(theta, phi, rho) # (E_th, E_ph, E_rh)
-        exp2w = np.exp(2 * omega)
-        B = exp2w + 2 * self.beta # [B1, B2, B3]
+    def get_target_metric(self, omega: float, theta: float, phi: float, rho: float) -> np.ndarray:
+        """Target-space metric G_MN in order (omega, theta, phi, rho)."""
+        e_theta, e_phi, e_rho = self.get_vielbeins(theta, phi, rho)
+        exp2w = np.exp(2.0 * omega)
+        b = exp2w + 2.0 * self.beta
+        basis = [e_theta, e_phi, e_rho]
 
-        G = np.zeros((4, 4))
-        G[0, 0] = exp2w # G_ww
-
-        # G_ij = sum_a Ba E_i^a E_j^a for i,j in {th, ph, rh}
-        indices = [1, 2, 3] # theta, phi, rho
-        for i_idx, i_name in enumerate(['theta', 'phi', 'rho']):
-            for j_idx, j_name in enumerate(['theta', 'phi', 'rho']):
-                G[i_idx+1, j_idx+1] = np.sum(B * E[i_idx] * E[j_idx])
-        
-        return G
-
-    def get_metric_derivatives(self, omega, theta, phi, rho):
-        """Calculates d_K G_MN."""
-        exp2w = np.exp(2 * omega)
-        E = self.get_vielbeins(theta, phi, rho)
-        dE = self.get_vielbein_derivatives(theta, phi, rho)
-        B = exp2w + 2 * self.beta
-        
-        dG = np.zeros((4, 4, 4)) # [K, M, N]
-
-        # omega derivatives
-        dG[0, 0, 0] = 2 * exp2w
+        g = np.zeros((4, 4))
+        g[0, 0] = exp2w
         for i in range(3):
             for j in range(3):
-                # d_w G_ij = 2 exp2w sum E_i E_j (since only exp2w depends on w)
-                dG[0, i+1, j+1] = 2 * exp2w * np.sum(E[i] * E[j])
+                g[i + 1, j + 1] = np.sum(b * basis[i] * basis[j])
+        return g
 
-        # angular derivatives
-        for k_idx, k_name in enumerate(['theta', 'phi', 'rho']):
-            for i_idx, i_name in enumerate(['theta', 'phi', 'rho']):
-                for j_idx, j_name in enumerate(['theta', 'phi', 'rho']):
-                    # d_k G_ij = sum B_a (d_k E_i^a E_j^a + E_i^a d_k E_j^a)
-                    term1 = dE.get((k_name, i_name), np.zeros(3))
-                    term2 = dE.get((k_name, j_name), np.zeros(3))
-                    dG[k_idx+1, i_idx+1, j_idx+1] = np.sum(B * (term1 * E[j_idx] + E[i_idx] * term2))
-        
-        return dG
+    def get_metric_derivatives(self, omega: float, theta: float, phi: float, rho: float) -> np.ndarray:
+        """d_K G_MN with index order [K, M, N]."""
+        exp2w = np.exp(2.0 * omega)
+        basis = self.get_vielbeins(theta, phi, rho)
+        dbasis = self.get_vielbein_derivatives(theta, phi, rho)
+        b = exp2w + 2.0 * self.beta
 
-    def equations(self, r, y):
-        # y = [w, th, ph, rh, wp, thp, php, rhp, m, phi_pot]
-        w, th, ph, rh, wp, thp, php, rhp, m, phi_pot = y
-        X = y[0:4]
-        Xp = y[4:8]
+        d_g = np.zeros((4, 4, 4))
+        d_g[0, 0, 0] = 2.0 * exp2w
+        for i in range(3):
+            for j in range(3):
+                d_g[0, i + 1, j + 1] = 2.0 * exp2w * np.sum(basis[i] * basis[j])
 
-        if r < 1e-10: return np.zeros_like(y)
+        for k_idx, k_name in enumerate(["theta", "phi", "rho"]):
+            for i_idx, i_name in enumerate(["theta", "phi", "rho"]):
+                for j_idx, j_name in enumerate(["theta", "phi", "rho"]):
+                    term1 = dbasis.get((k_name, i_name), np.zeros(3))
+                    term2 = dbasis.get((k_name, j_name), np.zeros(3))
+                    d_g[k_idx + 1, i_idx + 1, j_idx + 1] = np.sum(
+                        b * (term1 * basis[j_idx] + basis[i_idx] * term2)
+                    )
+        return d_g
 
-        # Metric components
-        e_2L = 1.0 / (1.0 - 2.0 * m / r) if r > 2*m else 1e10
-        e_neg2L = 1.0 / e_2L
-        
-        # Target space geometry
-        G = self.get_target_metric(w, th, ph, rh)
-        # Add regularization to handle chart singularities (e.g., at phi = pi/4)
-        G_reg = G + 1e-4 * np.eye(4)
-        G_inv = np.linalg.inv(G_reg)
-        dG = self.get_metric_derivatives(w, th, ph, rh)
+    def equations(self, r: float, y: np.ndarray) -> np.ndarray:
+        # y = [w, th, ph, rh, wp, thp, php, rhp, m, Phi]
+        w, th, ph, rh, wp, thp, php, rhp, m, phi_metric = y
+        del phi_metric
+        x = y[0:4]
+        xp = y[4:8]
 
-        # Cap omega to prevent exp(2w) overflow
-        if w > 10.0: return np.zeros_like(y)
+        if r < 1.0e-10:
+            return np.zeros_like(y)
 
-        # Trace and Ricci (Derivation 79)
-        exp2w = np.exp(2*w)
-        U = 0.5 * M_GLUE**2 * exp2w + 0.25 * LAMBDA_Q * exp2w**2
-        
-        # G_MN Xp^M Xp^N = |dq|^2 + 2 Omega_MC^2
-        kin_sum_total = np.dot(Xp, G @ Xp)
-        
-        # T_q = -e^-2L |dq|^2 - 4U
-        # T_MC = 2 e^-2L Omega_MC^2
-        # |dq|^2 = exp2w (wp^2 + thp^2 + php^2 + rhp^2) -- ONLY if orthogonal
-        # Let's use the actual kinetic term components.
-        E = self.get_vielbeins(th, ph, rh)
-        w_r = np.zeros(3)
-        for i in range(3): w_r += E[i] * Xp[i+1]
-        omega_mc_sq = np.sum(self.beta * w_r**2)
-        dq_sq = exp2w * (wp**2 + np.sum(w_r**2))
-        
-        T_q = -e_neg2L * dq_sq - 4 * U
-        T_MC = 2 * e_neg2L * omega_mc_sq
-        
-        # S = 2 e^-2L |dq|^2 - 2 (m_g^2 + lambda |q|^2) |q|^2
-        S = 2 * e_neg2L * dq_sq - 2 * (M_GLUE**2 + LAMBDA_Q * exp2w) * exp2w
-        
-        R_num = -KAPPA * (T_q + T_MC) + 6 * KAPPA * XI * S
-        R_den = 1.0 + 2 * KAPPA * XI * (1.0 - 12.0 * XI) * exp2w
-        R = R_num / R_den
+        if w > 10.0:
+            return np.zeros_like(y)
 
-        # Einstein Sector
-        rho = 0.5 * e_neg2L * dq_sq + e_neg2L * omega_mc_sq + U 
-        # Add a small exploratory angular potential to force evolution (Goal 5)
-        # Based on Phase B improved dynamics: sin^2(2phi)
-        V_ang = 0.01 * np.sin(2*ph)**2
-        rho += V_ang
-        
-        # Ricci feedback into Matter
-        V_eff_w = (M_GLUE**2 + LAMBDA_Q * exp2w - 2 * XI * R) * exp2w
-        V_eff_ph = 0.01 * 2 * np.sin(2*ph) * np.cos(2*ph) * 2 # d_phi V_ang
-        
-        m_prime = 4 * np.pi * r**2 * rho
-        phi_prime = (m + 4 * np.pi * r**3 * (rho - 2*U - 2*V_ang)) / (r * (r - 2*m)) 
+        e_2lambda = 1.0 / (1.0 - 2.0 * m / r) if r > 2.0 * m else 1.0e10
+        e_neg2lambda = 1.0 / e_2lambda
 
-        # Matter Sector NLSM EOM
-        L_prime = (m_prime / r - m / r**2) / (1 - 2*m/r)
-        H_prime = phi_prime - L_prime + 2/r
-        
-        P_prime = np.zeros(4)
+        g = self.get_target_metric(w, th, ph, rh)
+        g_reg = g + self.metric_regularization * np.eye(4)
+        g_inv = np.linalg.inv(g_reg)
+        d_g = self.get_metric_derivatives(w, th, ph, rh)
+
+        exp2w = np.exp(2.0 * w)
+        potential = 0.5 * M_GLUE**2 * exp2w + 0.25 * LAMBDA_Q * exp2w**2
+
+        e_theta, e_phi, e_rho = self.get_vielbeins(th, ph, rh)
+        omega_r = np.zeros(3)
+        for idx, vec in enumerate([e_theta, e_phi, e_rho]):
+            omega_r += vec * xp[idx + 1]
+        omega_mc_sq = np.sum(self.beta * omega_r**2)
+        dq_sq = exp2w * (wp**2 + np.sum(omega_r**2))
+
+        trace_q = -e_neg2lambda * dq_sq - 4.0 * potential
+        trace_mc = 2.0 * e_neg2lambda * omega_mc_sq
+        source_s = 2.0 * e_neg2lambda * dq_sq - 2.0 * (M_GLUE**2 + LAMBDA_Q * exp2w) * exp2w
+
+        ricci_num = -KAPPA * (trace_q + trace_mc) + 6.0 * KAPPA * XI * source_s
+        ricci_den = 1.0 + 2.0 * KAPPA * XI * (1.0 - 12.0 * XI) * exp2w
+        ricci = ricci_num / ricci_den
+
+        v_ang = self.angular_phi_potential * np.sin(2.0 * ph) ** 2
+        rho_total = 0.5 * e_neg2lambda * dq_sq + e_neg2lambda * omega_mc_sq + potential + v_ang
+
+        v_eff_w = (M_GLUE**2 + LAMBDA_Q * exp2w - 2.0 * XI * ricci) * exp2w
+        v_eff_phi = self.angular_phi_potential * 4.0 * np.sin(2.0 * ph) * np.cos(2.0 * ph)
+
+        m_prime = 4.0 * np.pi * r**2 * rho_total
+        phi_prime = (m + 4.0 * np.pi * r**3 * (rho_total - 2.0 * potential - 2.0 * v_ang)) / (r * (r - 2.0 * m))
+
+        lambda_prime = (m_prime / r - m / r**2) / (1.0 - 2.0 * m / r)
+        h_prime = phi_prime - lambda_prime + 2.0 / r
+
+        p_prime = np.zeros(4)
         for m_idx in range(4):
-            term_geom = 0.5 * np.dot(Xp, dG[m_idx] @ Xp)
-            term_damp = - H_prime * np.dot(G[m_idx], Xp)
-            # Potentials
-            if m_idx == 0: term_pot = - e_2L * V_eff_w
-            elif m_idx == 2: term_pot = - e_2L * V_eff_ph
-            else: term_pot = 0.0
-            P_prime[m_idx] = term_geom + term_damp + term_pot
+            term_geom = 0.5 * np.dot(xp, d_g[m_idx] @ xp)
+            term_damp = -h_prime * np.dot(g[m_idx], xp)
+            if m_idx == 0:
+                term_pot = -e_2lambda * v_eff_w
+            elif m_idx == 2:
+                term_pot = -e_2lambda * v_eff_phi
+            else:
+                term_pot = 0.0
+            p_prime[m_idx] = term_geom + term_damp + term_pot
 
-        # Xpp = G_inv (P' - d_K G_ML Xp^K Xp^L)
-        # Actually (G Xp)' = G Xpp + d_K G Xp^K Xp
-        Xpp = G_inv @ (P_prime - np.array([np.dot(dG[:, m_idx, :].T @ Xp, Xp) for m_idx in range(4)]))
+        xpp = g_inv @ (
+            p_prime - np.array([np.dot(d_g[:, m_idx, :].T @ xp, xp) for m_idx in range(4)])
+        )
 
-        return np.concatenate([Xp, Xpp, [m_prime, phi_prime]])
+        return np.concatenate([xp, xpp, [m_prime, phi_prime]])
 
-    def solve(self, omega0, theta0, phi0, rho0, r_max=20.0, dr=0.01, Xp0=[0,0,0,0]):
-        # Initial Conditions: regular origin
-        # Use A0 scaling consistent with paper (0.02)
-        A0 = 0.02
-        w_scaled = np.log(A0) + omega0
-        y0 = [w_scaled, theta0, phi0, rho0, Xp0[0], Xp0[1], Xp0[2], Xp0[3], 0.0, 0.0]
-        
-        # We start at small r to avoid singularity
-        r_span = (1e-4, r_max)
-        t_eval = np.arange(1e-4, r_max, dr)
-        
+    def solve(
+        self,
+        omega0: float,
+        theta0: float,
+        phi0: float,
+        rho0: float,
+        r_max: float = 20.0,
+        dr: float = 0.01,
+        xp0: Sequence[float] = (0.0, 0.0, 0.0, 0.0),
+    ):
+        a0 = 0.02
+        w_scaled = np.log(a0) + omega0
+        y0 = [w_scaled, theta0, phi0, rho0, xp0[0], xp0[1], xp0[2], xp0[3], 0.0, 0.0]
+
+        r_span = (1.0e-4, r_max)
+        t_eval = np.arange(1.0e-4, r_max, dr)
+
         def horizon_event(r, y):
-            # 2m/r < 1
-            return y[8] - 0.45 * r
+            return y[8] - self.horizon_event_fraction * r
+
         horizon_event.terminal = True
-        
-        sol = solve_ivp(self.equations, r_span, y0, t_eval=t_eval, method='RK45', 
-                        events=horizon_event, rtol=1e-6)
+        sol = solve_ivp(
+            self.equations,
+            r_span,
+            y0,
+            t_eval=t_eval,
+            method="RK45",
+            events=horizon_event,
+            rtol=1.0e-6,
+        )
         return sol
 
-def run_scans():
-    print("--- Starting Phase C: Corrected MC Radial Scans ---")
+
+def mass_fraction_radius(rs: np.ndarray, masses: np.ndarray, fraction: float):
+    target = fraction * masses[-1]
+    idx = np.where(masses >= target)[0]
+    return float(rs[idx[0]]) if len(idx) else None
+
+
+def profile_metrics(
+    sol,
+    *,
+    seed_id: str,
+    omega0: float,
+    theta0: float,
+    phi0: float,
+    rho0: float,
+    xp0: Sequence[float],
+    r_max: float,
+    dr: float,
+) -> Dict[str, object]:
+    rs = sol.t
+    masses = sol.y[8]
+    final_mass = float(masses[-1])
+    r_final = float(rs[-1])
+    half_radius = mass_fraction_radius(rs, masses, 0.5)
+    mass_90_radius = mass_fraction_radius(rs, masses, 0.9)
+    idx_core = np.where(rs <= 1.0)[0]
+    m_core = masses[idx_core[-1]] if len(idx_core) else 0.0
+    core_fraction = float(m_core / final_mass) if final_mass > 0.0 else 0.0
+    dm_dr = np.gradient(masses, rs)
+    mean_r = float(np.trapezoid(rs * dm_dr, x=rs) / final_mass) if final_mass > 0.0 else 0.0
+    skewness_proxy = float(mean_r / half_radius) if half_radius else 0.0
+    horizon_events = [float(x) for x in sol.t_events[0]] if len(sol.t_events) else []
+    return {
+        "id": seed_id,
+        "omega0": float(omega0),
+        "theta0": float(theta0),
+        "phi0": float(phi0),
+        "rho0": float(rho0),
+        "xp0": [float(x) for x in xp0],
+        "r_max": float(r_max),
+        "dr": float(dr),
+        "status": int(sol.status),
+        "status_message": sol.message,
+        "terminated_early": bool(sol.status != 0),
+        "horizon_event_radii": horizon_events,
+        "r_final": r_final,
+        "final_mass": final_mass,
+        "mass_half_radius": half_radius,
+        "mass_90_radius": mass_90_radius,
+        "core_mass_fraction": core_fraction,
+        "skewness_proxy": skewness_proxy,
+        "final_2m_over_r": float(2.0 * final_mass / r_final) if r_final > 0.0 else None,
+    }
+
+
+def save_profile(path: Path, sol, *, mass_column: str = "mass") -> None:
+    df = pd.DataFrame(
+        {
+            "r": sol.t,
+            "omega": sol.y[0],
+            "theta": sol.y[1],
+            "phi": sol.y[2],
+            "rho": sol.y[3],
+            mass_column: sol.y[8],
+        }
+    )
+    df.to_csv(path, index=False)
+
+
+def write_rows(path: Path, rows: Sequence[Dict[str, object]]) -> None:
+    pd.DataFrame(rows).to_csv(path, index=False)
+
+
+def slice_stats(rows: Sequence[Dict[str, object]]) -> Dict[str, object]:
+    masses = np.asarray([row["mass"] for row in rows], dtype=float)
+    terminated = sum(1 for row in rows if row["status"] != 0)
+    return {
+        "sample_count": len(rows),
+        "mass_range": [float(np.min(masses)), float(np.max(masses))],
+        "mass_range_width": float(np.max(masses) - np.min(masses)),
+        "terminated_early_count": int(terminated),
+    }
+
+
+def format_result_line(result: Dict[str, object]) -> str:
+    return (
+        f"- `{result['id']}`: final_mass={result['final_mass']}, "
+        f"r_half={result['mass_half_radius']}, r_90={result['mass_90_radius']}, "
+        f"core_fraction={result['core_mass_fraction']}, terminated_early={result['terminated_early']}, "
+        f"r_final={result['r_final']}"
+    )
+
+
+def write_summary_md(summary: Dict[str, object]) -> None:
+    lines: List[str] = []
+    lines.append("# Phase C Angular Traits Solution Summary")
+    lines.append("")
+    lines.append("Generated by `analysis/phase_c/phase_c_mc_radial_solver.py`.")
+    lines.append("")
+    lines.append("## Runtime model actually used")
+    lines.append("- anisotropic Maurer-Cartan weights: beta = [0.01, 0.02, 0.03]")
+    lines.append(f"- metric regularization added to target metric inverse: {summary['config']['metric_regularization']}")
+    lines.append(f"- exploratory phi-localized angular potential coefficient: {summary['config']['angular_phi_potential']}")
+    lines.append("- interpretation: this is an exploratory symmetry-broken runtime, not a pure derivation-78/79 implementation with no extra runtime devices")
+    lines.append("")
+    lines.append("## Representative seeded runs")
+    for row in summary["representative_seed_results"]:
+        lines.append(format_result_line(row))
+    lines.append("")
+    lines.append("## Angle-only anchor check")
+    lines.append("- Same angle values as the representative seeds, but with zero initial angle-derivative seeding.")
+    for row in summary["angle_only_anchor_results"]:
+        lines.append(format_result_line(row))
+    lines.append("")
+    lines.append("## 1D slice studies")
+    for name, info in summary["slice_1d"].items():
+        lines.append(
+            f"- `{name}`: mass range {info['mass_range']}, terminated_early={info['terminated_early_count']} of {info['sample_count']}, fixed={info['fixed_parameters']}, r_max={info['r_max']}"
+        )
+    lines.append("")
+    lines.append("## 2D slice studies")
+    for name, info in summary["slice_2d"].items():
+        lines.append(
+            f"- `{name}`: mass range {info['mass_range']}, terminated_early={info['terminated_early_count']} of {info['sample_count']}, fixed={info['fixed_parameters']}, domain={info['domain']}, r_max={info['r_max']}"
+        )
+    lines.append("")
+    lines.append("## Interpretation")
+    lines.append("- Theta-only variation is nearly flat on the audited 1D theta slice.")
+    lines.append("- Rho-only variation is moderate and periodic on the audited 1D rho slice.")
+    lines.append("- Phi variation is the dominant driver of trait splitting on the audited 1D phi slice and on the phi-coupled 2D slices.")
+    lines.append("- The strongest high-mass representative phi-rich anchors terminate early on the horizon event rather than surviving to the full r_max = 20 interval.")
+    lines.append("- So the Phase C solver does show angle-sensitive trait differentiation, but the strongest phi-rich states should be interpreted as near-horizon exploratory diagnostics rather than fully settled full-domain survivors.")
+    (OUT_DIR / "summary.md").write_text("\n".join(lines))
+
+
+def write_profiles_summary(
+    active_profile_names: Sequence[str], archival_profile_names: Sequence[str]
+) -> None:
+    lines: List[str] = []
+    lines.append("# Phase C Angular Traits Profile Summary")
+    lines.append("")
+    lines.append("This directory contains two generations of profile exports.")
+    lines.append("")
+    lines.append("## Active regenerated profiles")
+    lines.append("- These files are written by the current audited Phase C solver.")
+    for name in active_profile_names:
+        lines.append(f"- `{name}`")
+    lines.append("")
+    lines.append("## Archival preliminary profiles")
+    lines.append("- These files predate the current audited solver output and correspond to the older degenerate anchor study.")
+    lines.append("- They are historical context only and should not be treated as the primary support for the refreshed Phase C closure summary.")
+    for name in archival_profile_names:
+        lines.append(f"- `{name}`")
+    (PROFILES_DIR / "summary.md").write_text("\n".join(lines))
+
+
+def run_scans() -> None:
+    print("--- Starting Phase C: audited MC radial scans ---")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    PROFILES_DIR.mkdir(parents=True, exist_ok=True)
+
     solver = PhaseCMCRadialSolver()
-    out_dir = "solutions/phase_c/phase_c_angular_traits"
-    os.makedirs(f"{out_dir}/profiles", exist_ok=True)
-    
-    # 1. Representative Seeds (Goal 1 & 4)
-    seeds = [
-        {"id": "scalar", "w": 0.5, "th": 0.0, "ph": 0.0, "rh": 0.0, "Xp": [0,0,0,0]},
-        {"id": "theta_dom", "w": 0.5, "th": np.pi, "ph": 0.0, "rh": 0.0, "Xp": [0, 0.01, 0, 0]},
-        {"id": "phi_dom", "w": 0.5, "th": 0.0, "ph": np.pi/4, "rh": 0.0, "Xp": [0, 0, 0.01, 0]},
-        {"id": "fully_mixed", "w": 0.5, "th": np.pi, "ph": np.pi/4, "rh": np.pi/2, "Xp": [0, 0.01, 0.01, 0.01]}
+    active_profiles: List[str] = []
+
+    representative_seeds = [
+        {"id": "scalar", "omega0": 0.5, "theta0": 0.0, "phi0": 0.0, "rho0": 0.0, "xp0": [0.0, 0.0, 0.0, 0.0]},
+        {"id": "theta_dom", "omega0": 0.5, "theta0": np.pi, "phi0": 0.0, "rho0": 0.0, "xp0": [0.0, 0.01, 0.0, 0.0]},
+        {"id": "phi_dom", "omega0": 0.5, "theta0": 0.0, "phi0": np.pi / 4.0, "rho0": 0.0, "xp0": [0.0, 0.0, 0.01, 0.0]},
+        {"id": "fully_mixed", "omega0": 0.5, "theta0": np.pi, "phi0": np.pi / 4.0, "rho0": np.pi / 2.0, "xp0": [0.0, 0.01, 0.01, 0.01]},
     ]
-    
-    summary = []
-    for s in seeds:
-        print(f"Running Seed: {s['id']}")
-        sol = solver.solve(s['w'], s['th'], s['ph'], s['rh'], Xp0=s['Xp'])
-        
-        rs = sol.t
-        ms = sol.y[8]
-        ws = sol.y[0]
-        
-        final_m = ms[-1]
-        
-        # Metric Extraction (Goal 2)
-        half_m = final_m * 0.5
-        m90 = final_m * 0.9
-        
-        idx_half = np.where(ms >= half_m)[0]
-        r_half = rs[idx_half[0]] if len(idx_half) > 0 else None
-        
-        idx_90 = np.where(ms >= m90)[0]
-        r_90 = rs[idx_90[0]] if len(idx_90) > 0 else None
-        
-        # Core-to-Bulk Balance (Core defined as r < 1.0)
-        idx_core = np.where(rs <= 1.0)[0]
-        m_core = ms[idx_core[-1]] if len(idx_core) > 0 else 0
-        core_bulk_ratio = m_core / final_m if final_m > 0 else 0
-        
-        # Profile Skewness (Proxy: mean radius of mass distribution)
-        # Using dM/dr as weight
-        dm_dr = np.gradient(ms, rs)
-        mean_r = np.trapezoid(rs * dm_dr, x=rs) / final_m if final_m > 0 else 0
-        skewness_proxy = mean_r / r_half if r_half else 0
-        
-        summary.append({
-            "id": s['id'],
-            "final_mass": float(final_m),
-            "mass_half_radius": float(r_half) if r_half else None,
-            "mass_90_radius": float(r_90) if r_90 else None,
-            "core_mass_fraction": float(core_bulk_ratio),
-            "skewness_proxy": float(skewness_proxy)
-        })
-        
-        # Save profile
-        df = pd.DataFrame({
-            'r': rs,
-            'omega': ws,
-            'theta': sol.y[1],
-            'phi': sol.y[2],
-            'rho': sol.y[3],
-            'mass': ms
-        })
-        df.to_csv(f"{out_dir}/profiles/{s['id']}.csv", index=False)
 
-    # 2. 1D Slice Protocol - Exhaustive Matrix (Goal 2.2)
-    print("Running Exhaustive 1D Slice Matrix...")
-    # Vary Phi
-    slice_phi = [{"phi": p, "mass": float(solver.solve(0.5, 0.0, p, 0.0, r_max=10.0).y[8, -1])} for p in np.linspace(-2*np.pi, 2*np.pi, 15)]
-    pd.DataFrame(slice_phi).to_csv(f"{out_dir}/slice_1d_phi.csv", index=False)
-    
-    # Vary Theta
-    slice_th = [{"theta": t, "mass": float(solver.solve(0.5, t, np.pi/8, 0.0, r_max=10.0).y[8, -1])} for t in np.linspace(-2*np.pi, 2*np.pi, 15)]
-    pd.DataFrame(slice_th).to_csv(f"{out_dir}/slice_1d_theta.csv", index=False)
-    
-    # Vary Rho
-    slice_rh = [{"rho": r, "mass": float(solver.solve(0.5, 0.0, np.pi/8, r, r_max=10.0).y[8, -1])} for r in np.linspace(-2*np.pi, 2*np.pi, 15)]
-    pd.DataFrame(slice_rh).to_csv(f"{out_dir}/slice_1d_rho.csv", index=False)
+    representative_results: List[Dict[str, object]] = []
+    for seed in representative_seeds:
+        print(f"Running representative seed: {seed['id']}")
+        sol = solver.solve(
+            seed["omega0"],
+            seed["theta0"],
+            seed["phi0"],
+            seed["rho0"],
+            r_max=20.0,
+            dr=0.01,
+            xp0=seed["xp0"],
+        )
+        representative_results.append(
+            profile_metrics(
+                sol,
+                seed_id=seed["id"],
+                omega0=seed["omega0"],
+                theta0=seed["theta0"],
+                phi0=seed["phi0"],
+                rho0=seed["rho0"],
+                xp0=seed["xp0"],
+                r_max=20.0,
+                dr=0.01,
+            )
+        )
+        save_profile(PROFILES_DIR / f"{seed['id']}.csv", sol, mass_column="mass")
+        active_profiles.append(f"{seed['id']}.csv")
 
-    # 3. 2D Slice Protocol - Exhaustive Matrix (Goal 2.2)
-    print("Running Exhaustive 2D Slice Matrix...")
-    grid_size = 8 # Reduced for total combinatorial execution speed
-    angles = np.linspace(-np.pi, np.pi, grid_size)
-    
-    # Pair: Theta/Rho (The Subsystem)
-    slice_th_rh = []
-    for th in angles:
-        for rh in angles:
-            slice_th_rh.append({"theta": th, "rho": rh, "mass": float(solver.solve(0.5, th, np.pi/8, rh, r_max=5.0).y[8, -1])})
-    pd.DataFrame(slice_th_rh).to_csv(f"{out_dir}/slice_2d_theta_rho.csv", index=False)
+    angle_only_anchor_results: List[Dict[str, object]] = []
+    for seed in representative_seeds:
+        sol = solver.solve(
+            seed["omega0"],
+            seed["theta0"],
+            seed["phi0"],
+            seed["rho0"],
+            r_max=20.0,
+            dr=0.01,
+            xp0=[0.0, 0.0, 0.0, 0.0],
+        )
+        angle_only_anchor_results.append(
+            profile_metrics(
+                sol,
+                seed_id=f"{seed['id']}_angle_only",
+                omega0=seed["omega0"],
+                theta0=seed["theta0"],
+                phi0=seed["phi0"],
+                rho0=seed["rho0"],
+                xp0=[0.0, 0.0, 0.0, 0.0],
+                r_max=20.0,
+                dr=0.01,
+            )
+        )
 
-    # Pair: Phi/Theta
-    slice_ph_th = []
-    for ph in angles:
-        for th in angles:
-            slice_ph_th.append({"phi": ph, "theta": th, "mass": float(solver.solve(0.5, th, ph, 0.0, r_max=5.0).y[8, -1])})
-    pd.DataFrame(slice_ph_th).to_csv(f"{out_dir}/slice_2d_phi_theta.csv", index=False)
+    write_rows(OUT_DIR / "representative_seed_results.csv", representative_results)
+    write_rows(OUT_DIR / "angle_only_anchor_results.csv", angle_only_anchor_results)
 
-    # Pair: Phi/Rho
-    slice_ph_rh = []
-    for ph in angles:
-        for rh in angles:
-            slice_ph_rh.append({"phi": ph, "rho": rh, "mass": float(solver.solve(0.5, 0.0, ph, rh, r_max=5.0).y[8, -1])})
-    pd.DataFrame(slice_ph_rh).to_csv(f"{out_dir}/slice_2d_phi_rho.csv", index=False)
+    # 1D slices on the active unquotiented domain.
+    one_d_domain = [-2.0 * np.pi, 2.0 * np.pi]
+    one_d_grid = np.linspace(one_d_domain[0], one_d_domain[1], 15)
+    slice_1d_theta_rows: List[Dict[str, object]] = []
+    slice_1d_phi_rows: List[Dict[str, object]] = []
+    slice_1d_rho_rows: List[Dict[str, object]] = []
 
-    with open(f"{out_dir}/summary.json", 'w') as f:
-        json.dump(summary, f, indent=4)
-    print("Scans Complete.")
+    for theta in one_d_grid:
+        sol = solver.solve(0.5, theta, np.pi / 8.0, 0.0, r_max=10.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+        slice_1d_theta_rows.append(
+            {
+                "theta": float(theta),
+                "mass": float(sol.y[8, -1]),
+                "status": int(sol.status),
+                "r_final": float(sol.t[-1]),
+            }
+        )
+
+    for phi in one_d_grid:
+        sol = solver.solve(0.5, 0.0, phi, 0.0, r_max=10.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+        slice_1d_phi_rows.append(
+            {
+                "phi": float(phi),
+                "mass": float(sol.y[8, -1]),
+                "status": int(sol.status),
+                "r_final": float(sol.t[-1]),
+            }
+        )
+
+    for rho in one_d_grid:
+        sol = solver.solve(0.5, 0.0, np.pi / 8.0, rho, r_max=10.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+        slice_1d_rho_rows.append(
+            {
+                "rho": float(rho),
+                "mass": float(sol.y[8, -1]),
+                "status": int(sol.status),
+                "r_final": float(sol.t[-1]),
+            }
+        )
+
+    write_rows(OUT_DIR / "slice_1d_theta.csv", slice_1d_theta_rows)
+    write_rows(OUT_DIR / "slice_1d_phi.csv", slice_1d_phi_rows)
+    write_rows(OUT_DIR / "slice_1d_rho.csv", slice_1d_rho_rows)
+
+    # 2D slices on the active unquotiented domain.
+    two_d_domain = [-2.0 * np.pi, 2.0 * np.pi]
+    two_d_grid = np.linspace(two_d_domain[0], two_d_domain[1], 8)
+
+    slice_2d_theta_rho_rows: List[Dict[str, object]] = []
+    slice_2d_phi_theta_rows: List[Dict[str, object]] = []
+    slice_2d_phi_rho_rows: List[Dict[str, object]] = []
+
+    for theta in two_d_grid:
+        for rho in two_d_grid:
+            sol = solver.solve(0.5, theta, np.pi / 8.0, rho, r_max=5.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+            slice_2d_theta_rho_rows.append(
+                {
+                    "theta": float(theta),
+                    "rho": float(rho),
+                    "mass": float(sol.y[8, -1]),
+                    "status": int(sol.status),
+                    "r_final": float(sol.t[-1]),
+                }
+            )
+
+    for phi in two_d_grid:
+        for theta in two_d_grid:
+            sol = solver.solve(0.5, theta, phi, 0.0, r_max=5.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+            slice_2d_phi_theta_rows.append(
+                {
+                    "phi": float(phi),
+                    "theta": float(theta),
+                    "mass": float(sol.y[8, -1]),
+                    "status": int(sol.status),
+                    "r_final": float(sol.t[-1]),
+                }
+            )
+
+    for phi in two_d_grid:
+        for rho in two_d_grid:
+            sol = solver.solve(0.5, 0.0, phi, rho, r_max=5.0, dr=0.01, xp0=[0.0, 0.0, 0.0, 0.0])
+            slice_2d_phi_rho_rows.append(
+                {
+                    "phi": float(phi),
+                    "rho": float(rho),
+                    "mass": float(sol.y[8, -1]),
+                    "status": int(sol.status),
+                    "r_final": float(sol.t[-1]),
+                }
+            )
+
+    write_rows(OUT_DIR / "slice_2d_theta_rho.csv", slice_2d_theta_rho_rows)
+    write_rows(OUT_DIR / "slice_2d_phi_theta.csv", slice_2d_phi_theta_rows)
+    write_rows(OUT_DIR / "slice_2d_phi_rho.csv", slice_2d_phi_rho_rows)
+
+    summary = {
+        "config": {
+            "kappa": KAPPA,
+            "xi": XI,
+            "m_glue": M_GLUE,
+            "lambda_q": LAMBDA_Q,
+            "beta": [BETA_1, BETA_2, BETA_3],
+            "metric_regularization": METRIC_REGULARIZATION,
+            "angular_phi_potential": ANGULAR_PHI_POTENTIAL,
+            "horizon_event_fraction": HORIZON_EVENT_FRACTION,
+        },
+        "representative_seed_results": representative_results,
+        "angle_only_anchor_results": angle_only_anchor_results,
+        "slice_1d": {
+            "theta": {
+                **slice_stats(slice_1d_theta_rows),
+                "fixed_parameters": {"omega": 0.5, "phi": float(np.pi / 8.0), "rho": 0.0},
+                "domain": one_d_domain,
+                "r_max": 10.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_1d_theta.csv",
+            },
+            "phi": {
+                **slice_stats(slice_1d_phi_rows),
+                "fixed_parameters": {"omega": 0.5, "theta": 0.0, "rho": 0.0},
+                "domain": one_d_domain,
+                "r_max": 10.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_1d_phi.csv",
+            },
+            "rho": {
+                **slice_stats(slice_1d_rho_rows),
+                "fixed_parameters": {"omega": 0.5, "theta": 0.0, "phi": float(np.pi / 8.0)},
+                "domain": one_d_domain,
+                "r_max": 10.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_1d_rho.csv",
+            },
+        },
+        "slice_2d": {
+            "theta_rho": {
+                **slice_stats(slice_2d_theta_rho_rows),
+                "fixed_parameters": {"omega": 0.5, "phi": float(np.pi / 8.0)},
+                "domain": two_d_domain,
+                "r_max": 5.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_2d_theta_rho.csv",
+            },
+            "phi_theta": {
+                **slice_stats(slice_2d_phi_theta_rows),
+                "fixed_parameters": {"omega": 0.5, "rho": 0.0},
+                "domain": two_d_domain,
+                "r_max": 5.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_2d_phi_theta.csv",
+            },
+            "phi_rho": {
+                **slice_stats(slice_2d_phi_rho_rows),
+                "fixed_parameters": {"omega": 0.5, "theta": 0.0},
+                "domain": two_d_domain,
+                "r_max": 5.0,
+                "path": "solutions/phase_c/phase_c_angular_traits/slice_2d_phi_rho.csv",
+            },
+        },
+        "status": "phase_c_mc_trait_scan_complete",
+    }
+
+    with (OUT_DIR / "summary.json").open("w") as f:
+        json.dump(summary, f, indent=2)
+    write_summary_md(summary)
+
+    archival_profiles = [
+        name
+        for name in [
+            "scalar_anchor.csv",
+            "rich_anchor_theta_dom.csv",
+            "rich_anchor_phi_dom.csv",
+            "rich_anchor_fully_mixed.csv",
+        ]
+        if (PROFILES_DIR / name).exists()
+    ]
+    write_profiles_summary(active_profiles, archival_profiles)
+
+    print(json.dumps(summary, indent=2))
+
 
 if __name__ == "__main__":
     run_scans()

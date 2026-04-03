@@ -1,27 +1,85 @@
-# Phase B Assessment — Exact Radial Solver and O(4) Degeneracy
+# Phase B Assessment — Exact Radial Solver and Linear-Basis Degeneracy
 
 **Date:** 2026-03-29  
 **Phase:** B — Structured-object picture  
-**Status:** Complete
+**Status:** Complete after audit refresh
 
 ## Purpose
-This note evaluates the execution of the exact radial solver (`analysis/phase_b/phase_b_exact_radial_solver.py`), which implements the complete Einstein sector with the exact nonminimal coupling algebraic decoupling.
 
-## Findings
+This note evaluates what the refreshed exact radial solver actually proves.
 
-### 1. Exact Einstein Decoupling Works
-The solver successfully integrates the system using the algebraically decoupled Ricci scalar, $R = \frac{-\kappa T + 6\kappa\xi \square |q|^2}{1 + 2\kappa\xi(1-12\xi)|q|^2}$. It confirms that the system admits stable, regular, horizon-free solutions, validating the preliminary findings from the provisional and improved dynamics solvers.
+Relevant files:
+- `analysis/phase_b/phase_b_exact_radial_solver.py`
+- `solutions/phase_b/phase_b_exact_radial_solver/run_summary.json`
+- `solutions/phase_b/phase_b_exact_radial_solver/summary.md`
+- `solutions/phase_b/phase_b_exact_radial_solver/slice_1d_phi.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/slice_2d_theta_rho.csv`
 
-### 2. The O(4) Symmetry Bombshell
-When integrating seeds across vastly different angular configurations (e.g., a pure scalar anchor vs. rich quaternion anchors) at the same scale parameter $\omega$:
-- Final mass matched to floating-point precision ($\sim 0.107593$).
-- The mass half-radius matched perfectly ($\sim 14.6501$).
-- The integrated Ricci scalar matched perfectly ($\sim 0.0069689$).
+---
 
-These results definitively prove that when integrated in the linear Euclidean basis $(a,b,c,d)$, the exact matter and Einstein equations are perfectly $O(4)$ symmetric. The explicit $\cos(2\phi)$ singular structure derived from the ordered phase mapping (Phase A) does not survive into the equations of motion when expressed purely in the linear basis. The $\xi R|q|^2$ nonminimal coupling is solely sensitive to the $O(4)$ norm.
+## 1. What was tested
 
-### 3. Conclusion for Phase B Objecthood
-Phase B has proven the existence of structured, coherent objects that solve the exact radial system. However, the exact solver proves that the internal geometric properties encoded in the distinct angular variables ($\theta, \phi, \rho$) are mathematically degenerate in this formulation. The objects are structured but lack distinct classical identity derived from their angular parameters.
+The refreshed exact solver now checks three separate things:
 
-## Next Steps
-This exact solver marks the definitive end of the usefulness of the linear $(a,b,c,d)$ Euclidean basis. To proceed to Phase C and evaluate the distinct angular traits, the program MUST transition to a curved target-space Non-Linear Sigma Model, directly leveraging the Phase A ordered-map Jacobian and the pullback metric to dynamically break the $O(4)$ symmetry.
+1. **Anchor comparison**
+   - scalar-like anchor,
+   - rich angular anchor 1,
+   - rich angular anchor 2.
+2. **1D slice protocol**
+   - fix $\omega=0.5$, $\theta=\pi$, $\rho=\pi/2$,
+   - vary $\phi$ on `[-2pi, 2pi]`.
+3. **2D slice protocol**
+   - fix $\omega=0.5$, $\phi=-pi/2$,
+   - vary $(\theta,\rho)$ on `[-2pi, 2pi]^2`.
+
+This is materially stronger than the earlier three-anchor-only check.
+
+---
+
+## 2. Exact-closure runtime result
+
+All tested exact-solver runs completed regularly on the audited sample set.
+
+Anchor values:
+- final mass: `0.1081724783796303`, `0.1081724783796303`, `0.1081724783796295`
+- mass half-radius: `14.670099999999731` for all three anchors
+- mass 90% radius: `19.000100000000174` for all three anchors
+- integrated `|R|`: `0.006919589880281697`, `0.006919589880281697`, `0.006919589880281665`
+
+So the exact solver reproduces the same broad objecthood picture as the provisional solver: regular compact profiles exist.
+
+---
+
+## 3. What the exact solver proves about angular identity
+
+The anchor spreads are already tiny:
+- final-mass range = `8.049116928532385e-16`
+- integrated-`|R|` range = `3.209238430557093e-17`
+
+The explicit slices then confirm that this is not an accident of anchor choice:
+- 1D exact $\phi$-slice final-mass range = `8.049116928532385e-16`
+- 1D exact $\phi$-slice integrated-`|R|` range = `3.2959746043559335e-17`
+- 2D exact $(\theta,\rho)$-slice final-mass range = `0.0`
+- 2D exact $(\theta,\rho)$-slice integrated-`|R|` range = `0.0`
+
+That means the exact linear-basis runtime is, for practical purposes, perfectly blind to angular orientation at fixed scale.
+
+---
+
+## 4. Correct interpretation
+
+The right conclusion is narrower than the older wording:
+
+> the exact solver does not prove that all future angular formulations must be degenerate; it proves that the *current linear component basis* keeps the exact classical observables O(4)-symmetric on the tested Phase B sample set.
+
+That distinction matters.
+
+The exact solver therefore supports two statements simultaneously:
+- the exact trace decoupling is numerically workable,
+- the linear $(a,b,c,d)$ basis is not the right place to look for stable angular identity.
+
+---
+
+## 5. Bottom line
+
+**Bottom line:** the refreshed exact radial solver confirms that regular exact-closure objects exist, but it also shows that the linear-basis observables are angularly degenerate across both anchors and explicit 1D/2D slices at fixed `omega`. So the exact solver strengthens the Einstein-sector bookkeeping and weakens any remaining claim that Phase B could recover distinct angular identities without leaving the linear basis.

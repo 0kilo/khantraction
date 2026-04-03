@@ -19,6 +19,7 @@ The discovery of **Attraction/Repulsion Symmetry** is a major success:
 The exhaustive slices (`slices_1d_angle_interaction.csv`) show that the interaction energy is highly sensitive to the relative phase of the internal angles.
 - **Phi Control:** As expected, $\phi$ remains the primary controller. Small shifts in $\phi$ can flip the interaction sign, moving from attraction to repulsion.
 - **Theta-Rho Coupling:** The 2D slices verify that the $(\theta, \rho)$ pair state determines the magnitude of the force constant.
+- **Theta-Phi and Phi-Rho Interference:** The complete set of 2D slices (`slices_2d_theta_phi_interaction.csv`, `slices_2d_phi_rho_interaction.csv`) illustrates how $\phi$'s role as an orthogonal separator toggles the topological polarity in conjunction with structural variations across $\theta$ and $\rho$.
 
 ## 2. Fulfillment of Goals
 

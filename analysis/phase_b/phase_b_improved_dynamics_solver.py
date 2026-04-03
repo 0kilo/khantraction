@@ -33,11 +33,12 @@ from typing import Dict, List, Sequence, Tuple
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-BASELINE_SUMMARY_PATH = ROOT / "solutions" / "phase_b_full_radial_solver" / "run_summary.json"
-STRESS_SUMMARY_PATH = ROOT / "solutions" / "phase_b_closure_stress_test" / "cross_scenario_summary.json"
-OUTDIR = ROOT / "solutions" / "phase_b_improved_dynamics"
+ROOT = Path(__file__).resolve().parents[2]
+BASELINE_SUMMARY_PATH = ROOT / "solutions" / "phase_b" / "phase_b_full_radial_solver" / "run_summary.json"
+STRESS_SUMMARY_PATH = ROOT / "solutions" / "phase_b" / "phase_b_closure_stress_test" / "cross_scenario_summary.json"
+OUTDIR = ROOT / "solutions" / "phase_b" / "phase_b_improved_dynamics"
 OUTDIR.mkdir(parents=True, exist_ok=True)
+TWOPI = 2.0 * math.pi
 
 
 @dataclass
@@ -159,6 +160,42 @@ def coarse_reference_seeds() -> List[SeedSpec]:
 
 def seed_list() -> List[SeedSpec]:
     return continuation_seeds() + neighborhood_seeds() + coarse_reference_seeds()
+
+
+def phi_slice_seeds() -> List[SeedSpec]:
+    return [
+        SeedSpec(
+            label=f"phi_slice_{idx:02d}",
+            omega=0.50,
+            theta=math.pi,
+            phi=float(phi),
+            rho=0.5 * math.pi,
+            family="slice_1d_phi",
+            source="phase_b_protocol_phi_slice",
+        )
+        for idx, phi in enumerate(np.linspace(-TWOPI, TWOPI, 9))
+    ]
+
+
+def theta_rho_slice_seeds() -> List[SeedSpec]:
+    grid = np.linspace(-TWOPI, TWOPI, 5)
+    seeds: List[SeedSpec] = []
+    idx = 0
+    for theta in grid:
+        for rho in grid:
+            seeds.append(
+                SeedSpec(
+                    label=f"theta_rho_slice_{idx:02d}",
+                    omega=0.50,
+                    theta=float(theta),
+                    phi=-0.5 * math.pi,
+                    rho=float(rho),
+                    family="slice_2d_theta_rho",
+                    source="phase_b_protocol_theta_rho_slice",
+                )
+            )
+            idx += 1
+    return seeds
 
 
 def ordered_components(w: float, theta: float, phi: float, rho: float) -> np.ndarray:
@@ -483,6 +520,24 @@ def write_profile(subdir: Path, label: str, profile: Profile) -> None:
             ])
 
 
+def write_profiles_summary(subdir: Path, exported_labels: Sequence[str], mode_name: str) -> None:
+    lines = []
+    lines.append(f"# Phase B Improved Dynamics Profile Export Summary — {mode_name}")
+    lines.append("")
+    lines.append(f"These CSV files are representative profile exports for the `{mode_name}` ordered-runtime mode.")
+    lines.append("")
+    lines.append(f"- profiles exported: {len(exported_labels)}")
+    lines.append("- export rule: first 12 seeds from the shared 39-seed comparison set")
+    lines.append("- columns include ordered variables, derivatives, mass, Ricci, pressures, kinetic density, and directional-potential bookkeeping")
+    lines.append("- interpretation: use these files to inspect representative radial profiles; use `run_results.csv` and `run_summary.json` for the full comparison set")
+    if exported_labels:
+        lines.append("")
+        lines.append("## Exported labels")
+        for label in exported_labels:
+            lines.append(f"- `{label}`")
+    (subdir / "profiles" / "summary.md").write_text("\n".join(lines))
+
+
 def summarize(rows: Sequence[OrderedRunResult]) -> Dict[str, object]:
     def rng(vals: Sequence[float]) -> List[float]:
         return [float(min(vals)), float(max(vals))]
@@ -513,23 +568,155 @@ def summarize(rows: Sequence[OrderedRunResult]) -> Dict[str, object]:
     }
 
 
+def rows_to_csv(path: Path, rows: Sequence[Dict[str, object]]) -> None:
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+
+
+def write_slice_outputs(subdir: Path, cfg: OrderedConfig) -> Dict[str, object]:
+    phi_rows: List[Dict[str, object]] = []
+    for seed in phi_slice_seeds():
+        row, _profile = integrate_seed(seed, cfg)
+        phi_rows.append(
+            {
+                "label": seed.label,
+                "omega": seed.omega,
+                "theta": seed.theta,
+                "phi": seed.phi,
+                "rho": seed.rho,
+                "success": row.success,
+                "final_mass": row.final_mass,
+                "integrated_abs_ricci": row.integrated_abs_ricci,
+                "half_mass_radius": row.half_mass_radius,
+                "mass_90_radius": row.mass_90_radius,
+                "ricci_half_radius": row.ricci_half_radius,
+                "ricci_90_radius": row.ricci_90_radius,
+                "settling_radius": row.settling_radius,
+                "core_radius": row.core_radius,
+                "soft_region_width": row.soft_region_width,
+                "theta_total_shift": row.theta_total_shift,
+                "phi_total_shift": row.phi_total_shift,
+                "rho_total_shift": row.rho_total_shift,
+            }
+        )
+
+    theta_rho_rows: List[Dict[str, object]] = []
+    for seed in theta_rho_slice_seeds():
+        row, _profile = integrate_seed(seed, cfg)
+        theta_rho_rows.append(
+            {
+                "label": seed.label,
+                "omega": seed.omega,
+                "theta": seed.theta,
+                "phi": seed.phi,
+                "rho": seed.rho,
+                "success": row.success,
+                "final_mass": row.final_mass,
+                "integrated_abs_ricci": row.integrated_abs_ricci,
+                "half_mass_radius": row.half_mass_radius,
+                "mass_90_radius": row.mass_90_radius,
+                "ricci_half_radius": row.ricci_half_radius,
+                "ricci_90_radius": row.ricci_90_radius,
+                "settling_radius": row.settling_radius,
+                "core_radius": row.core_radius,
+                "soft_region_width": row.soft_region_width,
+                "theta_total_shift": row.theta_total_shift,
+                "phi_total_shift": row.phi_total_shift,
+                "rho_total_shift": row.rho_total_shift,
+            }
+        )
+
+    rows_to_csv(subdir / "slice_1d_phi.csv", phi_rows)
+    rows_to_csv(subdir / "slice_2d_theta_rho.csv", theta_rho_rows)
+
+    phi_mass = np.asarray([row["final_mass"] for row in phi_rows], dtype=float)
+    phi_ricci = np.asarray([row["integrated_abs_ricci"] for row in phi_rows], dtype=float)
+    phi_shift = np.asarray([abs(row["phi_total_shift"]) for row in phi_rows], dtype=float)
+    grid_mass = np.asarray([row["final_mass"] for row in theta_rho_rows], dtype=float)
+    grid_ricci = np.asarray([row["integrated_abs_ricci"] for row in theta_rho_rows], dtype=float)
+    grid_shift = np.asarray([abs(row["phi_total_shift"]) for row in theta_rho_rows], dtype=float)
+    return {
+        "slice_1d_phi": {
+            "path": str((subdir / "slice_1d_phi.csv").relative_to(ROOT)),
+            "sample_count": len(phi_rows),
+            "final_mass_range": [float(np.min(phi_mass)), float(np.max(phi_mass))],
+            "integrated_abs_ricci_range": [float(np.min(phi_ricci)), float(np.max(phi_ricci))],
+            "max_abs_phi_shift": float(np.max(phi_shift)),
+        },
+        "slice_2d_theta_rho": {
+            "path": str((subdir / "slice_2d_theta_rho.csv").relative_to(ROOT)),
+            "sample_count": len(theta_rho_rows),
+            "final_mass_range": [float(np.min(grid_mass)), float(np.max(grid_mass))],
+            "integrated_abs_ricci_range": [float(np.min(grid_ricci)), float(np.max(grid_ricci))],
+            "max_abs_phi_shift": float(np.max(grid_shift)),
+        },
+    }
+
+
+def write_mode_summary_md(subdir: Path, summary: Dict[str, object]) -> None:
+    lines: List[str] = []
+    lines.append(f"# Phase B Improved Dynamics Summary — {summary['config']['dynamics_mode']}")
+    lines.append("")
+    lines.append("Generated by `analysis/phase_b/phase_b_improved_dynamics_solver.py`.")
+    lines.append("")
+    lines.append("## Run totals")
+    lines.append(f"- seeds run: {summary['seed_count']}")
+    lines.append(f"- successful integrations: {summary['success_count']}")
+    lines.append(f"- regularity-ok integrations: {summary['regularity_ok_count']}")
+    lines.append(f"- horizon hits: {summary['horizon_hit_count']}")
+    lines.append("")
+    lines.append("## Rich-neighborhood response")
+    lines.append(f"- final mass spread: {summary['rich_neighborhood_final_mass_spread']}")
+    lines.append(f"- integrated |R| spread: {summary['rich_neighborhood_integrated_abs_ricci_spread']}")
+    lines.append(f"- max |phi shift|: {summary['rich_neighborhood_max_abs_phi_shift']}")
+    lines.append("")
+    lines.append("## Continuation")
+    lines.append(f"- final mass monotone: {summary['continuation_final_mass_monotone']}")
+    lines.append("")
+    lines.append("## Slice protocol outputs")
+    lines.append("- 1D phi slice: fixed omega = 0.5, theta = pi, rho = pi/2; phi scanned on [-2pi, 2pi].")
+    lines.append(f"  final mass range: {summary['slice_outputs']['slice_1d_phi']['final_mass_range']}")
+    lines.append(f"  max |phi shift|: {summary['slice_outputs']['slice_1d_phi']['max_abs_phi_shift']}")
+    lines.append("- 2D theta-rho slice: fixed omega = 0.5, phi = -pi/2; theta and rho scanned on [-2pi, 2pi].")
+    lines.append(f"  final mass range: {summary['slice_outputs']['slice_2d_theta_rho']['final_mass_range']}")
+    lines.append(f"  max |phi shift|: {summary['slice_outputs']['slice_2d_theta_rho']['max_abs_phi_shift']}")
+    lines.append("")
+    lines.append("## Interpretation")
+    if summary["config"]["dynamics_mode"] == "baseline_pullback":
+        lines.append("- Pulling the kinetic term back into ordered variables alone leaves the runtime effectively degenerate on both the rich neighborhood and the explicit slices.")
+        lines.append("- This is a negative but useful result: coordinate rewriting by itself does not generate distinct structured-object observables.")
+    else:
+        lines.append("- The exploratory directional terms generate visible rich-neighborhood splitting and a nontrivial 1D phi-slice response while preserving regular completion and monotone continuation on the tested seeds.")
+        lines.append("- The audited 2D theta-rho slice at fixed phi = -pi/2 remains degenerate, so the observed differentiation is not yet generic across all angular directions.")
+        lines.append("- These outputs are exploratory diagnostics, not yet a final derived action or closure.")
+    (subdir / "summary.md").write_text("\n".join(lines))
+
+
 def run_ordered_mode(cfg: OrderedConfig, subname: str) -> Dict[str, object]:
     subdir = OUTDIR / subname
     subdir.mkdir(parents=True, exist_ok=True)
     rows: List[OrderedRunResult] = []
+    exported_labels: List[str] = []
     for idx, seed in enumerate(seed_list()):
         row, profile = integrate_seed(seed, cfg)
         rows.append(row)
         if idx < 12:
             write_profile(subdir, seed.label, profile)
+            exported_labels.append(seed.label)
     with (subdir / "run_results.csv").open("w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(asdict(rows[0]).keys()))
         writer.writeheader()
         for row in rows:
             writer.writerow(asdict(row))
     summary = {"config": asdict(cfg), **summarize(rows)}
+    summary["slice_outputs"] = write_slice_outputs(subdir, cfg)
     with (subdir / "run_summary.json").open("w") as f:
         json.dump(summary, f, indent=2)
+    write_mode_summary_md(subdir, summary)
+    write_profiles_summary(subdir, exported_labels, subname)
     return summary
 
 
@@ -598,9 +785,17 @@ def write_summary_md(comp: Dict[str, object], pullback: Dict[str, object], explo
     lines.append(f"- baseline_pullback continuation final mass monotone: {comp['baseline_pullback']['continuation_final_mass_monotone']}")
     lines.append(f"- exploratory_directional continuation final mass monotone: {comp['exploratory_directional']['continuation_final_mass_monotone']}")
     lines.append("")
+    lines.append("## Slice protocol outputs")
+    lines.append(f"- baseline_pullback 1D phi slice mass range: {pullback['slice_outputs']['slice_1d_phi']['final_mass_range']}")
+    lines.append(f"- baseline_pullback 2D theta-rho slice mass range: {pullback['slice_outputs']['slice_2d_theta_rho']['final_mass_range']}")
+    lines.append(f"- exploratory_directional 1D phi slice mass range: {exploratory['slice_outputs']['slice_1d_phi']['final_mass_range']}")
+    lines.append(f"- exploratory_directional 2D theta-rho slice mass range: {exploratory['slice_outputs']['slice_2d_theta_rho']['final_mass_range']}")
+    lines.append("")
     lines.append("## Interpretation")
     lines.append("- If baseline_pullback remains nearly degenerate, then simply rewriting the kinetic term in ordered coordinates is not enough.")
-    lines.append("- If exploratory_directional shows a much larger rich-neighborhood spread while remaining regular and monotone on continuation seeds, then the project has an honest next runtime that begins to resolve angular sectors without claiming fully derived final physics.")
+    lines.append("- Here the exploratory directional mode does show a much larger rich-neighborhood spread while remaining regular and monotone on continuation seeds.")
+    lines.append("- But the refreshed slice outputs show that this improvement is phi-localized on the current protocol slices: the 1D phi slice splits, while the audited 2D theta-rho slice at fixed phi = -pi/2 stays degenerate.")
+    lines.append("- So the project has an honest exploratory next runtime, but not a generic proof of distinct angular identity.")
     (OUTDIR / "summary.md").write_text("\n".join(lines))
 
 

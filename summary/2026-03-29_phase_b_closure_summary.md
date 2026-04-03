@@ -1,119 +1,304 @@
-# Phase B Closure Summary — Structured Objecthood and the O(4) Symmetry Bombshell
+# Phase B Closure Summary — Structured Objecthood Audit
 
 **Date:** 2026-03-29  
 **Phase:** B — Structured-object picture  
-**Status:** Closed
+**Status:** Closed after audit refresh
 
-## 1. Scope of Phase B
+## 1. Scope and motivation
 
-Phase B was the objecthood phase of the classical Khantraction program. 
-Its primary job was to determine whether the full-quaternion branch is best interpreted as a coherent compact structured object with a stable external profile and organized interior, rather than just an isolated mathematical artifact.
+`khantraction_paper.md` does **not** present Khantraction as a finished particle theory. It presents it as a speculative toy model for localized, compact, structured spacetime-fold objects with a continuous scalar-to-quaternion branch family.
 
-The key burdens of proof were:
-- establish family coherence from scalar-dominated to rich-quaternion regimes,
-- measure compact external profiles (mass half-radius, settling radius),
-- map internal organization (core vs. soft-region),
-- and test the robustness of the integration across closures and boundaries.
+That framing determines the correct burden of proof for Phase B.
+
+Phase B was not supposed to prove known particles. It was supposed to answer whether the full-quaternion branch can honestly be treated as a coherent structured object family with:
+- a compact external profile,
+- an organized interior,
+- measurable concentration/size observables,
+- and enough persistence to justify classical object language.
+
+The active Phase B convention remained:
+- $\omega > 0$
+- $\theta,\phi,\rho \in [-2\pi,2\pi]$
+- no redundancy quotienting
+
+That framing is consistent with:
+- `khantraction_paper.md`
+- `notes/classical_exploration_plan.md`
 
 ---
 
-## 2. Final Phase B conclusions
+## 2. Audit against `notes/classical_exploration_plan.md`
 
-### 2.1 Khantraction natively supports a regular, coherent family of structured objects
+### 2.1 Goal 1 — Reconfirm the strongest full-quaternion branch family
 
-**Claim:** Khantraction produces regular, horizon-free spacetime folds organized into a core-and-bulk structure that spans from scalar-dominated to rich-quaternion states.
-**Methodology (How & Why):** To ensure that the existence of structured objects was not a mathematical artifact of a specific provisional closure, the integration was tested across three distinct solver architectures: a provisional radial solver, an improved dynamics solver, and an exact radial solver (`analysis/phase_b/*`). By sweeping through a scalar-to-rich continuation path of angular seeds, we verified numerical stability across the parameter space.
-**Results & Proof:** The coupled four-component matter and Einstein equations stably integrate from a small central amplitude to a settled finite boundary without forming a singular horizon or blowing up. The scalar-to-rich continuation family is smooth, and the final mass ordering increases monotonically as the scale parameter $\omega$ and quaternion richness increase. This proves the physical viability of the spacetime-fold as a structured object.
+**Status:** Met.
 
-This conclusion is supported by:
+**How it was tested:** The provisional full solver runs a 117-seed scan with continuation, rich-neighborhood, and coarse-domain seeds. The closure stress test then reruns the focused 39-seed comparison set across 12 closure/setup scenarios.
+
+**Why this proves the goal:** A branch family counts as reconfirmed only if it survives beyond one rich seed. Here the scalar-to-rich continuation remains monotone and regular, and the rich anchor sits inside a broad regular neighborhood.
+
+### 2.2 Goal 2 — Re-express the rich branch as a structured object with compact external profile, folded/organized interior, and core/bulk structure
+
+**Status:** Met qualitatively, but not with closure-independent dimensions.
+
+**How it was tested:** The full solver extracts the Phase B objecthood observables directly:
+- mass half-radius,
+- mass 90% radius,
+- curvature half-radius,
+- curvature 90% radius,
+- settling radius,
+- core radius,
+- soft-region width.
+
+**Why this proves the goal:** Those observables are sufficient to describe a structured object picture. They show that the rich branch is not just a naked mass number. It has a measurable concentration profile and an internal core/bulk description.
+
+### 2.3 Goal 3 — Re-evaluate concentration and size observables
+
+**Status:** Met.
+
+**How it was tested:** The closure stress test compares the observables across Ricci-feedback variants, amplitude changes, and outer-box changes. The exact solver then checks whether the exact trace closure changes the angular-identity story at fixed `omega`.
+
+**Why this proves the goal:** The observables were not merely extracted once. They were tested for sensitivity and reinterpreted in light of both the stress variants and the exact closure.
+
+### 2.4 Common slice protocol
+
+**Status:** Met after audit refresh.
+
+The refreshed Phase B package now includes explicit 1D and 2D slices in:
+- `solutions/phase_b/phase_b_full_radial_solver/`
+- `solutions/phase_b/phase_b_closure_stress_test/`
+- `solutions/phase_b/phase_b_improved_dynamics/`
+- `solutions/phase_b/phase_b_exact_radial_solver/`
+
+The audited reference slices are:
+- 1D: fix $\omega=0.5$, $\theta=\pi$, $\rho=\pi/2$, vary $\phi$
+- 2D: fix $\omega=0.5$, $\phi=-\pi/2$, vary $(\theta,\rho)$
+
+### 2.5 Phase B key question
+
+The plan asks:
+
+> Does Khantraction produce coherent compact structured objects with stable classical identity?
+
+After the audit, the answer is:
+
+- **coherent compact structured objects:** yes, in the broad family/objecthood sense,
+- **stable classical identity in the linear angular channels:** no,
+- **closure-independent size scales:** no.
+
+That is the actual Phase B result.
+
+---
+
+## 3. Final Phase B conclusions
+
+### 3.1 Khantraction supports a broad regular family of compact object-like profiles
+
+**Claim:** The scalar-to-rich branch family is numerically real and broad enough to justify structured-object language at the family level.
+
+**Method and rationale:** The right test for family coherence is not one rich seed. It is:
+- continuation from scalar-like to rich behavior,
+- local neighborhood checks around the rich anchor,
+- and survival under explicit closure/setup perturbations.
+
+That is exactly what the provisional full solver and the closure stress test do.
+
+**Results:**
+- provisional full solver: `117 / 117` successful runs, `117 / 117` regularity-ok, `0` horizons
+- closure stress test: `39 / 39` successful runs in every one of `12` scenarios
+- continuation mass ordering monotone in every stress-test scenario
+
+**Why this proves the claim:** Those results show that the rich branch is not an isolated numerical accident. It sits inside a broad, regular branch family.
+
+**Supporting documents:**
 - `derivations/derivation_73_full_four_component_radial_system_fresh_start.md`
+- `derivations/derivation_74_provisional_phase_b_einstein_closure_and_boundary_data.md`
 - `analysis/phase_b/phase_b_full_radial_solver.py`
-- `analysis/phase_b/phase_b_improved_dynamics_solver.py`
+- `analysis/phase_b/phase_b_closure_stress_test.py`
 - `solutions/phase_b/phase_b_full_radial_solver/run_summary.json`
-- `solutions/phase_b/phase_b_improved_dynamics/baseline_pullback/run_summary.json`
+- `solutions/phase_b/phase_b_closure_stress_test/cross_scenario_summary.json`
+- `solutions/phase_b/phase_b_full_radial_solver/summary.md`
+- `solutions/phase_b/phase_b_closure_stress_test/summary.md`
 - `notes/phase_b/phase_b_full_radial_solver_assessment_2026-03-28.md`
-- `notes/phase_b/phase_b_improved_dynamics_assessment_2026-03-28.md`
+- `notes/phase_b/phase_b_closure_stress_test_assessment_2026-03-28.md`
+- `notes/phase_b/phase_b_structured_object_assessment_2026-03-28.md`
 
 ---
 
-### 2.2 Compactness observables are strongly setup-dependent
+### 3.2 The rich branch supports a structured-object picture, but the measured sizes are setup-dependent
 
-**Claim:** The object's compactness (e.g., mass half-radius) is not currently an absolute physical invariant but depends on boundary conditions.
-**Methodology (How & Why):** To determine the robustness of the core size and mass, a closure stress test (`analysis/phase_b/phase_b_closure_stress_test.py`) was executed. It subjected the integration to 12 distinct scenarios, perturbing both numerical feedback (Ricci trace estimates) and setup conditions (central amplitude, integration box size).
-**Results & Proof:** The results demonstrated that while numerical perturbations to the Ricci trace feedback caused almost negligible changes, central amplitude scaling ($A_0$) and outer integration boundaries ($r_{\text{max}}$) caused massive shifts in the final mass and compactness observables. This proves that while objects are clearly structured (featuring a dense core and soft transition region), specific geometric dimensions are highly sensitive to the finite boundary formulation rather than solely internal dynamics.
+**Claim:** Phase B does justify objecthood language for the rich branch, but not closure-independent or setup-independent object radii.
 
-This conclusion is supported by:
+**Method and rationale:** The correct way to test this claim is:
+- extract the planned objecthood observables from the rich branch,
+- then stress those observables under solver-side perturbations.
+
+That separates qualitative object structure from quantitative size claims.
+
+**Results:**
+
+For the audited rich anchor in the baseline provisional solver:
+- final mass = `0.1082188762469576`
+- mass half-radius = `14.670999999999731`
+- mass 90% radius = `19.00100000000017`
+- Ricci half-radius = `14.28099999999974`
+- Ricci 90% radius = `18.86100000000015`
+- core radius = `7.8509999999998765`
+- soft-region width = `20.000000000000327`
+
+But the stress test shows strong setup sensitivity:
+- rich-anchor mass shift under `amp_double` = `+0.322395146603596`
+- rich-anchor mass shift under `rmax_30` = `+0.09499960482892357`
+- rich-anchor mass shift under `amp_double_rmax_30` = `+0.6890033337254071`
+
+while the tested closure-side shifts are much smaller:
+- `numerical_ricci_off` = `-6.702250354304051e-06`
+- `numerical_trace_half` = `-3.3513099246401667e-06`
+- `numerical_trace_potential_only` = `+9.342368327558415e-08`
+
+**Why this proves the claim:** The observables do describe a structured object, but their absolute sizes are not yet invariant physical properties. They remain strongly tied to the present finite-radius setup conventions.
+
+**Supporting documents:**
+- `analysis/phase_b/phase_b_full_radial_solver.py`
 - `analysis/phase_b/phase_b_closure_stress_test.py`
-- `solutions/phase_b/phase_b_closure_stress_test/stress_results.csv`
+- `solutions/phase_b/phase_b_full_radial_solver/run_results.csv`
+- `solutions/phase_b/phase_b_full_radial_solver/slice_1d_phi.csv`
+- `solutions/phase_b/phase_b_full_radial_solver/slice_2d_theta_rho.csv`
 - `solutions/phase_b/phase_b_closure_stress_test/cross_scenario_summary.json`
-- `solutions/phase_b/phase_b_closure_stress_test/summary.md`
+- `solutions/phase_b/phase_b_closure_stress_test/stress_results.csv`
+- `solutions/phase_b/phase_b_full_radial_solver/summary.md`
+- `notes/phase_b/phase_b_structured_object_assessment_2026-03-28.md`
 - `notes/phase_b/phase_b_closure_stress_test_assessment_2026-03-28.md`
 
 ---
 
-### 2.3 The exact Einstein nonminimal coupling algebraically decouples
+### 3.3 The exact nonminimal trace can be decoupled explicitly and integrated on the audited anchor/slice set
 
-**Claim:** The full, implicit Einstein equations for the nonminimal coupling $\xi R|q|^2$ can be explicitly resolved and stably integrated.
-**Methodology (How & Why):** A major theoretical hurdle was the implicit dependence of the Ricci trace on the D'Alembertian of the norm ($\square |q|^2$). To solve this without numerical approximations, mathematical derivations were performed to algebraically decouple the implicit term using the canonical matter trace, resulting in an exact RK4 solver implementation (`analysis/phase_b/phase_b_exact_radial_solver.py`).
-**Results & Proof:** Phase B successfully derived the exact Einstein equations and proved the decoupling works. This allows for a perfectly explicit, mathematically rigorous integration of the classical system without reliance on provisional trace estimates, cementing the foundational validity of the model's gravity sector.
+**Claim:** The exact nonminimal trace closure is usable as an explicit runtime, but the support trail is narrower than the old wording implied.
 
-This conclusion is supported by:
+**Method and rationale:** The mathematically correct route is:
+1. derive the exact implicit trace equation,
+2. substitute `□|q|^2 = S + 4 xi R |q|^2`,
+3. solve explicitly for `R`,
+4. run an exact solver on representative anchors and slices.
+
+That is the right way to verify the Einstein-sector update without pretending that a broader exact family scan already exists.
+
+**Results:**
+- exact anchor runs: `3`
+- exact 1D $\phi$ slice: `17` samples
+- exact 2D $(\theta,\rho)$ slice: `81` samples
+- all audited exact runs regular on this sample set
+
+The exact solver uses the explicit denominator
+
+$$
+1 + 2\kappa\xi(1-12\xi)|q|^2.
+$$
+
+**Why this proves the claim:** The explicit decoupling is not just a symbolic suggestion anymore. It is implemented and numerically exercised on an audited anchor-and-slice set. But that is still a narrower claim than “the full exact family has been exhaustively solved.”
+
+**Supporting documents:**
 - `derivations/derivation_76_full_einstein_equations_nonminimal_coupling.md`
 - `analysis/phase_b/phase_b_exact_radial_solver.py`
-- `notes/phase_b/phase_b_einstein_closure_update_assessment_2026-03-29.md`
-
----
-
-### 2.4 Angular channels ($\theta, \phi, \rho$) are dynamically degenerate in the linear Euclidean basis
-
-**Claim:** The linear basis formulation obscures the structural characteristics of the angular channels, resulting in exact $O(4)$ symmetry.
-**Methodology (How & Why):** To determine if the angular variables act as distinct physical characteristics (a primary goal of the classical exploration plan), the newly derived exact radial solver was executed across highly diverse internal angular seeds (scalar anchor vs. varying rich anchors) at a fixed scale $\omega$.
-**Results & Proof:** The macroscopic mass, half-radius, and curvature profiles were mathematically identical down to floating-point precision. Because the solver integrated in the linear Euclidean basis $(a, b, c, d)$, the exact Einstein trace $R$ collapsed into a strict $O(4)$ symmetry. The nonminimal coupling $\xi R |q|^2$ only interacts with the invariant $O(4)$ norm and kinetic sum, rendering the system totally blind to the distinct angular geometries mapped out in Phase A. This completely answers the phase's core identity question and proves that symmetry must be broken non-linearly.
-
-This conclusion is supported by:
-- `analysis/phase_b/phase_b_exact_radial_solver.py`
 - `solutions/phase_b/phase_b_exact_radial_solver/run_summary.json`
-- `solutions/phase_b/phase_b_exact_radial_solver/profiles/scalar_anchor.csv`
-- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_1.csv`
-- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_2.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/summary.md`
+- `notes/phase_b/phase_b_einstein_closure_update_assessment_2026-03-29.md`
 - `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`
 
 ---
 
-## 3. What Phase B has *not* claimed
+### 3.4 Exact linear-basis dynamics are angularly degenerate at fixed scale
+
+**Claim:** In the exact linear component basis `(a,b,c,d)`, the macroscopic observables are effectively O(4)-degenerate at fixed `omega`.
+
+**Method and rationale:** If the linear basis really preserved distinct angular identity, then anchor comparisons and explicit 1D/2D angular slices at fixed `omega` should change final mass, concentration radii, or curvature observables.
+
+So the exact anchor and slice checks are the right test.
+
+**Results:**
+- exact anchor final-mass range = `8.049116928532385e-16`
+- exact anchor mass-half-radius range = `0.0`
+- exact anchor integrated-`|R|` range = `3.209238430557093e-17`
+- exact 1D $\phi$-slice final-mass range = `8.049116928532385e-16`
+- exact 2D $(\theta,\rho)$-slice final-mass range = `0.0`
+
+**Why this proves the claim:** Those spreads are at or below floating-point noise. On the audited exact sample set, the linear-basis observables do not resolve angular orientation at fixed scale.
+
+**Supporting documents:**
+- `analysis/phase_b/phase_b_exact_radial_solver.py`
+- `solutions/phase_b/phase_b_exact_radial_solver/run_summary.json`
+- `solutions/phase_b/phase_b_exact_radial_solver/slice_1d_phi.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/slice_2d_theta_rho.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/scalar_anchor.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_1.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/profiles/rich_anchor_2.csv`
+- `solutions/phase_b/phase_b_exact_radial_solver/summary.md`
+- `notes/phase_b/phase_b_exact_radial_assessment_2026-03-29.md`
+
+---
+
+### 3.5 The exploratory ordered-runtime differentiation is real, but it is not the core proof of Phase B
+
+**Claim:** The improved ordered-runtime study is useful evidence about where angular differentiation may enter, but it is exploratory and cannot carry the main closure claim by itself.
+
+**Method and rationale:** The right comparison is:
+- component baseline,
+- pure pullback ordered baseline,
+- exploratory directional runtime,
+
+run on the same seed set and now also checked against explicit slices.
+
+**Results:**
+- component baseline rich-neighborhood mass spread = `7.494005416219807e-16`
+- baseline pullback rich-neighborhood mass spread = `0.0`
+- exploratory directional rich-neighborhood mass spread = `0.0018439538403206834`
+- exploratory 1D $\phi$-slice mass range = `[0.1082188762467994, 0.12553663276310717]`
+- exploratory 2D $(\theta,\rho)$-slice mass range = `[0.1082188762467994, 0.1082188762467994]`
+
+**Why this matters:** The improvement is real, but it is $\phi$-localized on the audited slice protocol and still depends on explicitly exploratory directional terms. So it is a useful handoff clue, not a replacement for the exact closure result.
+
+**Supporting documents:**
+- `derivations/derivation_75_ordered_pullback_and_exploratory_directional_phase_b_runtime.md`
+- `analysis/phase_b/phase_b_improved_dynamics_solver.py`
+- `solutions/phase_b/phase_b_improved_dynamics/comparison_summary.json`
+- `solutions/phase_b/phase_b_improved_dynamics/summary.md`
+- `solutions/phase_b/phase_b_improved_dynamics/exploratory_directional/run_summary.json`
+- `solutions/phase_b/phase_b_improved_dynamics/exploratory_directional/slice_1d_phi.csv`
+- `solutions/phase_b/phase_b_improved_dynamics/exploratory_directional/slice_2d_theta_rho.csv`
+- `notes/phase_b/phase_b_improved_dynamics_assessment_2026-03-28.md`
+
+---
+
+## 4. What Phase B has *not* established
 
 Phase B has **not** established:
-- a unique, asymptotically matched boundary value problem (BVP) vacuum selection,
-- closure-independent physical object radii (they remain setup-dependent),
-- or that the internal angular parameters ($\theta, \phi, \rho$) produce dynamically distinct physical traits under the current linear formulation.
+- a unique asymptotically matched boundary-value family,
+- closure-independent physical radii,
+- stable angularly distinct classical identities in the linear basis,
+- or particle/species claims beyond structured-object language.
 
-What Phase B *has* established is that the foundational classical objecthood exists, but the linear Euclidean integration basis has exhausted its theoretical usefulness due to the proven $O(4)$ degeneracy.
-
----
-
-## 4. Why the phase is considered closed
-
-Phase B is considered closed because its core mandate has been definitively answered:
-1. The structured objects exist and integrate stably without horizons.
-2. The Einstein sector closure for the nonminimal coupling was exactly derived and successfully implemented.
-3. The exact equations mathematically proved that the current linear formulation yields total angular degeneracy, meaning no further objecthood or compactness scans in the $(a,b,c,d)$ basis will yield new physics. 
-
-Further work in the linear basis would merely repeatedly confirm the $O(4)$ symmetry.
+It has also **not** proved that the exploratory ordered-runtime directional terms are the final correct theory. They remain exploratory.
 
 ---
 
-## 5. Recommended handoff to Phase C
+## 5. Why the phase is considered closed
 
-The recommended handoff to Phase C (Distinct Angular Traits) is a complete theoretical pivot:
-- Abandon the linear Euclidean integration basis $(a, b, c, d)$.
-- Rewrite the Khantraction theory as a **Non-Linear Sigma Model**.
-- Treat the Phase A parameters $(\omega, \theta, \phi, \rho)$ directly as the fundamental dynamical fields.
-- Use the ordered-map Jacobian (Derivation 72) to generate the curved target-space pull-back metric $G_{MN}$.
+Phase B is considered closed because its central question has been answered at the right level:
 
-This is the only mathematically rigorous way to allow the structural $\cos(2\phi)$ singularities and the relational geometries of Phase A to dynamically break the $O(4)$ symmetry and imprint unique macroscopic traits onto the structured objects.
+1. **Objecthood:** yes, Khantraction supports a broad family of regular compact structured-object profiles.
+2. **Quantitative size invariance:** no, the present sizes remain setup-dependent.
+3. **Stable angular identity in the linear basis:** no, the exact solver shows effective O(4) degeneracy at fixed scale.
+
+That means further Phase B work inside the same linear-basis objecthood framework would mostly repeat the same conclusions:
+- broad family coherence,
+- setup-sensitive sizes,
+- angular degeneracy.
+
+The next real theoretical leverage lies beyond that.
 
 ---
 
 ## 6. Bottom line
 
-**Bottom line:** Phase B successfully proved that Khantraction natively supports a continuous, regular family of compact structured objects, completing the integration from a scalar-dominated core to a settled boundary. We derived the exact Einstein trace for the nonminimal coupling and implemented a stable, explicit radial solver. However, executing this exact solver revealed that the equations are strictly $O(4)$ norm-symmetric in the linear basis, meaning the internal angular configurations are perfectly degenerate. Phase B is complete; the project must now pivot to a Non-Linear Sigma Model in Phase C to break this symmetry and expose the true dynamically distinct angular traits.
+**Bottom line:** Phase B successfully rebuilt the structured-object picture at the broad family level. The refreshed evidence chain shows that Khantraction supports regular compact profiles with measurable core/bulk observables and a continuous scalar-to-rich family. It also shows that those sizes are still setup-dependent and that exact linear-basis dynamics erase angular identity at fixed scale. So the honest Phase B closure is: objecthood survives, quantitative size invariance does not yet survive, and linear-basis angular identity fails.

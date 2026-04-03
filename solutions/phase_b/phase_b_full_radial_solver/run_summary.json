@@ -157,5 +157,31 @@
     }
   ],
   "rich_neighborhood_success_fraction": 1.0,
-  "status": "provisional_closure_runtime_complete"
+  "status": "provisional_closure_runtime_complete",
+  "slice_outputs": {
+    "slice_1d_phi": {
+      "path": "solutions/phase_b/phase_b_full_radial_solver/slice_1d_phi.csv",
+      "sample_count": 17,
+      "final_mass_range": [
+        0.10821887624695707,
+        0.1082188762469576
+      ],
+      "integrated_abs_ricci_range": [
+        0.007846995788375048,
+        0.00784699578837507
+      ]
+    },
+    "slice_2d_theta_rho": {
+      "path": "solutions/phase_b/phase_b_full_radial_solver/slice_2d_theta_rho.csv",
+      "sample_count": 81,
+      "final_mass_range": [
+        0.1082188762469576,
+        0.1082188762469576
+      ],
+      "integrated_abs_ricci_range": [
+        0.00784699578837507,
+        0.00784699578837507
+      ]
+    }
+  }
 }

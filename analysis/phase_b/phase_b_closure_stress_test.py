@@ -21,8 +21,8 @@ import numpy as np
 
 import phase_b_full_radial_solver as solver
 
-ROOT = Path(__file__).resolve().parents[1]
-OUTDIR = ROOT / "solutions" / "phase_b_closure_stress_test"
+ROOT = Path(__file__).resolve().parents[2]
+OUTDIR = ROOT / "solutions" / "phase_b" / "phase_b_closure_stress_test"
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -83,6 +83,46 @@ def select_seeds() -> List[solver.SeedSpec]:
             seen.add(seed.label)
             out.append(seed)
     return out
+
+
+def slice_scenarios() -> List[str]:
+    return ["baseline", "closure_ricci_off", "amp_double", "rmax_30"]
+
+
+def phi_slice_seeds() -> List[solver.SeedSpec]:
+    return [
+        solver.SeedSpec(
+            label=f"phi_slice_{idx:02d}",
+            omega=0.50,
+            theta=math.pi,
+            phi=float(phi),
+            rho=0.5 * math.pi,
+            family="slice_1d_phi",
+            source="phase_b_protocol_phi_slice",
+        )
+        for idx, phi in enumerate(np.linspace(-2.0 * math.pi, 2.0 * math.pi, 9))
+    ]
+
+
+def theta_rho_slice_seeds() -> List[solver.SeedSpec]:
+    grid = np.linspace(-2.0 * math.pi, 2.0 * math.pi, 5)
+    seeds: List[solver.SeedSpec] = []
+    idx = 0
+    for theta in grid:
+        for rho in grid:
+            seeds.append(
+                solver.SeedSpec(
+                    label=f"theta_rho_slice_{idx:02d}",
+                    omega=0.50,
+                    theta=float(theta),
+                    phi=-0.5 * math.pi,
+                    rho=float(rho),
+                    family="slice_2d_theta_rho",
+                    source="phase_b_protocol_theta_rho_slice",
+                )
+            )
+            idx += 1
+    return seeds
 
 
 def add_rows(rows: List[Dict[str, object]], scenario: Scenario, result: solver.RunResult) -> None:
@@ -212,6 +252,79 @@ def write_csv(path: Path, rows: Sequence[Dict[str, object]]) -> None:
             writer.writerow(row)
 
 
+def write_slice_outputs(scenarios: Sequence[Scenario]) -> Dict[str, object]:
+    selected = {scenario.name: scenario for scenario in scenarios if scenario.name in slice_scenarios()}
+    phi_rows: List[Dict[str, object]] = []
+    theta_rho_rows: List[Dict[str, object]] = []
+
+    for scenario_name in slice_scenarios():
+        scenario = selected[scenario_name]
+        cfg = make_cfg(scenario)
+        for seed in phi_slice_seeds():
+            result, _profile = solver.integrate_seed(seed, cfg)
+            phi_rows.append(
+                {
+                    "scenario": scenario.name,
+                    "closure_mode": scenario.closure_mode,
+                    "central_amplitude_base": scenario.central_amplitude_base,
+                    "r_max": scenario.r_max,
+                    "decay_target": scenario.decay_target,
+                    "omega": seed.omega,
+                    "theta": seed.theta,
+                    "phi": seed.phi,
+                    "rho": seed.rho,
+                    "success": result.success,
+                    "final_mass": result.final_mass,
+                    "integrated_abs_ricci": result.integrated_abs_ricci,
+                    "half_mass_radius": result.half_mass_radius,
+                    "mass_90_radius": result.mass_90_radius,
+                    "settling_radius": result.settling_radius,
+                    "core_radius": result.core_radius,
+                    "soft_region_width": result.soft_region_width,
+                }
+            )
+        for seed in theta_rho_slice_seeds():
+            result, _profile = solver.integrate_seed(seed, cfg)
+            theta_rho_rows.append(
+                {
+                    "scenario": scenario.name,
+                    "closure_mode": scenario.closure_mode,
+                    "central_amplitude_base": scenario.central_amplitude_base,
+                    "r_max": scenario.r_max,
+                    "decay_target": scenario.decay_target,
+                    "omega": seed.omega,
+                    "theta": seed.theta,
+                    "phi": seed.phi,
+                    "rho": seed.rho,
+                    "success": result.success,
+                    "final_mass": result.final_mass,
+                    "integrated_abs_ricci": result.integrated_abs_ricci,
+                    "half_mass_radius": result.half_mass_radius,
+                    "mass_90_radius": result.mass_90_radius,
+                    "settling_radius": result.settling_radius,
+                    "core_radius": result.core_radius,
+                    "soft_region_width": result.soft_region_width,
+                }
+            )
+
+    write_csv(OUTDIR / "slice_1d_phi_scenario_comparison.csv", phi_rows)
+    write_csv(OUTDIR / "slice_2d_theta_rho_scenario_comparison.csv", theta_rho_rows)
+
+    out: Dict[str, object] = {}
+    for scenario_name in slice_scenarios():
+        phi_mass = np.asarray([row["final_mass"] for row in phi_rows if row["scenario"] == scenario_name], dtype=float)
+        phi_ricci = np.asarray([row["integrated_abs_ricci"] for row in phi_rows if row["scenario"] == scenario_name], dtype=float)
+        grid_mass = np.asarray([row["final_mass"] for row in theta_rho_rows if row["scenario"] == scenario_name], dtype=float)
+        grid_ricci = np.asarray([row["integrated_abs_ricci"] for row in theta_rho_rows if row["scenario"] == scenario_name], dtype=float)
+        out[scenario_name] = {
+            "slice_1d_phi_final_mass_range": [float(np.min(phi_mass)), float(np.max(phi_mass))],
+            "slice_1d_phi_integrated_abs_ricci_range": [float(np.min(phi_ricci)), float(np.max(phi_ricci))],
+            "slice_2d_theta_rho_final_mass_range": [float(np.min(grid_mass)), float(np.max(grid_mass))],
+            "slice_2d_theta_rho_integrated_abs_ricci_range": [float(np.min(grid_ricci)), float(np.max(grid_ricci))],
+        }
+    return out
+
+
 def summary_markdown(cross: Dict[str, object], summaries: Sequence[Dict[str, object]]) -> str:
     lines: List[str] = []
     lines.append("# Phase B Closure Stress Test Summary")
@@ -235,6 +348,14 @@ def summary_markdown(cross: Dict[str, object], summaries: Sequence[Dict[str, obj
     for name, count in rf["boundary_decay_pass_counts"].items():
         lines.append(f"  - {name}: {count}")
     lines.append("")
+    if "slice_outputs" in cross:
+        lines.append("## Slice protocol scenario checks")
+        lines.append("- 1D phi slice: fixed omega = 0.5, theta = pi, rho = pi/2; phi scanned on [-2pi, 2pi].")
+        lines.append("- 2D theta-rho slice: fixed omega = 0.5, phi = -pi/2; theta and rho scanned on [-2pi, 2pi].")
+        for name, info in cross["slice_outputs"].items():
+            lines.append(f"- `{name}` 1D phi mass range: {info['slice_1d_phi_final_mass_range']}")
+            lines.append(f"- `{name}` 2D theta-rho mass range: {info['slice_2d_theta_rho_final_mass_range']}")
+        lines.append("")
     lines.append("## Interpretation")
     lines.append("- Across all tested variants, the solver remained regular on the tested seed set; no horizons or blowups appeared.")
     lines.append("- The scalar-to-rich continuation preserved a smooth monotone mass ordering under every tested closure/setup perturbation.")
@@ -261,6 +382,7 @@ def main() -> None:
         scenario_summaries.append(summarize_scenario(scenario, results))
 
     cross = summarize_cross_scenario(scenario_summaries)
+    cross["slice_outputs"] = write_slice_outputs(scenarios)
 
     write_csv(OUTDIR / "stress_results.csv", rows)
     with (OUTDIR / "scenario_summaries.json").open("w") as f:

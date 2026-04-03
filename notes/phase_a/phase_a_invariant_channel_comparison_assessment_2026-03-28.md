@@ -2,57 +2,101 @@
 
 **Date:** 2026-03-28  
 **Phase:** A — Parameter foundation  
-**Status:** In progress
+**Status:** Complete supporting assessment
 
 ## Purpose
 
-This note starts the next Phase A task:
+This note checks whether the angular asymmetry survives in diagnostics that are less tied to raw determinant-zero language.
 
-> compare $\theta,\phi,\rho$ using quantities that are less tied to raw determinant-zero language and more tied to the geometry of the angular tangent bundle itself.
+The specific question is:
 
-## Why this is needed
+> do the three angular channels remain equal in norm while differing in angular conditioning and overlap structure?
 
-So far Phase A has shown:
-- local angular independence away from singular slices,
-- singular sheets controlled by $\phi$,
-- and very clean 1D/2D slice behavior.
+## Method
 
-But determinant language alone can over-focus attention on singularity structure.
-We also want to know:
-- do the three angular channels differ in tangent norms?
-- do they differ in pairwise overlap structure?
-- does one channel collapse while others remain robust?
-- how does the full angular tangent condition number behave as different channels vary?
+Supporting analysis:
 
-## Active implementation
-
-The current analysis file is:
 - `analysis/phase_a/phase_a_invariant_channel_comparison.py`
 
-Outputs are stored under:
-- `solutions/phase_a/phase_a_invariant_channel_comparison/`
+The analysis constructs the angular Gram matrix from the Jacobian columns $(\partial_\theta Q,\partial_\phi Q,\partial_\rho Q)$ and records:
 
-## Diagnostics used
-
-For the angular Jacobian columns $(\partial_\theta Q, \partial_\phi Q, \partial_\rho Q)$, compute:
-- individual tangent norms,
-- pairwise cosine overlaps,
-- the angular Gram matrix,
-- its singular values,
+- channel norms,
+- pairwise cosines,
+- Gram-matrix singular values,
 - and the resulting condition number.
 
-These are still chart-derived quantities, but they are more geometric than using only $\det J$.
+Three scans are compared:
 
-## What to look for
+1. a `phi_scan`,
+2. a `theta_scan_phi0`,
+3. a `rho_scan_phi0`.
 
-The key interpretive tests are:
-1. Does $\phi$ only control singularity, or does it also distort the full angular tangent spectrum more strongly than $\theta$ and $\rho$?
-2. Away from singular sheets, do $\theta$ and $\rho$ remain nearly symmetric while $\phi$ acts differently?
-3. At regular points, are all three channels still equally strong in norm, with differences showing up mainly in overlap/coupling structure?
+## Results
 
-## Interpretation target
+### 1. Norm equality survives all scans
 
-The target is not yet to claim physical meaning.
-The target is narrower:
+Across the named points and scan data, the three angular channels keep equal norm.
 
-> determine whether the chart geometry gives evidence for a robust structural asymmetry between the three angular channels that survives beyond simply saying where the determinant vanishes.
+At the representative scaled regular points, all three norms are
+
+$$
+2.117000016612675
+$$
+
+to numerical precision.
+
+So the asymmetry is not a norm hierarchy.
+
+### 2. Phi is the channel that changes conditioning
+
+The `phi_scan.csv` results show:
+
+- `min sigma_min = 0.0`
+- `max condition = 100458282.95159373`
+
+By contrast, both `theta_scan_phi0.csv` and `rho_scan_phi0.csv` show:
+
+- `min sigma_min = 2.117000016612675`
+- `max condition = 1.0`
+
+That means varying $\phi$ can collapse the smallest singular value, while varying $\theta$ or $\rho$ at regular $\phi$ leaves the angular tangent spectrum perfectly isotropic.
+
+### 3. Named points confirm the same pattern
+
+At the regular generic point:
+
+- `cos(theta,rho) = 0.5646424733950354`
+- `sigma_min = 1.3968310809381657`
+- `condition = 1.8957651228540087`
+
+At the singular $\phi=\pi/4$ and $\phi=3\pi/4$ points:
+
+- `cos(theta,rho) = ±1`
+- `sigma_min ≈ 2.98e-08`
+- `condition ≈ 1.00e8`
+
+So the singular-value picture and the overlap picture tell the same story.
+
+## Assessment
+
+This note supports the stronger mapping-level interpretation:
+
+1. the channels are equal in norm,
+2. the asymmetry lives in overlap and conditioning,
+3. and $\phi$ is the channel that controls when the angular tangent bundle becomes badly conditioned or singular.
+
+That is more robust than relying on determinant language alone.
+
+## Limits
+
+These diagnostics are still chart-derived.
+They are more geometric than raw determinant zeros, but they are not yet field-equation or observable-level evidence.
+
+## Evidence
+
+- `analysis/phase_a/phase_a_invariant_channel_comparison.py`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/phi_scan.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/theta_scan_phi0.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/rho_scan_phi0.csv`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/named_points.json`
+- `solutions/phase_a/phase_a_invariant_channel_comparison/summary.md`

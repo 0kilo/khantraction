@@ -2,76 +2,91 @@
 
 **Date:** 2026-03-28  
 **Phase:** B — Structured-object picture  
-**Status:** In progress
+**Status:** Complete after audit refresh
 
 ## Purpose
 
-This note starts the next true Phase B bottleneck task:
+This note records what the fresh-tree Phase B reconstruction actually established at the equation level, and what it did not.
 
-> reconstruct the full four-component radial equations in the fresh tree so Phase B can advance from ordered-state viability toward actual physical branch continuation.
+The relevant files are:
+- `derivations/derivation_73_full_four_component_radial_system_fresh_start.md`
+- `analysis/phase_b/phase_b_radial_equation_structure.py`
+- `solutions/phase_b/phase_b_radial_equation_structure/report.json`
+- `solutions/phase_b/phase_b_radial_equation_structure/summary.md`
 
-## What has now been established
+---
 
-The fresh tree now has an explicit derivation for the full four-component **matter-side** radial equations of the norm-based quaternion glue field.
+## 1. What is genuinely reconstructed
 
-That is a real step forward, because the project no longer has to say only “the equations are missing.”
-At least the component field equations have now been written explicitly from the stated toy-model Lagrangian.
-
-## What this derivation gives
-
-The new derivation establishes that each component $q_A \in \{a,b,c,d\}$ obeys the same radial operator:
-
-$$
-q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A' + e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
-$$
-
-with shared coupling through
+The fresh tree now has an explicit four-component matter-side radial system for
 
 $$
+q(r)=a(r)+b(r)i+c(r)j+d(r)k,
+\qquad
 |q|^2=a^2+b^2+c^2+d^2.
 $$
 
-So the full norm-based toy model is matter-symmetric at the component-equation level.
+Each component obeys the same radial operator,
 
-## What is still missing
+$$
+q_A''+\left(\frac{2}{r}+\Phi'-\Lambda'\right)q_A'
++ e^{2\Lambda}\Big(m_{\mathrm{glue}}^2+\lambda_q|q|^2-2\xi R\Big)q_A=0,
+$$
 
-This still does **not** complete a trustworthy physical solver.
-The following remain to be reconstructed explicitly in the fresh tree:
-- Einstein-sector closure,
-- an eliminable or explicit formula for $R$,
-- boundary conditions,
-- continuation setup,
-- observable extraction formulas.
+so the matter system is component-symmetric and coupled only through the shared norm, the curvature scalar, and the metric functions.
 
-## Why this matters conceptually
+That is the key Phase B reconstruction fact:
 
-The derivation also clarifies something important for interpretation:
+> the bare matter equations do not privilege one component or one ordered angle over another.
 
-> any later asymmetry among ordered variables is not built into unequal bare component equations here.
+---
 
-It must instead arise from:
-- the ordered parameter embedding into $(a,b,c,d)$,
-- nonlinear norm coupling,
-- geometry closure,
-- boundary conditions,
-- and solution-family selection.
+## 2. What the reconstruction note now contributes to the audited Phase B package
 
-That is an important guardrail for later Phase B and Phase C claims.
+The refreshed structure report now does two things:
 
-## Active files
+1. records the active unquotiented domain used throughout the audited Phase B work,
+   - $\omega > 0$
+   - $\theta,\phi,\rho \in [-2\pi,2\pi]$
+   - no redundancy quotienting
+2. records the slice-protocol anchors used by the refreshed runtime studies,
+   - 1D slice: fix $\omega=0.5$, $\theta=\pi$, $\rho=\pi/2$, vary $\phi$
+   - 2D slice: fix $\omega=0.5$, $\phi=-\pi/2$, vary $\theta,\rho$
 
-New files for this reconstruction step:
-- `derivations/derivation_73_full_four_component_radial_system_fresh_start.md`
-- `analysis/phase_b/phase_b_radial_equation_structure.py`
-- `solutions/phase_b/phase_b_radial_equation_structure/`
+So this note is no longer just a scaffold. It now supplies the structural and protocol reference point for the later Phase B runtime evidence.
 
-## Immediate next step
+---
 
-A first real solver/runtime now exists in:
+## 3. What remained missing at this stage
+
+This reconstruction alone did **not** supply:
+- the Einstein-sector closure,
+- the explicit decoupled Ricci formula,
+- the regular-origin and asymptotic runtime choices,
+- or the observable extraction formulas used in the later objecthood studies.
+
+Those were added later through:
+- `derivations/derivation_74_provisional_phase_b_einstein_closure_and_boundary_data.md`
 - `analysis/phase_b/phase_b_full_radial_solver.py`
-- `scripts/run_phase_b_full_radial_solver.sh`
-- `solutions/phase_b/phase_b_full_radial_solver/`
-- `notes/phase_b/phase_b_full_radial_solver_assessment_2026-03-28.md`
+- `derivations/derivation_76_full_einstein_equations_nonminimal_coupling.md`
+- `analysis/phase_b/phase_b_exact_radial_solver.py`
 
-But that runtime still uses an explicit provisional Einstein closure rather than a uniquely derived fresh-tree nonminimal-coupling closure.
-So the next required derivation step remains: reconstruct the full Einstein-sector closure and sharpen the regular/asymptotic boundary conditions, then test whether the current runtime survives that tighter derivation or needs structural correction.
+---
+
+## 4. Why this matters for interpretation
+
+Because the matter equations are component-symmetric, any later structured-object asymmetry cannot be attributed to unequal component equations.
+
+It must come from some combination of:
+- ordered-state seeding,
+- boundary/continuation structure,
+- the Einstein closure,
+- and, in the exploratory ordered-runtime work, explicitly added directional terms.
+
+That is the correct guardrail for the audited Phase B claims.
+
+---
+
+## 5. Bottom line
+
+**Bottom line:** the Phase B radial-equation reconstruction is complete at the matter-system level. It establishes a clean four-component norm-coupled radial operator and the active domain/slice protocol used by the refreshed Phase B evidence package. It does **not** by itself prove structured-object objecthood or exact Einstein closure, but it gives the correct equation-level foundation for every later Phase B runtime claim.

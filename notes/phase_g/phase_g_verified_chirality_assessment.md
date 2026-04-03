@@ -13,7 +13,7 @@ The mirror-pair test between configurations $(0.5, \pi/8, \pi/8, \pi/8)$ and its
   - **Right-Handed**: Mass $\approx 0.810$, Chirality Density $\chi \approx 0.707$.
   - **Left-Handed**: Mass $\approx 0.810$, Chirality Density $\chi \approx -0.707$.
 - **Finding**: A topological shift of the orthogonal separator $\phi$ by $\pi/2$ produces **mathematically identical macroscopic traits** (mass, $r_{half}$) but perfectly flips the internal algebraic flow. This provides the classical basis for particle-antiparticle-like geometric pairs.
-*Note: A mere coordinate reflection $P: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$ preserves $\chi = \cos(2\phi)$, proving that handedness is a topological invariant protected by the singular boundaries at $\phi = \pm \pi/4$, not a superficial coordinate parity.*
+Note: A mere coordinate reflection $P: (\theta, \phi, \rho) \to (-\theta, -\phi, -\rho)$ preserves $\chi = \cos(2\phi)$, proving that handedness is a topological invariant protected by the singular boundaries at $\phi = \pm \pi/4$, not a superficial coordinate parity.
 
 ## 3. Chirality Reversal Map (Goal 1)
 The exhaustive 1D/2D sweeps across the angular domain (e.g., `slice_1d_phi_chi.csv`) confirm that the internal geometry is inherently handed.

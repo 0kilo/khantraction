@@ -13,8 +13,8 @@ import json
 import math
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-OUTDIR = ROOT / "solutions" / "phase_b_radial_equation_structure"
+ROOT = Path(__file__).resolve().parents[2]
+OUTDIR = ROOT / "solutions" / "phase_b" / "phase_b_radial_equation_structure"
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -41,6 +41,18 @@ def main() -> None:
             "observable density formulas for mass and curvature profiles",
             "validated numerical convergence criteria",
         ],
+        "phase_b_slice_protocol_reference": {
+            "one_dimensional_slice_example": {
+                "fixed": {"omega": 0.5, "theta": math.pi, "rho": 0.5 * math.pi},
+                "varied": "phi",
+                "scan_interval": [-2.0 * math.pi, 2.0 * math.pi],
+            },
+            "two_dimensional_slice_example": {
+                "fixed": {"omega": 0.5, "phi": -0.5 * math.pi},
+                "varied": ["theta", "rho"],
+                "scan_interval": [-2.0 * math.pi, 2.0 * math.pi],
+            },
+        },
     }
     with (OUTDIR / "report.json").open("w") as f:
         json.dump(report, f, indent=2)
@@ -64,6 +76,11 @@ def main() -> None:
     summary.append("## Still missing")
     for item in report["still_missing_for_trustworthy_solver"]:
         summary.append(f"- {item}")
+    summary.append("")
+    summary.append("## Phase B slice protocol anchors")
+    summary.append("- 1D slice anchor: fix omega = 0.5, theta = pi, rho = pi/2, then vary phi on [-2pi, 2pi].")
+    summary.append("- 2D slice anchor: fix omega = 0.5, phi = -pi/2, then vary theta and rho on [-2pi, 2pi].")
+    summary.append("- These anchors are the reference slices used by the refreshed runtime studies in the audited Phase B package.")
     (OUTDIR / "summary.md").write_text("\n".join(summary))
 
     print(json.dumps(report, indent=2))

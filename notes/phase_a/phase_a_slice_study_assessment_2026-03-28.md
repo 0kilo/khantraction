@@ -2,56 +2,84 @@
 
 **Date:** 2026-03-28  
 **Phase:** A — Parameter foundation  
-**Status:** In progress
+**Status:** Complete supporting assessment
 
 ## Purpose
 
-This note starts the next Phase A substep:
+This note records the slice-study results required by the Phase A analysis protocol.
 
-> explicitly study slices of the ordered quaternion map by holding two angular parameters fixed and varying one, and by holding one fixed while varying two.
+The governing question is:
 
-The goal is to make the mapping geometry interpretable in a more concrete way than a full bulk scan.
+> when the ordered map is viewed through explicit 1D and 2D slices, which variable drives singular collapse and which variables remain regular when $\phi$ is held away from its singular values?
 
-## Active domain convention
+## Method
 
-Use:
-- $\omega>0$
-- $\theta,\phi,\rho\in[-2\pi,2\pi]$
-- no redundancy quotienting
+Supporting analysis:
 
-## Why slice studies matter
-
-The earlier bulk scans established:
-- local angular independence in regular regions,
-- and a singular-sheet structure governed by $\phi$.
-
-But bulk scans can hide the actual geometric picture.
-
-Slice studies should answer more visibly:
-- if I vary only $\phi$, what changes directly?
-- if I vary only $\theta$ or only $\rho$, does the determinant stay regular away from singular $\phi$?
-- if I hold $\phi=0$ versus $\phi=\pi/4$, how differently do the $(\theta,\rho)$-planes behave?
-
-## Active implementation
-
-The slice-analysis file is:
 - `analysis/phase_a/phase_a_slice_studies.py`
 
-Outputs are stored under:
-- `solutions/phase_a/phase_a_slice_studies/`
+The solution set includes:
 
-## What to look for
+- six 1D slices,
+- four 2D slices,
+- and JSON summaries that count singular points on each slice.
 
-The main expected checks are:
-1. 1D $\phi$-slices should show repeated zero crossings at the predicted singular $\phi$-values.
-2. 1D $\theta$- or $\rho$-slices with regular fixed $\phi$ should remain non-singular.
-3. 2D slices with fixed $\phi=\pi/4$ should visibly collapse into a singular sheet.
-4. 2D slices with fixed $\phi=0$ should remain regular across the sampled box.
+This is the direct implementation of the plan requirement that Phase A use both 1D and 2D slice studies rather than only bulk scans.
 
-## Interpretation target
+## Results
 
-If those checks hold, the Phase A picture becomes sharper:
-- $\phi$ controls chart singularity architecture,
-- while $\theta$ and $\rho$ vary within regular sheets except where the chart itself collapses.
+### 1. Phi sweeps expose repeated singular crossings directly
 
-That still would not prove trait-level physical hierarchy, but it would make the coordinate geometry much more transparent.
+For both `vary_phi_theta0_rho0` and `vary_phi_theta1.1_rho-0.9`:
+
+- `singular_count = 8`
+- `min_abs_detJ = 0.0`
+
+So sweeping $\phi$ across the active interval crosses the repeated singular sheets exactly as expected.
+
+### 2. Theta and rho sweeps remain regular at regular phi
+
+For both `vary_theta_phi0_rho0` and `vary_rho_theta0_phi0`:
+
+- `singular_count = 0`
+- `min_abs_detJ = 20.085536923187664`
+
+That means varying $\theta$ or $\rho$ alone does not force singular collapse when $\phi$ is fixed at a regular value.
+
+### 3. The theta-rho plane collapses completely at $\phi=\pi/4$
+
+The clearest 2D comparison is:
+
+- `theta_rho_phi0`: `0 / 1089` singular points
+- `theta_rho_phi_pi4`: `1089 / 1089` singular points
+
+Likewise, the 1D slices `vary_theta_phi_pi4_rho0` and `vary_rho_theta0_phi_pi4` are singular at all 65 sampled points.
+
+So the paired $(\theta,\rho)$ subsystem is fully regular at $\phi=0` and fully collapsed at $\phi=\pi/4`.
+
+## Assessment
+
+The slice studies make the Phase A role picture concrete:
+
+1. $\phi$ is the variable that decides whether the $\theta$-$\rho$ subsystem remains locally distinct.
+2. $\theta$ and $\rho$ vary regularly when $\phi$ is regular.
+3. The repeated singular sheets are visible directly in 1D and 2D views, not only in bulk determinant scans.
+
+That is exactly the kind of transparent geometric evidence Phase A needed.
+
+## Evidence
+
+- `analysis/phase_a/phase_a_slice_studies.py`
+- `solutions/phase_a/phase_a_slice_studies/one_d_summary.json`
+- `solutions/phase_a/phase_a_slice_studies/two_d_summary.json`
+- `solutions/phase_a/phase_a_slice_studies/vary_theta_phi0_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_phi_theta0_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_rho_theta0_phi0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_theta_phi_pi4_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_rho_theta0_phi_pi4.csv`
+- `solutions/phase_a/phase_a_slice_studies/vary_phi_theta1.1_rho-0.9.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_phi_rho0.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_rho_phi0.csv`
+- `solutions/phase_a/phase_a_slice_studies/phi_rho_theta0.csv`
+- `solutions/phase_a/phase_a_slice_studies/theta_rho_phi_pi4.csv`
+- `solutions/phase_a/phase_a_slice_studies/summary.md`

@@ -2,52 +2,79 @@
 
 **Date:** 2026-03-28  
 **Phase:** A — Parameter foundation  
-**Status:** In progress
+**Status:** Complete supporting assessment
 
 ## Purpose
 
-This note advances the next Phase A question:
+This note evaluates the mapping-level role hypothesis that emerged after the singularity work:
 
-> does the mapping geometry support a channel-role interpretation in which $\phi$ acts mainly as a separator/mixing controller for a $(\theta,\rho)$ pair, rather than as just one more symmetric peer variable?
-
-## Working hypothesis
-
-Current tentative mapping-level hypothesis:
 - $\omega$ = scale
-- $\phi$ = separation / mixing controller
-- $\theta$, $\rho$ = paired internal directions whose relation is modulated by $\phi$
+- $\phi$ = separator / mixing controller
+- $\theta,\rho$ = paired internal directions
 
-This is still a mapping hypothesis, not yet a physical claim.
+The question here is whether that interpretation survives broader regular-domain testing rather than relying only on singular-slice language.
 
-## Why test this now
+## Method
 
-The previous steps showed:
-- equal channel norms,
-- singular sheets governed by $\phi$,
-- and direct collapse of the $(\theta,\rho)$-sheet when $\phi$ hits singular values.
+Supporting analysis:
 
-That already suggests a non-peer role for $\phi$.
-The present step asks whether that remains true in broader regular regions, not just on singular slices.
-
-## Active implementation
-
-Analysis file:
 - `analysis/phase_a/phase_a_channel_role_hypothesis.py`
 
-Outputs:
-- `solutions/phase_a/phase_a_channel_role_hypothesis/`
+Supporting solution artifacts:
 
-## What to look for
+- `broad_phi_control_scan.csv`
+- `phi_profile_fixed_pair.csv`
+- `theta_rho_independence_scan.csv`
 
-The strongest support for the hypothesis would be:
-1. $\cos(\partial_\theta Q,\partial_\rho Q)$ sweeping broadly across positive and negative values as $\phi$ varies,
-2. while $\cos(\partial_\theta Q,\partial_\phi Q)$ and $\cos(\partial_\phi Q,\partial_\rho Q)$ remain comparatively small,
-3. showing that $\phi$ is not mainly “another partner” but rather the variable controlling how the $(\theta,\rho)$ pair sits relative to itself.
+The analysis checks whether $\phi$ stays orthogonal to both $\theta$ and $\rho$ while the $\theta$-$\rho$ overlap varies broadly as $\phi$ changes.
 
-## Interpretation target
+## Results
 
-If that pattern holds, then the strongest mapping-level statement so far would be:
+### 1. Broad phi-control scan
 
-> $\phi$ is the ordered-angle variable that organizes the coupling relation between the two paired directions $\theta$ and $\rho$, while $\omega$ sets scale.
+The broad scan contains 5,265 sampled rows and finds:
 
-That would be the cleanest Phase A role-hypothesis yet, still short of any classical object claim.
+- `max cos(theta,rho) = 1.0000000000000002`
+- `min cos(theta,rho) = -1.0000000000000002`
+- `max abs cross with phi = 7.872709602880297e-32`
+
+So across the broad active-domain sample, the $\theta$-$\rho$ relation spans the full alignment range while $\phi$ remains numerically orthogonal to both.
+
+### 2. Dense fixed-pair phi profile
+
+The dense fixed-$(\theta,\rho)$ phi profile shows `cos(theta,rho)` sweeping continuously from `-1.0` to `1.0000000000000002`.
+
+That is important because it shows the result is not a coarse-grid artifact.
+The role change is continuous as $\phi$ varies.
+
+### 3. Regular-phi cross-check
+
+The regular-phi scan contains 1,445 rows and finds:
+
+- `max abs cos(theta,phi) = 2.477242412850852e-16`
+- `max abs cos(phi,rho) = 1.981793930280682e-16`
+- `max abs cos(theta,rho) = 0.7568024953079284`
+
+So even when the scan deliberately avoids singular $\phi$ values, the same pattern survives: $\phi$ stays orthogonal while the $\theta$-$\rho$ relation remains the active varying subsystem.
+
+## Assessment
+
+This note supports the following mapping-level conclusion:
+
+> $\phi$ is not just a third peer angle. It acts as the separator or mixing controller for the paired directions $\theta$ and $\rho$.
+
+That statement is still geometric rather than physical, but it is now supported away from singular sheets as well as on them.
+
+## Limits
+
+This note does **not** prove that $\phi$ is the dynamically dominant channel in the field equations.
+
+It proves only that the ordered-map geometry assigns it a structurally different relational role.
+
+## Evidence
+
+- `analysis/phase_a/phase_a_channel_role_hypothesis.py`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/broad_phi_control_scan.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/phi_profile_fixed_pair.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/theta_rho_independence_scan.csv`
+- `solutions/phase_a/phase_a_channel_role_hypothesis/summary.md`

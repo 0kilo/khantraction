@@ -88,15 +88,36 @@ def run_interaction_suite():
     print("Running 2D Angle Slices...")
     res_2d = 20
     angles_2d = np.linspace(-np.pi, np.pi, res_2d)
-    slice_2d = []
+    
+    slice_2d_tr = []
     for a1 in angles_2d:
         for a2 in angles_2d:
             p2 = species_rich_r.copy()
             p2['theta'] = a1
             p2['rho'] = a2
             dm = calculate_interaction_mass(species_rich_r, p2, fixed_dist)
-            slice_2d.append({'theta_2': a1, 'rho_2': a2, 'dm': dm})
-    pd.DataFrame(slice_2d).to_csv(f"{output_dir}/slices_2d_theta_rho_interaction.csv", index=False)
+            slice_2d_tr.append({'theta_2': a1, 'rho_2': a2, 'dm': dm})
+    pd.DataFrame(slice_2d_tr).to_csv(f"{output_dir}/slices_2d_theta_rho_interaction.csv", index=False)
+
+    slice_2d_tp = []
+    for a1 in angles_2d:
+        for a2 in angles_2d:
+            p2 = species_rich_r.copy()
+            p2['theta'] = a1
+            p2['phi'] = a2
+            dm = calculate_interaction_mass(species_rich_r, p2, fixed_dist)
+            slice_2d_tp.append({'theta_2': a1, 'phi_2': a2, 'dm': dm})
+    pd.DataFrame(slice_2d_tp).to_csv(f"{output_dir}/slices_2d_theta_phi_interaction.csv", index=False)
+
+    slice_2d_pr = []
+    for a1 in angles_2d:
+        for a2 in angles_2d:
+            p2 = species_rich_r.copy()
+            p2['phi'] = a1
+            p2['rho'] = a2
+            dm = calculate_interaction_mass(species_rich_r, p2, fixed_dist)
+            slice_2d_pr.append({'phi_2': a1, 'rho_2': a2, 'dm': dm})
+    pd.DataFrame(slice_2d_pr).to_csv(f"{output_dir}/slices_2d_phi_rho_interaction.csv", index=False)
 
     # Final Summary
     summary = {

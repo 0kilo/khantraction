@@ -115,24 +115,61 @@ def run_quantum_analysis():
     # 3. Exhaustive Slice Protocol - Spectral Matrix (Section 3.2)
     print("Running Exhaustive 1D/2D Spectral Matrix...")
     grid_res = 10
+    angles_1d = np.linspace(-2*np.pi, 2*np.pi, grid_res)
+    angles_2d = np.linspace(-np.pi, np.pi, 6)
     
-    # 1D Theta
-    slice_th = [{"theta": t, "E0": float(solver.find_eigenvalues(t, np.pi/8, 0.0)[0]['energy'])} for t in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
+    # 1D Slices
+    # Theta (phi=pi/8, rho=0)
+    slice_th = []
+    for t in angles_1d:
+        modes = solver.find_eigenvalues(t, np.pi/8, 0.0)
+        e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
+        slice_th.append({"theta": t, "E0": float(e0)})
     pd.DataFrame(slice_th).to_csv(f"{out_dir}/slice_1d_theta_energy.csv", index=False)
     
-    # 1D Rho
-    slice_rh = [{"rho": r, "E0": float(solver.find_eigenvalues(0.0, np.pi/8, r)[0]['energy'])} for r in np.linspace(-2*np.pi, 2*np.pi, grid_res)]
+    # Phi (theta=0, rho=0)
+    slice_ph = []
+    for p in angles_1d:
+        modes = solver.find_eigenvalues(0.0, p, 0.0)
+        e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
+        slice_ph.append({"phi": p, "E0": float(e0)})
+    pd.DataFrame(slice_ph).to_csv(f"{out_dir}/slice_1d_phi_energy.csv", index=False)
+
+    # Rho (theta=0, phi=pi/8)
+    slice_rh = []
+    for r in angles_1d:
+        modes = solver.find_eigenvalues(0.0, np.pi/8, r)
+        e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
+        slice_rh.append({"rho": r, "E0": float(e0)})
     pd.DataFrame(slice_rh).to_csv(f"{out_dir}/slice_1d_rho_energy.csv", index=False)
 
-    # 2D Phi/Theta
-    angles = np.linspace(-np.pi, np.pi, 6)
+    # 2D Slices
+    # Phi/Theta (rho=0)
     slice_ph_th = []
-    for ph in angles:
-        for th in angles:
+    for ph in angles_2d:
+        for th in angles_2d:
             modes = solver.find_eigenvalues(th, ph, 0.0)
             e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
             slice_ph_th.append({"phi": ph, "theta": th, "E0": float(e0)})
     pd.DataFrame(slice_ph_th).to_csv(f"{out_dir}/slice_2d_phi_theta_energy.csv", index=False)
+
+    # Theta/Rho (phi=pi/8)
+    slice_th_rh = []
+    for th in angles_2d:
+        for rh in angles_2d:
+            modes = solver.find_eigenvalues(th, np.pi/8, rh)
+            e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
+            slice_th_rh.append({"theta": th, "rho": rh, "E0": float(e0)})
+    pd.DataFrame(slice_th_rh).to_csv(f"{out_dir}/slice_2d_theta_rho_energy.csv", index=False)
+
+    # Phi/Rho (theta=0)
+    slice_ph_rh = []
+    for ph in angles_2d:
+        for rh in angles_2d:
+            modes = solver.find_eigenvalues(0.0, ph, rh)
+            e0 = modes[0]['energy'] if len(modes) > 0 else np.nan
+            slice_ph_rh.append({"phi": ph, "rho": rh, "E0": float(e0)})
+    pd.DataFrame(slice_ph_rh).to_csv(f"{out_dir}/slice_2d_phi_rho_energy.csv", index=False)
 
     print("Analysis Complete.")
 

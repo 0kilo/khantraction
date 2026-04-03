@@ -240,5 +240,79 @@
       "amp_double_rmax_30": 39,
       "ricci_off_amp_double": 39
     }
+  },
+  "slice_outputs": {
+    "baseline": {
+      "slice_1d_phi_final_mass_range": [
+        0.1082188762469576,
+        0.1082188762469576
+      ],
+      "slice_1d_phi_integrated_abs_ricci_range": [
+        0.00784699578837507,
+        0.00784699578837507
+      ],
+      "slice_2d_theta_rho_final_mass_range": [
+        0.1082188762469576,
+        0.1082188762469576
+      ],
+      "slice_2d_theta_rho_integrated_abs_ricci_range": [
+        0.00784699578837507,
+        0.00784699578837507
+      ]
+    },
+    "closure_ricci_off": {
+      "slice_1d_phi_final_mass_range": [
+        0.1082121739966033,
+        0.1082121739966033
+      ],
+      "slice_1d_phi_integrated_abs_ricci_range": [
+        0.0,
+        0.0
+      ],
+      "slice_2d_theta_rho_final_mass_range": [
+        0.1082121739966033,
+        0.1082121739966033
+      ],
+      "slice_2d_theta_rho_integrated_abs_ricci_range": [
+        0.0,
+        0.0
+      ]
+    },
+    "amp_double": {
+      "slice_1d_phi_final_mass_range": [
+        0.43061402285055356,
+        0.43061402285055356
+      ],
+      "slice_1d_phi_integrated_abs_ricci_range": [
+        0.031320219642692854,
+        0.031320219642692854
+      ],
+      "slice_2d_theta_rho_final_mass_range": [
+        0.43061402285055356,
+        0.43061402285055356
+      ],
+      "slice_2d_theta_rho_integrated_abs_ricci_range": [
+        0.031320219642692854,
+        0.031320219642692854
+      ]
+    },
+    "rmax_30": {
+      "slice_1d_phi_final_mass_range": [
+        0.20321848107588117,
+        0.20321848107588117
+      ],
+      "slice_1d_phi_integrated_abs_ricci_range": [
+        0.008691533772061786,
+        0.008691533772061786
+      ],
+      "slice_2d_theta_rho_final_mass_range": [
+        0.20321848107588117,
+        0.20321848107588117
+      ],
+      "slice_2d_theta_rho_integrated_abs_ricci_range": [
+        0.008691533772061786,
+        0.008691533772061786
+      ]
+    }
   }
 }

@@ -1,28 +1,143 @@
-# Phase C Assessment — Verified Maurer-Cartan Trait Splitting
+# Phase C Assessment — Exploratory Maurer-Cartan Trait Differentiation
 
-**Date:** 2026-03-29
+**Date:** 2026-04-02
 **Phase:** C — Distinct angular traits
-**Status:** Verified; O(4) Degeneracy Broken
+**Status:** Complete after audit refresh
 
-## 1. Purpose
-This note assesses the results of the corrected Phase C radial solver (`analysis/phase_c/phase_c_mc_radial_solver.py`), which implements the exact NLSM equations with anisotropic Maurer-Cartan coupling.
+## Purpose
 
-## 2. Definitive Trait Differentiation
-The execution of the exact solver over representative angular seeds confirms that the $O(4)$ symmetry has been successfully broken. Unlike Phase B, where mass profiles were identical, Phase C produces distinct macroscopic traits:
+This note records what the refreshed Phase C solver actually proves after the audit pass.
 
-- **Scalar Anchor** ($\theta=0, \phi=0, \rho=0$): $M \approx 0.108$.
-- **$\theta$-dominant Anchor** ($\theta=\pi$): $M \approx 0.108$. (Minimal splitting due to $\theta$ being fully entangled and having lower initial coupling energy).
-- **$\phi$-dominant Anchor** ($\phi=\pi/4$): $M \approx 1.466$. Significant mass increase due to intense bipartite mixing and the exploratory angular potential.
-- **Fully Mixed Anchor**: $M \approx 1.466$. 
+Relevant files:
+- `analysis/phase_c/phase_c_mc_radial_solver.py`
+- `derivations/derivation_78_maurer_cartan_tensor.md`
+- `derivations/derivation_79_einstein_trace_with_mc_breaking.md`
+- `solutions/phase_c/phase_c_angular_traits/summary.json`
+- `solutions/phase_c/phase_c_angular_traits/summary.md`
+- `solutions/phase_c/phase_c_angular_traits/representative_seed_results.csv`
+- `solutions/phase_c/phase_c_angular_traits/angle_only_anchor_results.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_1d_theta.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_1d_phi.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_1d_rho.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_2d_theta_rho.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_2d_phi_theta.csv`
+- `solutions/phase_c/phase_c_angular_traits/slice_2d_phi_rho.csv`
+- `solutions/phase_c/phase_c_angular_traits/profiles/scalar.csv`
+- `solutions/phase_c/phase_c_angular_traits/profiles/phi_dom.csv`
 
-## 3. Protocol Compliance: Slice Studies
-Systematic scans across the $[-2\pi, 2\pi]$ domain reveal the underlying angular landscape:
-- **1D Slices ($\theta, \phi, \rho$)**: Confirm the individual roles. $\phi$ slices show dramatic mass fluctuations ranging from $M \approx 0.02$ to $M > 2.0$, perfectly aligning with the singular-sheet architecture discovered in Phase A. $\theta$ slices remain stable, and $\rho$ slices show moderate periodic variations.
-- **2D Theta-Rho Slice**: Confirms the paired internal subsystem $(\theta, \rho)$ creates stable mass plateaus with fine-grained sensitivity to the relative angle between them.
-- **2D Phi-Theta and Phi-Rho Slices**: Demonstrate how $\phi$ heavily dominates the phase space, sharply amplifying the mass responses when mixed with the internal paired directions.
+---
 
-## 4. Conclusion
-**Phase C is fully satisfied.** The angular variables $\theta, \phi, \rho$ encode genuinely different classical object traits once the theory is forced to "feel" its internal non-commutative geometry via the Maurer-Cartan form.
+## 1. What the active runtime actually is
 
-## 5. Next Steps
-With trait splitting verified, we proceed to **Phase D (Identity and Persistence)** to determine if these objects form stable species basins under perturbation.
+The derivation layer justifies an anisotropic Maurer-Cartan symmetry-breaking term. The active audited runtime is slightly broader than that derivation-only core.
+
+The regenerated `summary.json` records the runtime actually used:
+- anisotropic Maurer-Cartan weights `beta = [0.01, 0.02, 0.03]`,
+- metric regularization `1e-4`,
+- exploratory phi-localized angular potential coefficient `0.01`,
+- horizon event threshold `2m/r = 0.45`.
+
+So the current Phase C solver should be interpreted as an **exploratory symmetry-broken runtime**, not as a pure derivation-78/79 implementation with no extra runtime devices.
+
+---
+
+## 2. What was tested
+
+The refreshed solver now checks four distinct layers:
+
+1. **Representative seeded anchors**
+   - scalar,
+   - theta-dominant,
+   - phi-dominant,
+   - fully mixed.
+2. **Angle-only anchors**
+   - same angle values as the representative seeds,
+   - but with zero initial angle-derivative seeding,
+   - to separate angle-value effects from derivative-seeding effects.
+3. **1D slice protocol**
+   - vary `theta` with `omega = 0.5`, `phi = pi/8`, `rho = 0`,
+   - vary `phi` with `omega = 0.5`, `theta = 0`, `rho = 0`,
+   - vary `rho` with `omega = 0.5`, `theta = 0`, `phi = pi/8`,
+   - always on `[-2pi, 2pi]`.
+4. **2D slice protocol**
+   - vary `(theta, rho)` with `omega = 0.5`, `phi = pi/8`,
+   - vary `(phi, theta)` with `omega = 0.5`, `rho = 0`,
+   - vary `(phi, rho)` with `omega = 0.5`, `theta = 0`,
+   - always on `[-2pi, 2pi]^2`.
+
+This now satisfies the Phase C plan requirement that all 1D channels and all 2D angle pairings be included on the active unquotiented domain.
+
+---
+
+## 3. Main findings
+
+### 3.1 The active runtime does split the channels
+
+The representative runs and the angle-only anchors show the same broad pattern:
+
+- `scalar` and `theta_dom` both reach the full `r_max = 20` interval with
+  - final mass about `0.108039`,
+  - mass half-radius `14.6501`,
+  - mass 90% radius `18.9801`,
+  - core mass fraction about `2.04e-4`.
+- `phi_dom` and `fully_mixed` both terminate early near the horizon event with
+  - final mass about `1.465564`,
+  - mass half-radius `2.6001`,
+  - mass 90% radius `3.1601`,
+  - core mass fraction about `2.78e-2`,
+  - termination radius about `3.2701`,
+  - event radius about `3.27676554`.
+
+That means the symmetry-broken runtime does produce visibly different macroscopic diagnostics across angular sectors.
+
+### 3.2 The strongest effect is phi, not theta
+
+The 1D slice widths make the channel hierarchy explicit:
+
+- `theta` slice mass width: `6.069374447470466e-10`
+- `rho` slice mass width: `0.20494570186855265`
+- `phi` slice mass width: `1.9239803098587736`
+
+So on the audited standalone 1D slices:
+- `theta` is nearly flat,
+- `rho` has a moderate standalone effect,
+- `phi` is the dominant driver of mass variation.
+
+### 3.3 Theta is weak alone but not absent from the paired structure
+
+The 2D slice widths are:
+
+- `(theta, rho)` width: `0.1059810327281174`
+- `(phi, theta)` width: `1.0914284604307958`
+- `(phi, rho)` width: `1.0914284604307958`
+
+This shows that theta is not the leading standalone driver, but it still participates in the paired angular structure once one leaves the trivial theta-only slice.
+
+### 3.4 The strongest phi-rich representative states are not full-domain survivors
+
+This is the most important correction to the older wording.
+
+The high-mass representative `phi_dom` and `fully_mixed` states do **not** survive to the full `r_max = 20` interval. They terminate early at the horizon event with final `2m/r` about `0.896342`.
+
+So the correct interpretation is:
+
+> the Phase C runtime shows strong phi-driven trait differentiation, but the most dramatic phi-rich representative states are near-horizon exploratory diagnostics rather than fully settled full-domain survivors.
+
+---
+
+## 4. Correct interpretation
+
+The refreshed Phase C conclusion is narrower and stronger at the same time:
+
+- stronger, because it now rests on representative anchors, angle-only anchors, and all 1D/2D slice families on the active domain;
+- narrower, because it no longer pretends that the strongest phi-rich states are already established as fully regular long-range objects.
+
+The phase therefore supports the following audited statement:
+
+> Once the angularly blind linear-basis runtime of Phase B is replaced by the present exploratory Maurer-Cartan-based symmetry-broken runtime, the angular variables produce genuinely different trait diagnostics, with phi as the dominant driver, rho as a secondary driver, and theta weak on the audited standalone slice.
+
+---
+
+## 5. Bottom line
+
+**Bottom line:** Phase C now closes as an exploratory proof-of-principle trait-differentiation phase. It does show that the angular variables can produce different classical diagnostics once explicit symmetry-breaking machinery is introduced, but it does **not** yet prove that the strongest phi-rich states are fully regular species that persist to the full outer domain.

@@ -34,8 +34,8 @@ from typing import Dict, Iterable, List, Sequence, Tuple
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parents[1]
-OUTDIR = ROOT / "solutions" / "phase_b_full_radial_solver"
+ROOT = Path(__file__).resolve().parents[2]
+OUTDIR = ROOT / "solutions" / "phase_b" / "phase_b_full_radial_solver"
 OUTDIR.mkdir(parents=True, exist_ok=True)
 
 TWOPI = 2.0 * math.pi
@@ -444,6 +444,42 @@ def coarse_domain_seeds() -> List[SeedSpec]:
     return seeds
 
 
+def phi_slice_seeds() -> List[SeedSpec]:
+    return [
+        SeedSpec(
+            label=f"phi_slice_{idx:02d}",
+            omega=0.50,
+            theta=math.pi,
+            phi=float(phi),
+            rho=0.5 * math.pi,
+            family="slice_1d_phi",
+            source="phase_b_protocol_phi_slice",
+        )
+        for idx, phi in enumerate(np.linspace(-TWOPI, TWOPI, 17))
+    ]
+
+
+def theta_rho_slice_seeds() -> List[SeedSpec]:
+    grid = np.linspace(-TWOPI, TWOPI, 9)
+    seeds: List[SeedSpec] = []
+    idx = 0
+    for theta in grid:
+        for rho in grid:
+            seeds.append(
+                SeedSpec(
+                    label=f"theta_rho_slice_{idx:02d}",
+                    omega=0.50,
+                    theta=float(theta),
+                    phi=-0.5 * math.pi,
+                    rho=float(rho),
+                    family="slice_2d_theta_rho",
+                    source="phase_b_protocol_theta_rho_slice",
+                )
+            )
+            idx += 1
+    return seeds
+
+
 def write_profile(label: str, profile: Profile) -> None:
     path = OUTDIR / "profiles" / f"{label}.csv"
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -479,6 +515,24 @@ def write_profile(label: str, profile: Profile) -> None:
             ])
 
 
+def write_profiles_summary(exported_labels: Sequence[str]) -> None:
+    lines = []
+    lines.append("# Phase B Full Radial Solver Profile Export Summary")
+    lines.append("")
+    lines.append("These CSV files are representative profile exports from the refreshed provisional full-radial runtime.")
+    lines.append("")
+    lines.append(f"- profiles exported: {len(exported_labels)}")
+    lines.append("- export rule: first 12 seeds from the main run, preserving continuation coverage and the first rich-neighborhood samples")
+    lines.append("- columns include matter components, derivatives, Misner-Sharp mass, Ricci estimate, and pressure bookkeeping")
+    lines.append("- interpretation: use these files to inspect radial shape and observable densities for representative runs; use `run_results.csv` and `run_summary.json` for the complete 117-seed aggregate")
+    if exported_labels:
+        lines.append("")
+        lines.append("## Exported labels")
+        for label in exported_labels:
+            lines.append(f"- `{label}`")
+    (OUTDIR / "profiles" / "summary.md").write_text("\n".join(lines))
+
+
 def build_assumption_report(cfg: SolverConfig) -> Dict[str, object]:
     return {
         "active_domain": {
@@ -510,6 +564,84 @@ def build_assumption_report(cfg: SolverConfig) -> Dict[str, object]:
     }
 
 
+def rows_to_csv(path: Path, rows: Sequence[Dict[str, object]]) -> None:
+    with path.open("w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        for row in rows:
+            writer.writerow(row)
+
+
+def write_slice_outputs(cfg: SolverConfig) -> Dict[str, object]:
+    phi_rows: List[Dict[str, object]] = []
+    for seed in phi_slice_seeds():
+        result, _profile = integrate_seed(seed, cfg)
+        phi_rows.append(
+            {
+                "label": seed.label,
+                "omega": seed.omega,
+                "theta": seed.theta,
+                "phi": seed.phi,
+                "rho": seed.rho,
+                "success": result.success,
+                "final_mass": result.final_mass,
+                "integrated_abs_ricci": result.integrated_abs_ricci,
+                "half_mass_radius": result.half_mass_radius,
+                "mass_90_radius": result.mass_90_radius,
+                "ricci_half_radius": result.ricci_half_radius,
+                "ricci_90_radius": result.ricci_90_radius,
+                "settling_radius": result.settling_radius,
+                "core_radius": result.core_radius,
+                "soft_region_width": result.soft_region_width,
+            }
+        )
+
+    theta_rho_rows: List[Dict[str, object]] = []
+    for seed in theta_rho_slice_seeds():
+        result, _profile = integrate_seed(seed, cfg)
+        theta_rho_rows.append(
+            {
+                "label": seed.label,
+                "omega": seed.omega,
+                "theta": seed.theta,
+                "phi": seed.phi,
+                "rho": seed.rho,
+                "success": result.success,
+                "final_mass": result.final_mass,
+                "integrated_abs_ricci": result.integrated_abs_ricci,
+                "half_mass_radius": result.half_mass_radius,
+                "mass_90_radius": result.mass_90_radius,
+                "ricci_half_radius": result.ricci_half_radius,
+                "ricci_90_radius": result.ricci_90_radius,
+                "settling_radius": result.settling_radius,
+                "core_radius": result.core_radius,
+                "soft_region_width": result.soft_region_width,
+            }
+        )
+
+    rows_to_csv(OUTDIR / "slice_1d_phi.csv", phi_rows)
+    rows_to_csv(OUTDIR / "slice_2d_theta_rho.csv", theta_rho_rows)
+
+    phi_mass = np.asarray([row["final_mass"] for row in phi_rows], dtype=float)
+    phi_ricci = np.asarray([row["integrated_abs_ricci"] for row in phi_rows], dtype=float)
+    grid_mass = np.asarray([row["final_mass"] for row in theta_rho_rows], dtype=float)
+    grid_ricci = np.asarray([row["integrated_abs_ricci"] for row in theta_rho_rows], dtype=float)
+    return {
+        "slice_1d_phi": {
+            "path": "solutions/phase_b/phase_b_full_radial_solver/slice_1d_phi.csv",
+            "sample_count": len(phi_rows),
+            "final_mass_range": [float(np.min(phi_mass)), float(np.max(phi_mass))],
+            "integrated_abs_ricci_range": [float(np.min(phi_ricci)), float(np.max(phi_ricci))],
+        },
+        "slice_2d_theta_rho": {
+            "path": "solutions/phase_b/phase_b_full_radial_solver/slice_2d_theta_rho.csv",
+            "sample_count": len(theta_rho_rows),
+            "final_mass_range": [float(np.min(grid_mass)), float(np.max(grid_mass))],
+            "integrated_abs_ricci_range": [float(np.min(grid_ricci)), float(np.max(grid_ricci))],
+        },
+    }
+
+
 def run(cfg: SolverConfig, seed_limit: int | None) -> Dict[str, object]:
     seeds = continuation_seeds() + neighborhood_seeds() + coarse_domain_seeds()
     if seed_limit is not None:
@@ -517,12 +649,14 @@ def run(cfg: SolverConfig, seed_limit: int | None) -> Dict[str, object]:
 
     results: List[RunResult] = []
     profiles_written = 0
+    exported_labels: List[str] = []
     for seed in seeds:
         result, profile = integrate_seed(seed, cfg)
         results.append(result)
         if profile is not None and profiles_written < 12:
             write_profile(seed.label, profile)
             profiles_written += 1
+            exported_labels.append(seed.label)
 
     results_path = OUTDIR / "run_results.csv"
     with results_path.open("w", newline="") as f:
@@ -532,6 +666,8 @@ def run(cfg: SolverConfig, seed_limit: int | None) -> Dict[str, object]:
             writer.writerow(asdict(row))
 
     summary = summarize(results, cfg)
+    if seed_limit is None:
+        summary["slice_outputs"] = write_slice_outputs(cfg)
     with (OUTDIR / "run_summary.json").open("w") as f:
         json.dump(summary, f, indent=2)
 
@@ -539,6 +675,7 @@ def run(cfg: SolverConfig, seed_limit: int | None) -> Dict[str, object]:
         json.dump(build_assumption_report(cfg), f, indent=2)
 
     (OUTDIR / "summary.md").write_text(summary_markdown(summary, cfg))
+    write_profiles_summary(exported_labels)
     return summary
 
 
@@ -633,8 +770,17 @@ def summary_markdown(summary: Dict[str, object], cfg: SolverConfig) -> str:
     lines.append("## Interpretation")
     lines.append("- The runtime genuinely integrates a coupled four-component matter-plus-metric system and reports horizons, blowups, and boundary residuals.")
     lines.append("- It supports seeded continuation and neighborhood scans in the active ordered-state box.")
-    lines.append("- But decay at finite r_max is usually not achieved automatically, so these are IVP/continuation diagnostics rather than fully validated asymptotically matched solitons.")
+    lines.append("- On this refreshed run, all 117 sampled seeds stayed regular and passed the configured finite-radius decay target, but that still does not upgrade the IVP scan into a unique asymptotically matched boundary-value proof.")
     lines.append("- Any branch-coherence claim that depends on the exact Einstein closure remains provisional until the nonminimal-coupling sector is derived more tightly.")
+    if "slice_outputs" in summary:
+        lines.append("")
+        lines.append("## Slice protocol outputs")
+        lines.append("- 1D phi slice: fixed omega = 0.5, theta = pi, rho = pi/2; phi scanned on [-2pi, 2pi].")
+        lines.append(f"  final mass range: {summary['slice_outputs']['slice_1d_phi']['final_mass_range']}")
+        lines.append(f"  integrated |R| range: {summary['slice_outputs']['slice_1d_phi']['integrated_abs_ricci_range']}")
+        lines.append("- 2D theta-rho slice: fixed omega = 0.5, phi = -pi/2; theta and rho scanned on [-2pi, 2pi].")
+        lines.append(f"  final mass range: {summary['slice_outputs']['slice_2d_theta_rho']['final_mass_range']}")
+        lines.append(f"  integrated |R| range: {summary['slice_outputs']['slice_2d_theta_rho']['integrated_abs_ricci_range']}")
     return "\n".join(lines)
 
 

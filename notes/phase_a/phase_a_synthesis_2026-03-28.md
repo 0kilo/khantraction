@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-28  
 **Phase:** A — Parameter foundation  
-**Status:** Synthesis note, not closure
+**Status:** Complete synthesis note; closure handled separately
 
 ## 1. Purpose of this synthesis
 
@@ -189,9 +189,9 @@ That is exactly the kind of disciplined foundation Phase A was supposed to deliv
 
 ---
 
-## 7. Provisional bottom line
+## 7. Bottom line
 
-**Provisional bottom line:** Phase A has produced a robust ordered-map foundation in which
+**Bottom line:** Phase A has produced a robust ordered-map foundation in which
 
 $$
 Q(\omega,\theta,\phi,\rho)=e^{\omega}e^{\theta i}e^{\phi j}e^{\rho k}
@@ -207,11 +207,10 @@ But it is now a strong and coherent parameter-foundation result.
 
 ---
 
-## 8. Recommended immediate next decision
+## 8. Closure handoff
 
-There are now two sensible options:
+This synthesis note captures the final role picture, but it is not the closure note itself.
 
-1. **Declare Phase A effectively complete** and write a closure note.
-2. Do one last adversarial/probing pass only if there is a specific unresolved objection to this role picture.
+The audited closure decision and the full claim-to-evidence map are recorded in:
 
-My own reading is that the core burden of proof for Phase A now looks close to met.
+- `summary/2026-03-28_phase_a_closure_summary.md`

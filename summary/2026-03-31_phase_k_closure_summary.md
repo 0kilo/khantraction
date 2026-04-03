@@ -27,8 +27,8 @@ Numerical extraction of the force law yielded a scaling exponent of **-2.97** fo
 ### 2.3 Global Interaction Map
 The exhaustive protocol confirmed that the interaction sign and magnitude are globally sensitive to the internal angular states $(\theta, \phi, \rho)$. 
 - **Controller Role:** $\phi$ remains the primary switch for interaction polarity.
-- **Phase Sensitivity:** 1D and 2D slices mapped the complex interference patterns required for scattering predictions.
-- **Source Support:** `solutions/phase_k/phase_k_multi_fold_interaction/slices_2d_theta_rho_interaction.csv`.
+- **Phase Sensitivity:** 1D and all three combinations of 2D slices mapped the complex interference patterns required for scattering predictions, confirming the coupled nature of the interaction across all angle pairings.
+- **Source Support:** `solutions/phase_k/phase_k_multi_fold_interaction/slices_2d_theta_rho_interaction.csv`, `solutions/phase_k/phase_k_multi_fold_interaction/slices_2d_theta_phi_interaction.csv`, `solutions/phase_k/phase_k_multi_fold_interaction/slices_2d_phi_rho_interaction.csv`, and `solutions/phase_k/phase_k_multi_fold_interaction/summary.md`.
 
 ## 3. Fulfillment of Transition Criteria
 - **Goal 1 (Spatial Interaction):** Fulfilled via multi-center field overlap simulation.

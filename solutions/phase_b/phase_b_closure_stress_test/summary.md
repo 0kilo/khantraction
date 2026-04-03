@@ -35,6 +35,18 @@ All non-baseline closure choices here are numerical stress variants, not validat
   - amp_double_rmax_30: 39
   - ricci_off_amp_double: 39
 
+## Slice protocol scenario checks
+- 1D phi slice: fixed omega = 0.5, theta = pi, rho = pi/2; phi scanned on [-2pi, 2pi].
+- 2D theta-rho slice: fixed omega = 0.5, phi = -pi/2; theta and rho scanned on [-2pi, 2pi].
+- `baseline` 1D phi mass range: [0.1082188762469576, 0.1082188762469576]
+- `baseline` 2D theta-rho mass range: [0.1082188762469576, 0.1082188762469576]
+- `closure_ricci_off` 1D phi mass range: [0.1082121739966033, 0.1082121739966033]
+- `closure_ricci_off` 2D theta-rho mass range: [0.1082121739966033, 0.1082121739966033]
+- `amp_double` 1D phi mass range: [0.43061402285055356, 0.43061402285055356]
+- `amp_double` 2D theta-rho mass range: [0.43061402285055356, 0.43061402285055356]
+- `rmax_30` 1D phi mass range: [0.20321848107588117, 0.20321848107588117]
+- `rmax_30` 2D theta-rho mass range: [0.20321848107588117, 0.20321848107588117]
+
 ## Interpretation
 - Across all tested variants, the solver remained regular on the tested seed set; no horizons or blowups appeared.
 - The scalar-to-rich continuation preserved a smooth monotone mass ordering under every tested closure/setup perturbation.

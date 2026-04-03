@@ -13,7 +13,9 @@ Following the breaking of the $O(4)$ degeneracy in Phase C, Phase D's mandate wa
 
 ### 2.1 Characterization of Species Identity
 **Claim:** Khantraction species identity is uniquely fingerprinted by angular traits, while pure scale variations produce a deterministic spectrum of concentration rather than perfectly scale-free profiles.
+
 **Methodology & Rationale:** We evaluated the scale-invariance of the Compactness Ratio ($\mathcal{C} = m_{\text{final}} / r_{\text{half}}$) by sweeping the $\omega$ scale coordinate from 0.1 to 1.0. This tests whether changing the spatial scale alters the fundamental structural density (Goal 3 & 4).
+
 **Results & Proof:** The compactness ratio $\mathcal{C}$ scales deterministically from ~0.003 to ~0.018 as $\omega$ increases, proving that larger folds become more concentrated. Therefore, while identity is scale-dependent, the continuous growth forms a predictable family fingerprint.
 This conclusion is supported by:
 - `analysis/phase_d/phase_d_identity_analysis.py`
@@ -23,7 +25,9 @@ This conclusion is supported by:
 
 ### 2.2 Persistence and Angular Basins
 **Claim:** Spacetime-folds exist in stable topological basins that maintain structural coherence under angular perturbations.
+
 **Methodology & Rationale:** We executed dense micro-perturbation sweeps around specific angular anchors (e.g., varying $\phi$ by $\pm 0.2$ rad around $\pi/4$). This physically simulates whether small deformations collapse the core or preserve the object's identity (Goal 1 & 2).
+
 **Results & Proof:** Small angular shifts yield significant total mass redistribution (e.g., shifting from $1.62$ to $3.54$), but the internal structure remains completely regular. The objects persist in stable basins, proving deformations do not destroy the object but map out its stable state space.
 This conclusion is supported by:
 - `solutions/phase_d/phase_d_identity/phi_neighborhood_persistence.csv`
@@ -32,7 +36,9 @@ This conclusion is supported by:
 
 ### 2.3 Verification of Absolute Structural Rigidity
 **Claim:** The energy-momentum core of the Khantraction object is intrinsically rigid and actively resists external volumetric compression or varying internal seeding pressure.
+
 **Methodology & Rationale:** We tested the core's rigidity (Goal 5) via two methods: modifying the initial central seeding amplitude ($A_0$) to simulate varied internal pressure, and drastically reducing the integration boundary ($r_{max}$ from 20 to 10) to physically simulate external volumetric compression.
+
 **Results & Proof:** Doubling $A_0$ from 0.02 to 0.04 resulted in a mathematically insignificant mass shift ($1.624 \to 1.623$), and external boundary compression resulted in zero measurable change to core mass and $r_{half}$ (variance < $10^{-15}$). This proves the object has a natural rigid scale that refuses to compress.
 This conclusion is supported by:
 - `solutions/phase_d/phase_d_identity/rigidity_results.csv`
@@ -41,7 +47,9 @@ This conclusion is supported by:
 
 ### 2.4 Global Identity Map via Exhaustive Protocol
 **Claim:** The classical identity map is structurally continuous across smooth angular domains and sharply disjointed at explicit singularities controlled by $\phi$, confirming a discrete species spectrum globally.
+
 **Methodology & Rationale:** We executed the mandatory exploration protocol: full combinatorial 1D and 2D sweeps across the unquotiented $[-2\pi, 2\pi]$ domains for $\theta, \phi, \rho$. This ensures no hidden structural dependencies exist and verifies that identity behavior extends globally.
+
 **Results & Proof:** The mass and compactness eigenvalues exhibit smooth landscapes across regular regions and transition sharply at singular boundaries. This confirms that the angular phase space is not a chaotic continuous smear, but a structured terrain of predictable, flat stable basins.
 This conclusion is supported by:
 - `solutions/phase_d/phase_d_identity/slice_1d_theta.csv`

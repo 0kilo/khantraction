@@ -102,5 +102,33 @@
       "phi_total_shift": 0.0,
       "rho_total_shift": 0.0
     }
-  ]
+  ],
+  "slice_outputs": {
+    "slice_1d_phi": {
+      "path": "solutions/phase_b/phase_b_improved_dynamics/baseline_pullback/slice_1d_phi.csv",
+      "sample_count": 9,
+      "final_mass_range": [
+        0.1082188762467994,
+        0.1082188762467994
+      ],
+      "integrated_abs_ricci_range": [
+        0.007846995788363861,
+        0.007846995788363861
+      ],
+      "max_abs_phi_shift": 0.0
+    },
+    "slice_2d_theta_rho": {
+      "path": "solutions/phase_b/phase_b_improved_dynamics/baseline_pullback/slice_2d_theta_rho.csv",
+      "sample_count": 25,
+      "final_mass_range": [
+        0.1082188762467994,
+        0.1082188762467994
+      ],
+      "integrated_abs_ricci_range": [
+        0.007846995788363861,
+        0.007846995788363861
+      ],
+      "max_abs_phi_shift": 0.0
+    }
+  }
 }
